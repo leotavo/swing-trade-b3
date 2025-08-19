@@ -8,6 +8,7 @@ Atualização diária automática,Job agendado para atualizar dados.,"automation
 Implementar RSI + MACD + EMAs,Gerar colunas de indicadores no dataset.,strategy,M3 - Estratégia Base Swing Trade
 Regras de entrada/saída,Definir sinais a partir dos indicadores.,strategy,M3 - Estratégia Base Swing Trade
 Função de geração de sinais,Consolidar sinais em DataFrame final.,strategy,M3 - Estratégia Base Swing Trade
+Regras de position sizing e limites de perda,Definir dimensionamento das posições e limites de perda.,strategy,M3 - Estratégia Base Swing Trade
 Módulo de backtesting,Simular operações com custos e slippage simples.,backtesting,M4 - Backtesting Inicial
 Relatório de métricas,"Exportar retorno, drawdown e hit ratio.",report,M4 - Backtesting Inicial
 Comparação com IBOV,Benchmark buy & hold do IBOV vs estratégia.,analysis,M4 - Backtesting Inicial
