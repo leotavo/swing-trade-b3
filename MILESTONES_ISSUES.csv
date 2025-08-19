@@ -35,3 +35,4 @@ Playbook de retraining/deploy,Passo a passo de rotinas críticas.,docs,M11 - Doc
 Teste ponta a ponta (5 dias),Pipeline rodando 5 dias seguidos.,qa,M12 - Validação Final do MVP
 Validação dos sinais,Revisão dos indicadores/sinais finais.,qa,M12 - Validação Final do MVP
 Relatório final do MVP,Publicar resultados e aprendizados.,report,M12 - Validação Final do MVP
+Guia de contribuição e workflow,Criar CONTRIBUTING.md com orientações de branches, commits e testes.,docs,M11 - Documentação e Guias
