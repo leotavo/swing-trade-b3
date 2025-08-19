@@ -26,6 +26,7 @@ Log de ordens simuladas,Persistir ordens e resultados.,logging,M8 - Paper Tradin
 Dashboard local (Streamlit/Grafana),Métricas de execução e erros.,monitoring,M9 - Observabilidade Básica
 Log estruturado,"JSON logs com contexto (execução, erros).",logging,M9 - Observabilidade Básica
 Alerta de falha de job,Notificar quando job diário falhar.,alerts,M9 - Observabilidade Básica
+Instrumentar métricas de CPU/memória/latência,Expor métricas via Prometheus.,monitoring,M9 - Observabilidade Básica
 Gerenciar secrets com .env/Secrets,Variáveis seguras fora do repo.,security,M10 - Segurança e Compliance
 Controle de acesso ao bot,Restringir uso e abuso de API/alertas.,security,M10 - Segurança e Compliance
 Política de uso seguro,Documentar práticas de segurança.,"docs,security",M10 - Segurança e Compliance
