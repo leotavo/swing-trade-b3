@@ -2,6 +2,14 @@
 
 Obrigado por considerar contribuir com o projeto **Swing Trade B3**. Este documento descreve o fluxo de trabalho e as expectativas para colaborar de forma organizada.
 
+## Ambiente de Desenvolvimento
+
+Instale as dependências utilizando [Poetry](https://python-poetry.org/):
+
+```bash
+poetry install
+```
+
 ## Fluxo de Branches
 - O ramo principal é `main` e deve sempre representar um estado estável do projeto.
 - Crie branches a partir de `main` com prefixos descritivos, por exemplo:
