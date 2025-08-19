@@ -2,6 +2,7 @@ Title,Body,Labels,Milestone
 Criar repositório e setup Python + Poetry,Estrutura inicial do projeto e dependências.,"setup,infra",M1 - Configuração Inicial
 Configurar .gitignore e convenção de branches,Padronizar branches e ignorar artefatos.,setup,M1 - Configuração Inicial
 Pipeline CI: lint e testes,Workflow CI no GitHub Actions com ruff/pytest.,ci/cd,M1 - Configuração Inicial
+Configurar pre-commit com ruff e pytest,Adicionar arquivo `.pre-commit-config.yaml` e validar no CI,"setup,ci/cd",M1 - Configuração Inicial
 Conector API B3 (histórico),Baixar dados históricos e normalizar colunas.,data,M2 - Coleta e Preparação de Dados
 Limpeza e normalização de dados,Tratar NaN/duplicados/timezone e salvar Parquet.,data,M2 - Coleta e Preparação de Dados
 Atualização diária automática,Job agendado para atualizar dados.,"automation,data",M2 - Coleta e Preparação de Dados
