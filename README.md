@@ -15,6 +15,26 @@ Após clonar o repositório, instale-as executando:
 poetry install
 ```
 
+Para gerar um arquivo `requirements.txt` compatível com `pip`, utilize:
+
+```bash
+poetry export -f requirements.txt --output requirements.txt --without-hashes
+```
+
+## Execução
+
+Inicie a aplicação FastAPI com:
+
+```bash
+poetry run uvicorn app.main:app --reload
+```
+
+Para rodar os testes:
+
+```bash
+poetry run pytest
+```
+
 ## Observabilidade
 
 Aplicação FastAPI instrumentada com métricas de CPU, memória e latência expostas no endpoint `/metrics` para coleta via Prometheus.
