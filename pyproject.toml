@@ -3,7 +3,7 @@ name = "swing-trade-b3"
 version = "0.1.0"
 description = "Automatiza operações de Swing Trade na B3"
 authors = ["Contributors <email@example.com>"]
-packages = [{ include = "swing_trade" }]
+license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.11"
