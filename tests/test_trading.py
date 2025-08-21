@@ -1,6 +1,3 @@
-import sys
-from pathlib import Path
-sys.path.append(str(Path(__file__).resolve().parents[1]))
 import pytest
 from swing_trade.position_sizing import PositionSizingConfig, calculate_position_size
 from swing_trade.signals import generate_signal_with_position
