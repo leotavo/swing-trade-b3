@@ -1,5 +1,6 @@
+from dataclasses import dataclass
 from statistics import mean
-from typing import List
+from typing import List, Optional
 
 from .position_sizing import (
     PositionSizingConfig,
@@ -8,11 +9,21 @@ from .position_sizing import (
 )
 
 
+@dataclass
+class TradeSignal:
+    """Typed representation of the generated trading signal."""
+
+    signal: str
+    entry_price: float
+    stop_loss: Optional[float]
+    position_size: int
+
+
 def generate_signal_with_position(
     prices: List[float],
     config: PositionSizingConfig,
     stop_loss_pct: float,
-) -> dict:
+) -> TradeSignal:
     """Generate trading signal and position size based on price history.
 
     The signal is ``buy`` when the last price is above the simple moving average
@@ -26,6 +37,10 @@ def generate_signal_with_position(
 
     Returns:
         Dictionary with signal information including position size and stop loss.
+
+    Raises:
+        ValueError: If fewer than five prices are provided or ``stop_loss_pct`` is
+            not greater than zero when a buy signal is generated.
     """
     if len(prices) < 5:
         raise ValueError("At least five prices are required to generate a signal")
@@ -35,15 +50,17 @@ def generate_signal_with_position(
     signal = "buy" if last_price > sma else "sell"
 
     if signal == "buy":
+        if stop_loss_pct <= 0:
+            raise ValueError("stop_loss_pct must be greater than 0")
         sl_price = stop_loss_price(last_price, stop_loss_pct)
         size = calculate_position_size(config, last_price, sl_price)
     else:
         sl_price = None
         size = 0
 
-    return {
-        "signal": signal,
-        "entry_price": last_price,
-        "stop_loss": sl_price,
-        "position_size": size,
-    }
+    return TradeSignal(
+        signal=signal,
+        entry_price=last_price,
+        stop_loss=sl_price,
+        position_size=size,
+    )
