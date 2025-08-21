@@ -4,6 +4,8 @@ from prometheus_client import CollectorRegistry, Gauge, Histogram, generate_late
 import psutil
 import time
 
+process = psutil.Process()
+
 app = FastAPI()
 registry = CollectorRegistry()
 
@@ -26,7 +28,6 @@ async def metrics_middleware(request: Request, call_next):
     latency = time.perf_counter() - start_time
     REQUEST_LATENCY.labels(request.method, request.url.path).observe(latency)
     # Update CPU and memory after each request
-    process = psutil.Process()
     CPU_USAGE.set(process.cpu_percent())
     MEMORY_USAGE.set(process.memory_info().rss)
     return response
