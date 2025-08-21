@@ -23,7 +23,12 @@ def stop_loss_price(entry_price: float, stop_loss_pct: float) -> float:
 
     Returns:
         Price level for the stop loss.
+
+    Raises:
+        ValueError: If ``stop_loss_pct`` is not greater than zero.
     """
+    if stop_loss_pct <= 0:
+        raise ValueError("stop_loss_pct must be greater than 0")
     return entry_price * (1 - stop_loss_pct)
 
 
