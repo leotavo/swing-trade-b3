@@ -8,6 +8,6 @@ repos:
     hooks:
       - id: pytest
         name: pytest
-        entry: bash -c "pytest || true"
+        entry: bash -c "pytest"
         language: system
         pass_filenames: false
