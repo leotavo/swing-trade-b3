@@ -15,6 +15,12 @@ Após clonar o repositório, instale-as executando:
 poetry install
 ```
 
+Como alternativa, o projeto pode ser instalado em modo editável com `pip`:
+
+```bash
+pip install -e .
+```
+
 Para gerar um arquivo `requirements.txt` compatível com `pip`, utilize:
 
 ```bash
@@ -32,6 +38,14 @@ poetry run uvicorn app.main:app --reload
 Para rodar os testes:
 
 ```bash
+pip install -e .
+pytest
+```
+
+Ou utilizando Poetry:
+
+```bash
+poetry install
 poetry run pytest
 ```
 
