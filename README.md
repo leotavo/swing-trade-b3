@@ -161,6 +161,8 @@ A aplicação FastAPI expõe endpoints de observabilidade:
 - **Healthcheck:** `GET /healthz` → `{"status": "ok"}`
 - **Métricas Prometheus:** `GET /metrics` (OpenMetrics; scrape por Prometheus/Grafana Agent)
 
+Ambos os endpoints possuem testes automatizados garantindo resposta `200 OK` e formato compatível com o Prometheus, evitando regressões.
+
 ### Teste rápido (local)
 ```bash
 # saúde geral
