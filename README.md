@@ -88,7 +88,7 @@ flowchart LR
 ├── swing_trade/     # Núcleo: dados, indicadores, sinais, backtesting
 ├── tests/           # Testes automatizados
 ├── README.md        # Documentação principal
-└── Agents.md        # Roadmap e instruções operacionais
+└── AGENTS.md        # Roadmap e instruções operacionais
 ```
 
 ## Como Começar
@@ -184,7 +184,7 @@ Para um lint rápido apenas nos arquivos modificados, utilize `pre-commit run --
 - [ ] M11 - Documentação e Guias
 - [ ] M12 - Validação Final do MVP
 
-> Para detalhes, veja [Agents.md](Agents.md).
+> Para detalhes, veja [AGENTS.md](AGENTS.md).
 
 ## Stack Tecnológica
 Confira [TECH_STACK.md](TECH_STACK.md).
