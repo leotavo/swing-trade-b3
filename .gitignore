@@ -1,0 +1,64 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+
+# Environment files (keep examples)
+.env
+.env.*
+!.env.example
+!.env.sample
+
+# Packaging / build
+build/
+dist/
+.eggs/
+*.egg
+*.egg-info/
+pip-wheel-metadata/
+
+# Test / coverage artifacts
+.coverage
+.coverage.*
+.pytest_cache/
+.tox/
+htmlcov/
+.cache/
+
+# Type check / tooling caches
+.mypy_cache/
+.ruff_cache/
+.pytype/
+.pyre/
+
+# Logs and temp files
+*.log
+logs/
+*.tmp
+*.swp
+*.swo
+*.bak
+
+# OS-specific
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+Desktop.ini
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Keys / secrets (prevent accidental commits)
+id_rsa*
+*.pem
+*.key
+
+# Node/npm (if present in subfolders)
+node_modules/
+*.tsbuildinfo
+

@@ -13,7 +13,7 @@ $PSDefaultParameterValues['Out-File:Encoding']    = 'utf8'
 $PSDefaultParameterValues['Set-Content:Encoding'] = 'utf8'
 
 # ====== Helpers ======
-function Sanitize-Markdown([string]$txt, [int]$wrap=160) {
+function ConvertTo-MarkdownSafe([string]$txt, [int]$wrap=160) {
   if (-not $txt) { return "" }
   $t = $txt -replace "`r`n","`n" -replace "`r","`n"
   ($t.Split("`n") | ForEach-Object {
@@ -23,55 +23,61 @@ function Sanitize-Markdown([string]$txt, [int]$wrap=160) {
 }
 
 function Anchor([string]$h) {
-  return (($h -replace " ","-" -replace "[^a-zA-Z0-9\-]","").ToLower())
+  if (-not $h) { return "" }
+  $normalized = $h.Normalize([Text.NormalizationForm]::FormD)
+  $sb = New-Object System.Text.StringBuilder
+  foreach ($ch in $normalized.ToCharArray()) {
+    if ([Globalization.CharUnicodeInfo]::GetUnicodeCategory($ch) -ne 'NonSpacingMark') {
+      $null = $sb.Append($ch)
+    }
+  }
+  $clean = $sb.ToString().ToLowerInvariant()
+  # Keep letters, numbers, spaces and hyphens only
+  $clean = $clean -replace "[^a-z0-9\- ]",""
+  # Replace spaces with hyphens
+  $clean = $clean -replace " +","-"
+  # Collapse multiple hyphens and trim
+  $clean = $clean -replace "-{2,}","-"
+  return $clean.Trim('-')
 }
 
 # ====== 1) Milestones: título + descrição + contagens ======
-$milestonesJson = gh api "repos/$Repo/milestones?state=all&per_page=100" --jq ".[] | {number,title,description,open_issues,closed_issues,html_url}"
+$milestonesJson = gh api "repos/$Repo/milestones?state=all&per_page=100" --jq '[.[] | {number,title,description,open_issues,closed_issues,html_url}]'
 $milestones = @()
 if ($milestonesJson) { $milestones = $milestonesJson | ConvertFrom-Json }
 
-# Ordem natural das suas milestones
-$MilestoneOrder = @(
-  "M1 - Configuração Inicial",
-  "M2 - Coleta e Preparação de Dados",
-  "M3 - Estratégia Base Swing Trade",
-  "M4 - Backtesting Inicial",
-  "M5 - Notificações e Monitoramento",
-  "M6 - Ajuste de Parâmetros e Otimização",
-  "M7 - Modelo de ML Básico",
-  "M8 - Paper Trading",
-  "M9 - Observabilidade Básica",
-  "M10 - Segurança e Compliance",
-  "M11 - Documentação e Guias",
-  "M12 - Validação Final do MVP",
-  "Sem Milestone"
-)
+# Ordem das milestones vinda do GitHub (por número ascendente), com "Sem Milestone" ao final
+$MilestoneOrder = @()
+if ($milestones -and $milestones.Count -gt 0) {
+  $MilestoneOrder = @(
+    $milestones | Sort-Object number | Select-Object -ExpandProperty title
+  )
+}
+$MilestoneOrder += "Sem Milestone"
 
 # Índice por título
 $msByTitle = @{}
 foreach ($m in $milestones) { $msByTitle[$m.title] = $m }
 
 # ====== 2) Issues: título + body + labels + assignees + milestone ======
-# Usar /issues (com paginação) p/ trazer body; filtrar PRs (pull_request existe quando é PR)
-$issuesRaw = gh api "repos/$Repo/issues?state=$State&per_page=100" --paginate `
-  --jq ".[] | select(has(\"pull_request\")|not) | {number,title,state,html_url,body,labels,assignees,milestone,updated_at}"
+# Usar gh issue list (com limite) e filtrar PRs automaticamente
+$issuesJson = gh issue list --repo $Repo --state $State --limit $Limit --json number,title,state,labels,assignees,updatedAt,url,milestone
 
 $issues = @()
-if ($issuesRaw) {
-  $issues = ($issuesRaw | ConvertFrom-Json) | ForEach-Object {
+if ($issuesJson) {
+  $issues = ($issuesJson | ConvertFrom-Json) | ForEach-Object {
     $labels     = @($_.labels | ForEach-Object { $_.name }) -join ", "
     $assignees  = @($_.assignees | ForEach-Object { $_.login }) -join ", "
     [pscustomobject]@{
       number     = $_.number
       title      = $_.title
       state      = ($_.state).ToUpper()
-      url        = $_.html_url
-      body       = $_.body
+      url        = $_.url
+      body       = $null
       labels     = $labels
       assignees  = $assignees
       milestone  = if ($_.milestone.title) { $_.milestone.title } else { "Sem Milestone" }
-      updatedAt  = $_.updated_at
+      updatedAt  = $_.updatedAt
     }
   }
 }
@@ -83,12 +89,13 @@ $issuesOrdered = $issues | Sort-Object `
 
 # ====== 3) Gerar Agents.md ======
 $sb = New-Object System.Text.StringBuilder
-$null = $sb.AppendLine("# Agents.md — Swing Trade B3")
+$null = $sb.AppendLine("# Agents.md - Swing Trade B3")
 $null = $sb.AppendLine()
-$null = $sb.AppendLine("Gerado automaticamente a partir de **milestones** e **issues** do repositório `$Repo`.")
+$null = $sb.AppendLine("Gerado automaticamente a partir de **milestones** e **issues** do repositório $Repo.")
 $null = $sb.AppendLine("> Estado: **$State** · Limite: **$Limit** · Gerado em: $(Get-Date -Format 'yyyy-MM-dd HH:mm') (America/Bahia)")
 $null = $sb.AppendLine()
 $null = $sb.AppendLine("## Índice")
+$null = $sb.AppendLine()
 foreach ($mt in $MilestoneOrder) {
   if ($issuesOrdered | Where-Object { $_.milestone -eq $mt }) {
     $null = $sb.AppendLine("- [$mt](#$(Anchor $mt))")
@@ -102,12 +109,14 @@ foreach ($mt in $MilestoneOrder) {
   $group = $issuesOrdered | Where-Object { $_.milestone -eq $mt }
   if (-not $group) { continue }
 
+  # Âncora HTML explícita para compatibilidade com linters/renderizadores
+  $null = $sb.AppendLine(('<a id="{0}"></a>' -f (Anchor $mt)))
   $null = $sb.AppendLine("## $mt")
   $null = $sb.AppendLine()
 
   # Descrição da milestone (se houver)
   if ($msByTitle.ContainsKey($mt) -and $msByTitle[$mt].description) {
-    $msDesc = Sanitize-Markdown($msByTitle[$mt].description)
+    $msDesc = ConvertTo-MarkdownSafe($msByTitle[$mt].description)
     if ($msDesc) {
       $null = $sb.AppendLine($msDesc)
       $null = $sb.AppendLine()
@@ -115,7 +124,7 @@ foreach ($mt in $MilestoneOrder) {
   }
 
   foreach ($it in $group) {
-    $iBody = Sanitize-Markdown($it.body)
+    $iBody = ConvertTo-MarkdownSafe($it.body)
     $meta  = @()
     if ($it.labels)    { $meta += "**labels:** $($it.labels)" }
     if ($it.assignees) { $meta += "**assignees:** $($it.assignees)" }
@@ -132,5 +141,9 @@ foreach ($mt in $MilestoneOrder) {
   }
 }
 
-$sb.ToString() | Set-Content -Path $Out -Encoding utf8
-Write-Host "OK: '$Out' gerado (UTF-8), com descrições de milestones e issues, ordenado M1→M12."
+# Pós-processamento: reduzir múltiplas linhas em branco para uma
+$text = $sb.ToString() -replace "(\r?\n){3,}", "`n`n"
+# Garantir apenas uma linha em branco no final do arquivo
+$text = ($text.TrimEnd()) + "`n"
+$text | Set-Content -Path $Out -Encoding utf8
+Write-Host "OK: '$Out' gerado (UTF-8), com descrições de milestones e issues, na ordem das milestones."
