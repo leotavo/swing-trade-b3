@@ -3,7 +3,7 @@
 [![CI](https://github.com/leotavo/swing-trade-b3/actions/workflows/ci.yml/badge.svg)](https://github.com/leotavo/swing-trade-b3/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](pyproject.toml)
-[![Roadmap progress](https://progress-bar.dev/0/?title=milestones)](Agents.md)
+[![Roadmap progress](https://img.shields.io/badge/roadmap%20progress-0%25-blue)](Agents.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 [![Open Issues](https://img.shields.io/github/issues/leotavo/swing-trade-b3)](https://github.com/leotavo/swing-trade-b3/issues)
 [![GitHub Stars](https://img.shields.io/github/stars/leotavo/swing-trade-b3)](https://github.com/leotavo/swing-trade-b3/stargazers)
@@ -45,7 +45,7 @@ O projeto visa construir um agente capaz de operar swing trade automatizado util
 
 Status atual: **aguardando desenvolvimento**
 
-![Progresso do roadmap](https://progress-bar.dev/0/?title=progresso&width=200)
+![Progresso do roadmap](https://img.shields.io/badge/roadmap%20progress-0%25-blue)
 
 ## Recursos
 
