@@ -17,34 +17,22 @@
 [![GitHub Release](https://img.shields.io/github/v/release/leotavo/swing-trade-b3?include_prereleases)](https://github.com/leotavo/swing-trade-b3/releases)
 [![Roadmap](https://img.shields.io/badge/roadmap-Milestones-blue)](https://github.com/leotavo/swing-trade-b3/milestones)
 
-> **TL;DR**
+> **Resumo**  
+> Agente para automatizar Swing Trade na B3 com dados históricos, indicadores técnicos, backtesting e API REST para integração.
+
+## TL;DR (Resumo rápido)
+
 ```bash
 git clone https://github.com/leotavo/swing-trade-b3 && cd swing-trade-b3
-poetry install && cp -n .env.example .env || true
-poetry run uvicorn app.main:app --reload
+poetry install
+cp -n .env.example .env || true
+make dev
 # smoke-test
 curl -fsS http://localhost:8000/healthz | jq .
 curl -I http://localhost:8000/metrics | head -n 1
 ```
 
-> Automatizar operações de Swing Trade na B3 (Bolsa de Valores do Brasil) usando dados históricos e indicadores técnicos para gerar sinais de compra e venda, testar estratégias e acompanhar resultados.
-
-## Quickstart
-
-```bash
-make dev
-curl -fsS http://localhost:8000/healthz | jq .
-```
-
-Saída esperada:
-
-```json
-{"status": "ok"}
-```
-
 ## Índice
-
-- [Quickstart](#quickstart)
 - [Visão Geral](#visão-geral)
 - [Status do Projeto](#status-do-projeto)
 - [Recursos](#recursos)
@@ -55,133 +43,132 @@ Saída esperada:
   - [Instalação](#instalação)
   - [Configuração](#configuração)
 - [Uso](#uso)
-- [Testes](#testes)
 - [Observabilidade](#observabilidade)
+- [Comandos de Desenvolvimento](#comandos-de-desenvolvimento)
+- [Testes e Qualidade](#testes-e-qualidade)
 - [Roadmap](#roadmap)
 - [Stack Tecnológica](#stack-tecnológica)
 - [Contribuindo](#contribuindo)
 - [Comunidade e Suporte](#comunidade-e-suporte)
 - [Licença](#licença)
 - [Aviso Legal](#aviso-legal)
+- [Troubleshooting Rápido](#troubleshooting-rápido)
 
 ## Visão Geral
-
 O projeto visa construir um agente capaz de operar swing trade automatizado utilizando indicadores técnicos e dados históricos da B3.
 
 ## Status do Projeto
-
-Status atual: **M1 – Community & CI em progresso**
-
+Status atual: **M1 – Community & CI em progresso**  
 [![M1 - Community & CI](https://img.shields.io/github/milestones/progress/leotavo/swing-trade-b3/1?logo=github)](https://github.com/leotavo/swing-trade-b3/milestone/1)
 
 ## Recursos
-
 - API REST com [FastAPI](https://fastapi.tiangolo.com/)
-- Coleta e preparação de dados históricos da B3
-- Estratégias configuráveis de entrada e saída
-- Backtesting para validação de estratégias
-- Integração futura com alertas e paper trading
+- Coleta e preparação de dados históricos da B3 (fallback: *yfinance → brapi → B3*)
+- Estratégias configuráveis (ex.: RSI, MACD, EMAs)
+- Backtesting com custos e *slippage* padrão
+- Observabilidade (healthcheck e métricas Prometheus)
+- Integração futura com alertas e *paper trading*
 
 ## Arquitetura
-
-O sistema é dividido em módulos independentes que tratam coleta de dados, geração de sinais, backtesting e exposição de API. Essa separação facilita a manutenção e a transparência de cada etapa do pipeline.
+Divisão em módulos independentes: ingestão, estratégias/sinais, backtesting e API.
 
 ```mermaid
 flowchart LR
-  A[Fontes de dados<br/>yfinance/brapi/B3] --> B[Ingestão & Preparação]
-  B --> C[Estratégias<br/>Sinais]
-  C --> D[Backtesting]
-  C --> E[API FastAPI]
-  D --> F[Relatórios/Resultados]
-  E --> G[Notificações<br/>(e-mail/Telegram)]
+  A["Fontes de dados: yfinance, brapi, B3"] --> B["Ingestão e Preparação"]
+  B --> C["Estratégias e Sinais"]
+  C --> D["Backtesting"]
+  C --> E["API (FastAPI)"]
+  D --> F["Relatórios e Resultados"]
+  E --> G["Notificações: email e Telegram"]
 ```
 
 ## Estrutura do Projeto
-
 ```
-├── app/            # Interface REST com FastAPI
-├── swing_trade/    # Lógica de trading e utilitários
-├── tests/          # Testes automatizados
-├── README.md       # Documentação principal
-└── Agents.md       # Roadmap e instruções
+├── app/             # Interface REST (FastAPI)
+├── swing_trade/     # Núcleo: dados, indicadores, sinais, backtesting
+├── tests/           # Testes automatizados
+├── README.md        # Documentação principal
+└── Agents.md        # Roadmap e instruções operacionais
 ```
 
 ## Como Começar
 
 ### Pré-requisitos
-
 - [Python 3.11](https://www.python.org/)
-- [Poetry](https://python-poetry.org/)
+- [Poetry](https://python-poetry.org/) instalado e no PATH
 
 ### Instalação
-
-Após clonar o repositório, instale as dependências com:
-
 ```bash
 poetry install
-```
-
-Como alternativa, o projeto pode ser instalado em modo editável com `pip`:
-
-```bash
-pip install -e .
-```
-
-Para gerar um arquivo `requirements.txt` compatível com `pip`, utilize:
-
-```bash
-poetry export -f requirements.txt --output requirements.txt --without-hashes
+# opcional: requirements.txt para pip
+poetry export -f requirements.txt -o requirements.txt --without-hashes
 ```
 
 ### Configuração
+Crie um `.env` (ou copie do `.env.example`). Exemplo:
+```ini
+# Timezone de exibição (interno em UTC)
+TZ_DISPLAY=America/Sao_Paulo
 
-Crie um arquivo `.env` na raiz do projeto para variáveis sensíveis (tokens de API, chaves etc.). Nenhum valor é obrigatório no MVP, mas o uso de variáveis de ambiente garante transparência sobre a configuração.
+# Provedores e custos (bps = 0,01%)
+DATA_PROVIDER=yfinance
+FEES_ROUNDTRIP_BPS=10
+SLIPPAGE_BPS=10
+
+# Tokens/chaves (opcionais)
+BRAPI_TOKEN=
+ALPHAVANTAGE_KEY=
+
+# Futuro: persistência
+DATABASE_URL=postgresql+psycopg://user:pass@host:5432/dbname
+```
 
 ## Uso
+Se você usou o **TL;DR**, a API estará em `http://localhost:8000`.
 
-Se você utilizou o **Quickstart**, o servidor já estará em execução em `http://localhost:8000`.
-
-Para iniciar manualmente, execute:
-
+Iniciar manualmente:
 ```bash
 make run
-```
-
-Teste o endpoint inicial com:
-
-```bash
-curl http://localhost:8000/
-```
-
-Acesse `http://localhost:8000/docs` para explorar os endpoints disponíveis.
-
-## Testes
-
-Execute a suíte de testes com:
-
-```bash
-make test
+# ou:
+poetry run uvicorn app.main:app --reload --port 8000
 ```
 
 ## Observabilidade
+- **Healthcheck:** `GET /healthz` → `{"status":"ok"}`
+- **Métricas Prometheus:** `GET /metrics` (OpenMetrics `text/plain; version=0.0.4`)
+- Testes cobrem disponibilidade e formato para evitar regressões.
 
-A aplicação FastAPI expõe endpoints de observabilidade:
-
-- **Healthcheck:** `GET /healthz` → `{"status": "ok"}`
-- **Métricas Prometheus:** `GET /metrics` (OpenMetrics; responde `Content-Type: text/plain; version=0.0.4` e inclui linhas `# HELP`)
-
-Ambos os endpoints possuem testes automatizados garantindo resposta `200 OK` e formato compatível com o Prometheus, evitando regressões.
-
-### Teste rápido (local)
-
+### Teste rápido
 ```bash
 curl -fsS http://localhost:8000/healthz | jq .
-curl -I http://localhost:8000/metrics | head -n 1
-curl -fsS http://localhost:8000/metrics | head -n 20
+curl -I    http://localhost:8000/metrics | head -n 1
+curl -fsS  http://localhost:8000/metrics | head -n 20
 ```
 
-## Roadmap
+## Comandos de Desenvolvimento
+| Comando            | Ação                                             |
+|--------------------|--------------------------------------------------|
+| `make dev`         | Sobe FastAPI com reload                          |
+| `make run`         | Executa a API (sem reload)                       |
+| `make lint`        | ruff/black                                       |
+| `make format`      | Formata código                                   |
+| `make typecheck`   | mypy (strict)                                    |
+| `make test`        | pytest                                           |
+| `make cov`         | cobertura local                                  |
+| `make ci`          | lint + typecheck + test + cov                    |
 
+## Testes e Qualidade
+```bash
+make test
+make typecheck
+make lint
+```
+- Meta de cobertura: **≥ 80% (alerta se abaixo)**
+- Estilo: **ruff + black**
+- Tipagem: **mypy (strict)**
+- CI: GitHub Actions (lint, typecheck, testes, cobertura)
+
+## Roadmap
 - [ ] M1 - Configuração Inicial
 - [ ] M2 - Coleta e Preparação de Dados
 - [ ] M3 - Estratégia Base Swing Trade
@@ -195,26 +182,29 @@ curl -fsS http://localhost:8000/metrics | head -n 20
 - [ ] M11 - Documentação e Guias
 - [ ] M12 - Validação Final do MVP
 
-Para uma lista detalhada de tarefas e milestones, consulte o arquivo [Agents.md](Agents.md).
+> Para detalhes, veja [Agents.md](Agents.md).
 
 ## Stack Tecnológica
-
-Consulte o documento [TECH_STACK.md](TECH_STACK.md) para a lista completa de tecnologias utilizadas no projeto.
+Confira [TECH_STACK.md](TECH_STACK.md).
 
 ## Contribuindo
-
-Leia o [CONTRIBUTING.md](CONTRIBUTING.md) para saber como colaborar com o projeto.
+Leia o [CONTRIBUTING.md](CONTRIBUTING.md) e siga _Conventional Commits_.  
+PRs com testes e atualização de docs quando aplicável.
 
 ## Comunidade e Suporte
-
-- Consulte o [Código de Conduta](CODE_OF_CONDUCT.md).
-- Perguntas gerais: use as [Discussions](https://github.com/leotavo/swing-trade-b3/discussions); bugs e pedidos de funcionalidade: abra [Issues](https://github.com/leotavo/swing-trade-b3/issues) seguindo o guia de [Suporte](SUPPORT.md).
-- Reporte vulnerabilidades seguindo a [Política de Segurança](SECURITY.md).
+- Código de Conduta: [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+- Dúvidas gerais: [Discussions](https://github.com/leotavo/swing-trade-b3/discussions)
+- Bugs/features: [Issues](https://github.com/leotavo/swing-trade-b3/issues)
+- Segurança: [SECURITY.md](SECURITY.md)
 
 ## Licença
-
-Este projeto é licenciado sob os termos da licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+MIT — veja [LICENSE](LICENSE).
 
 ## Aviso Legal
+Projeto **educacional**. Não constitui recomendação de investimento. Os autores não se responsabilizam por perdas financeiras.
 
-Este software é disponibilizado somente para fins educacionais. Ele não constitui recomendação de investimento e os autores não se responsabilizam por perdas financeiras decorrentes de seu uso.
+## Troubleshooting Rápido
+- **Poetry não encontrado**: `pipx install poetry` ou docs oficiais.
+- **Porta 8000 ocupada**: `make dev PORT=8001` e acesse `http://localhost:8001`.
+- **Windows/PowerShell**: use `curl` do Git ou `iwr/irm`.
+- **.env**: mantenha na raiz e reinicie o servidor após alterações.
