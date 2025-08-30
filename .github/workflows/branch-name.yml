@@ -17,5 +17,6 @@ jobs:
           if [[ ! "$branch" =~ ^(feat|fix|docs)/ ]]; then
             echo "Invalid branch name: $branch"
             echo "Branch names must start with 'feat/', 'fix/', or 'docs/'."
+            echo "Rename your branch to use one of the allowed prefixes, e.g., 'fix/my-change'."
             exit 1
           fi

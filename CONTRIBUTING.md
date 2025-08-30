@@ -18,6 +18,7 @@ poetry install
   - `docs/` para ajustes de documentação
 - Abra Pull Requests para unir alterações em `main`. Solicite revisão antes de fazer o merge.
 - Os nomes de branch são validados automaticamente via CI e devem seguir o padrão acima.
+  Caso a verificação falhe, renomeie a branch para começar com um dos prefixos permitidos (ex.: `fix/codex-add-branch-name-validation-workflow`).
 
 ## Padrões de Commit
 - Utilize o padrão [Conventional Commits](https://www.conventionalcommits.org/).
