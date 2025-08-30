@@ -1,6 +1,8 @@
 import re
+
 import psutil
 from fastapi.testclient import TestClient
+from prometheus_client import CONTENT_TYPE_LATEST
 
 from app.main import app
 
@@ -13,7 +15,14 @@ def test_metrics_report_process_info() -> None:
 
     metrics_response = client.get("/metrics")
     assert metrics_response.status_code == 200
+    assert metrics_response.headers["content-type"] == CONTENT_TYPE_LATEST
     metrics_text = metrics_response.text
+
+    assert metrics_text.startswith("# HELP")
+    assert "# HELP process_cpu_percent" in metrics_text
+    assert "# TYPE process_cpu_percent gauge" in metrics_text
+    assert "# HELP process_memory_bytes" in metrics_text
+    assert "# TYPE process_memory_bytes gauge" in metrics_text
 
     mem_match = re.search(
         r"^process_memory_bytes\s+([0-9.e+-]+)", metrics_text, re.MULTILINE

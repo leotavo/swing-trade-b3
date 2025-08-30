@@ -163,10 +163,16 @@ make test
 ```
 
 ## Observabilidade
-- **Healthcheck:** `GET /healthz` → `{"status":"ok"}`
-- **Métricas Prometheus:** `GET /metrics` (OpenMetrics)
 
-Teste rápido:
+A aplicação FastAPI expõe endpoints de observabilidade:
+
+- **Healthcheck:** `GET /healthz` → `{"status": "ok"}`
+- **Métricas Prometheus:** `GET /metrics` (OpenMetrics; scrape por Prometheus/Grafana Agent)
+
+Ambos os endpoints possuem testes automatizados garantindo resposta `200 OK` e formato compatível com o Prometheus, evitando regressões.
+
+### Teste rápido (local)
+
 ```bash
 curl -fsS http://localhost:8000/healthz | jq .
 curl -fsS http://localhost:8000/metrics | head -n 20
