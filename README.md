@@ -17,6 +17,15 @@
 [![GitHub Release](https://img.shields.io/github/v/release/leotavo/swing-trade-b3?include_prereleases)](https://github.com/leotavo/swing-trade-b3/releases)
 [![Roadmap](https://img.shields.io/badge/roadmap-Milestones-blue)](https://github.com/leotavo/swing-trade-b3/milestones)
 
+> **TL;DR**
+```bash
+git clone https://github.com/leotavo/swing-trade-b3 && cd swing-trade-b3
+poetry install && cp -n .env.example .env || true
+poetry run uvicorn app.main:app --reload
+# smoke-test
+curl -fsS http://localhost:8000/docs >/dev/null && echo "API OK"
+```
+
 > Automatizar operações de Swing Trade na B3 (Bolsa de Valores do Brasil) usando dados históricos e indicadores técnicos para gerar sinais de compra e venda, testar estratégias e acompanhar resultados.
 
 ## Quickstart
