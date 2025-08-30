@@ -52,3 +52,7 @@ poetry run pytest
 ## Observabilidade
 
 Aplicação FastAPI instrumentada com métricas de CPU, memória e latência expostas no endpoint `/metrics` para coleta via Prometheus.
+
+## Licença
+
+Este projeto é licenciado sob os termos da licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
