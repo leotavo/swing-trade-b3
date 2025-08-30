@@ -26,8 +26,8 @@ Gerado automaticamente a partir de **milestones** e **issues** do repositório l
 
 Preparar ambiente de desenvolvimento e controle de versão.
 
-- [OPEN] [#1](https://github.com/leotavo/swing-trade-b3/issues/1) Criar repositório GitHub com Python + Poetry
-  - **labels:** setup, infra · **updated:** 2025-08-14 05:12
+- [CLOSED] [#1](https://github.com/leotavo/swing-trade-b3/issues/1) Criar repositório GitHub com Python + Poetry
+  - **labels:** setup, infra · **updated:** 2025-08-30 05:03
 
 - [OPEN] [#2](https://github.com/leotavo/swing-trade-b3/issues/2) Configurar .gitignore e convenção de branches
   - **labels:** setup · **updated:** 2025-08-14 05:12
