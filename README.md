@@ -15,6 +15,16 @@
 [![codecov](https://codecov.io/gh/leotavo/swing-trade-b3/branch/main/graph/badge.svg)](https://codecov.io/gh/leotavo/swing-trade-b3)
 [![Docs](https://img.shields.io/badge/docs-latest-blue.svg)](https://github.com/leotavo/swing-trade-b3/wiki)
 [![GitHub Release](https://img.shields.io/github/v/release/leotavo/swing-trade-b3?include_prereleases)](https://github.com/leotavo/swing-trade-b3/releases)
+[![Roadmap](https://img.shields.io/badge/roadmap-Milestones-blue)](https://github.com/leotavo/swing-trade-b3/milestones)
+
+> **TL;DR**
+```bash
+git clone https://github.com/leotavo/swing-trade-b3 && cd swing-trade-b3
+poetry install && cp -n .env.example .env || true
+poetry run uvicorn app.main:app --reload
+# smoke-test
+curl -fsS http://localhost:8000/docs >/dev/null && echo "API OK"
+```
 
 > Automatizar operações de Swing Trade na B3 (Bolsa de Valores do Brasil) usando dados históricos e indicadores técnicos para gerar sinais de compra e venda, testar estratégias e acompanhar resultados.
 
@@ -77,15 +87,13 @@ O sistema é dividido em módulos independentes que tratam coleta de dados, gera
 
 ```mermaid
 flowchart LR
-  A["Fontes de dados\nyfinance/brapi/B3"] --> B["Ingestão & Preparação"]
-  B --> C["Estratégias\nSinais"]
+  A[Fontes de dados<br/>yfinance/brapi/B3] --> B[Ingestão & Preparação]
+  B --> C[Estratégias<br/>Sinais]
   C --> D[Backtesting]
-  C --> E["API FastAPI"]
-  D --> F["Relatórios/Resultados"]
-  E --> G["Notificações\ne-mail/Telegram"]
+  C --> E[API FastAPI]
+  D --> F[Relatórios/Resultados]
+  E --> G[Notificações<br/>(e-mail/Telegram)]
 ```
-
-![Arquitetura](docs/arch.svg)
 
 ## Estrutura do Projeto
 
@@ -164,15 +172,11 @@ A aplicação FastAPI expõe endpoints de observabilidade:
 Ambos os endpoints possuem testes automatizados garantindo resposta `200 OK` e formato compatível com o Prometheus, evitando regressões.
 
 ### Teste rápido (local)
-```bash
-# saúde geral
-curl -fsS http://localhost:8000/healthz | jq .
 
-# primeiras linhas das métricas
+```bash
+curl -fsS http://localhost:8000/healthz | jq .
 curl -fsS http://localhost:8000/metrics | head -n 20
 ```
-
-As métricas incluem CPU, memória e latência HTTP. Em produção, configure o scrape do Prometheus para `http://<host>:<port>/metrics`.
 
 ## Roadmap
 
