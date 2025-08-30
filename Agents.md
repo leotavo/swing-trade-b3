@@ -1,5 +1,7 @@
 # Agents.md - Swing Trade B3
 
+> **Instrução:** Sempre que o projeto for atualizado, revise e atualize o README.md para refletir as mudanças.
+
 Gerado automaticamente a partir de **milestones** e **issues** do repositório leotavo/swing-trade-b3.
 > Estado: **all** · Limite: **1000** · Gerado em: 2025-08-30 04:09 (America/Bahia)
 
