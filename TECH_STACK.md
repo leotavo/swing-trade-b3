@@ -26,13 +26,20 @@
 - vectorbt (ou backtrader)
 - numpy
 
+## Otimização
+- Optuna (ou GridSearchCV do scikit-learn)
+
 ## IA (posterior)
 - scikit-learn / xgboost
 - MLflow (experimentos)
 - DVC (dados)
 
+## Paper Trading
+- API de corretora com modo simulado (ex: MetaTrader5)
+
 ## Observabilidade
 - logging estruturado
+- Streamlit (dashboard local)
 - Prometheus + Grafana (ou Grafana Cloud)
 - healthchecks.io / Telegram Bot API
 
