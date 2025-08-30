@@ -1,4 +1,4 @@
-# Agents.md - Swing Trade B3
+# AGENTS.md - Swing Trade B3
 
 > **Instrução:** Sempre que o projeto for atualizado, revise e atualize o README.md para refletir as mudanças.
 > **Branches:** Devem começar com `feat/`, `fix/` ou `docs/`; a verificação acontece no CI e falhará para nomes inválidos. O Codex também deve usar esses prefixos ao criar branches.
@@ -8,7 +8,7 @@ Gerado automaticamente a partir de **milestones** e **issues** do repositório l
 
 ## Índice
 
-- [Agents.md - Swing Trade B3](#agentsmd---swing-trade-b3)
+- [AGENTS.md - Swing Trade B3](#agentsmd---swing-trade-b3)
   - [Índice](#índice)
   - [M1 - Configuração Inicial](#m1---configuração-inicial)
   - [M2 - Coleta e Preparação de Dados](#m2---coleta-e-preparação-de-dados)

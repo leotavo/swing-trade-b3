@@ -1,6 +1,6 @@
 param(
   [string]$Repo   = "leotavo/swing-trade-b3",
-  [string]$Out    = ".\Agents.md",
+  [string]$Out    = ".\AGENTS.md",
   [int]   $Limit  = 1000,   # máx. issues a buscar
   [string]$State  = "all"   # open | closed | all
 )
@@ -87,9 +87,9 @@ $issuesOrdered = $issues | Sort-Object `
   @{Expression={ [array]::IndexOf($MilestoneOrder, $_.milestone) }}, `
   number
 
-# ====== 3) Gerar Agents.md ======
+# ====== 3) Gerar AGENTS.md ======
 $sb = New-Object System.Text.StringBuilder
-$null = $sb.AppendLine("# Agents.md - Swing Trade B3")
+$null = $sb.AppendLine("# AGENTS.md - Swing Trade B3")
 $null = $sb.AppendLine()
 $null = $sb.AppendLine("Gerado automaticamente a partir de **milestones** e **issues** do repositório $Repo.")
 $null = $sb.AppendLine("> Estado: **$State** · Limite: **$Limit** · Gerado em: $(Get-Date -Format 'yyyy-MM-dd HH:mm') (America/Bahia)")
