@@ -88,7 +88,7 @@ flowchart LR
 ├── swing_trade/     # Núcleo: dados, indicadores, sinais, backtesting
 ├── tests/           # Testes automatizados
 ├── README.md        # Documentação principal
-└── Agents.md        # Roadmap e instruções operacionais
+└── AGENTS.md        # Roadmap e instruções operacionais
 ```
 
 ## Como Começar
@@ -163,6 +163,8 @@ make test
 make typecheck
 make lint
 ```
+Para um lint rápido apenas nos arquivos modificados, utilize `pre-commit run --files <arquivos_modificados>`.
+
 - Meta de cobertura: **≥ 80% (alerta se abaixo)**
 - Estilo: **ruff + black**
 - Tipagem: **mypy (strict)**
@@ -182,7 +184,7 @@ make lint
 - [ ] M11 - Documentação e Guias
 - [ ] M12 - Validação Final do MVP
 
-> Para detalhes, veja [Agents.md](Agents.md).
+> Para detalhes, veja [AGENTS.md](AGENTS.md).
 
 ## Stack Tecnológica
 Confira [TECH_STACK.md](TECH_STACK.md).
