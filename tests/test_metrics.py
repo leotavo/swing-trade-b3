@@ -39,3 +39,9 @@ def test_metrics_report_process_info() -> None:
 
     assert abs(memory_metric - expected_mem) < 10_000_000  # 10 MB tolerance
     assert cpu_metric >= 0
+
+
+def test_metrics_head() -> None:
+    response = client.head("/metrics")
+    assert response.status_code == 200
+    assert response.headers["content-type"] == CONTENT_TYPE_LATEST
