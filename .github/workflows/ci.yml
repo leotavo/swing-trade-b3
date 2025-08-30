@@ -15,7 +15,9 @@ jobs:
           python-version: '3.11'
           cache: 'poetry'
       - name: Install Poetry
-        run: pipx install poetry
+        run: |
+          pipx install poetry
+          poetry --version
       - name: Install dependencies
         run: poetry install --with dev
       - name: Ruff and Black
@@ -32,7 +34,9 @@ jobs:
           python-version: '3.11'
           cache: 'poetry'
       - name: Install Poetry
-        run: pipx install poetry
+        run: |
+          pipx install poetry
+          poetry --version
       - name: Install dependencies
         run: poetry install --with dev
       - name: Mypy
@@ -47,7 +51,9 @@ jobs:
           python-version: '3.11'
           cache: 'poetry'
       - name: Install Poetry
-        run: pipx install poetry
+        run: |
+          pipx install poetry
+          poetry --version
       - name: Install dependencies
         run: poetry install --with dev
       - name: Pytest
