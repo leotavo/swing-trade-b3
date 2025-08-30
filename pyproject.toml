@@ -5,6 +5,7 @@ description = "Automatiza operações de Swing Trade na B3"
 authors = ["Contributors <email@example.com>"]
 license = "MIT"
 packages = [{ include = "swing_trade" }]
+readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
