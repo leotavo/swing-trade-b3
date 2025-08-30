@@ -17,6 +17,7 @@ poetry install
   - `fix/` para correções de bugs
   - `docs/` para ajustes de documentação
 - Abra Pull Requests para unir alterações em `main`. Solicite revisão antes de fazer o merge.
+- Os nomes de branch são validados automaticamente via CI e devem seguir o padrão acima.
 
 ## Padrões de Commit
 - Utilize o padrão [Conventional Commits](https://www.conventionalcommits.org/).
