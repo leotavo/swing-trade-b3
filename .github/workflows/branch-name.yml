@@ -1,0 +1,22 @@
+name: Branch name
+
+on:
+  pull_request:
+  push:
+    branches-ignore:
+      - main
+
+jobs:
+  branch-name:
+    name: Validate branch name
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check branch name
+        run: |
+          branch="${GITHUB_HEAD_REF:-${GITHUB_REF_NAME}}"
+          if [[ ! "$branch" =~ ^(feat|fix|docs)/ ]]; then
+            echo "Invalid branch name: $branch"
+            echo "Branch names must start with 'feat/', 'fix/', or 'docs/'."
+            echo "Rename your branch to use one of the allowed prefixes, e.g., 'fix/my-change'."
+            exit 1
+          fi
