@@ -1,8 +1,3 @@
-import sys
-from pathlib import Path
-
-sys.path.append(str(Path(__file__).resolve().parents[1]))
-
 import pytest
 from swing_trade.position_sizing import (
     PositionSizingConfig,
@@ -12,16 +7,15 @@ from swing_trade.position_sizing import (
 from swing_trade.signals import TradeSignal, generate_signal_with_position
 
 
-
-def test_calculate_position_size():
+def test_calculate_position_size() -> None:
     config = PositionSizingConfig(capital=10_000, risk_per_trade=0.02)
     entry = 100.0
     stop = 95.0
     assert calculate_position_size(config, entry, stop) == 40
 
 
-def test_generate_signal_with_position_buy():
-    prices = [100, 101, 102, 103, 104, 105]
+def test_generate_signal_with_position_buy() -> None:
+    prices = [100.0, 101.0, 102.0, 103.0, 104.0, 105.0]
     config = PositionSizingConfig(capital=10_000, risk_per_trade=0.02)
     result = generate_signal_with_position(prices, config, 0.02)
     assert isinstance(result, TradeSignal)
@@ -30,8 +24,8 @@ def test_generate_signal_with_position_buy():
     assert result.stop_loss == pytest.approx(102.9)
 
 
-def test_generate_signal_with_position_sell():
-    prices = [105, 104, 103, 102, 101, 100]
+def test_generate_signal_with_position_sell() -> None:
+    prices = [105.0, 104.0, 103.0, 102.0, 101.0, 100.0]
     config = PositionSizingConfig(capital=10_000, risk_per_trade=0.02)
     result = generate_signal_with_position(prices, config, 0.02)
     assert result.signal == "sell"
@@ -39,16 +33,15 @@ def test_generate_signal_with_position_sell():
     assert result.stop_loss is None
 
 
-@pytest.mark.parametrize("pct", [0, -0.01])
-def test_stop_loss_price_invalid_pct(pct):
+@pytest.mark.parametrize("pct", [0.0, -0.01])  # type: ignore[misc]
+def test_stop_loss_price_invalid_pct(pct: float) -> None:
     with pytest.raises(ValueError):
         stop_loss_price(100.0, pct)
 
 
-@pytest.mark.parametrize("pct", [0, -0.01])
-def test_generate_signal_with_position_invalid_pct(pct):
-    prices = [100, 101, 102, 103, 104, 105]
+@pytest.mark.parametrize("pct", [0.0, -0.01])  # type: ignore[misc]
+def test_generate_signal_with_position_invalid_pct(pct: float) -> None:
+    prices = [100.0, 101.0, 102.0, 103.0, 104.0, 105.0]
     config = PositionSizingConfig(capital=10_000, risk_per_trade=0.02)
     with pytest.raises(ValueError):
         generate_signal_with_position(prices, config, pct)
-

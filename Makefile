@@ -1,4 +1,4 @@
-.PHONY: dev run test
+.PHONY: dev run test lint
 
 dev:
 	poetry install --with dev
@@ -8,4 +8,7 @@ run:
 	poetry run uvicorn app.main:app --reload
 
 test:
-	poetry run pytest
+	poetry run pytest --cov=app --cov=swing_trade
+
+lint:
+	pre-commit run --all-files

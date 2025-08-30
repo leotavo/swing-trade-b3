@@ -20,6 +20,14 @@ packages = [{ include = "swing_trade" }]
 pytest = "^8.2.0"
 pre-commit = "^3.7.0"
 pytest-cov = "^6.2.1"
+ruff = "^0.5.0"
+black = "^24.4"
+mypy = "^1.10"
+types-psutil = "^5.9.5.17"
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
 
 [build-system]
 requires = ["poetry-core"]
