@@ -95,6 +95,9 @@ MILESTONES_ISSUES.csv
 *.sqlite3
 *.db
 *.db-*
+*.db-shm
+*.db-wal
+*.db-journal
 *.parquet
 *.feather
 *.pkl

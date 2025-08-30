@@ -49,6 +49,7 @@ curl -I http://localhost:8000/metrics | head -n 1
 - [Roadmap](#roadmap)
 - [Stack Tecnológica](#stack-tecnológica)
 - [Contribuindo](#contribuindo)
+  - [Convenção de Branches](#convenção-de-branches)
 - [Comunidade e Suporte](#comunidade-e-suporte)
 - [Licença](#licença)
 - [Aviso Legal](#aviso-legal)
@@ -190,10 +191,12 @@ Para um lint rápido apenas nos arquivos modificados, utilize `pre-commit run --
 Confira [TECH_STACK.md](TECH_STACK.md).
 
 ## Contribuindo
-Leia o [CONTRIBUTING.md](CONTRIBUTING.md) e siga _Conventional Commits_.
-PRs com testes e atualização de docs quando aplicável.
-Branches devem seguir `feat/`, `fix/` ou `docs/` e são verificadas automaticamente no CI. Antes de abrir o PR, renomeie a branch para seguir esse padrão. Um workflow renomeia automaticamente branches criadas pelo Codex para esse padrão antes da validação.
-Se o workflow falhar devido ao nome, renomeie a branch para começar com um dos prefixos permitidos (ex.: `fix/codex-add-branch-name-validation-workflow`).
+Leia o [CONTRIBUTING.md](CONTRIBUTING.md) e siga _Conventional Commits_. PRs com testes e atualização de docs quando aplicável.
+
+### Convenção de Branches
+Use os prefixos `feat/`, `fix/` ou `docs/` ao criar novas branches. O CI valida esse padrão e um workflow renomeia automaticamente branches criadas pelo Codex antes da verificação. Renomeie manualmente se necessário.
+
+> O repositório inclui um `.gitignore` cobrindo Python, IDEs e dados brutos para evitar commits acidentais.
 
 ## Comunidade e Suporte
 - Código de Conduta: [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
