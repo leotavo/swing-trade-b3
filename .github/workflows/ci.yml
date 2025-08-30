@@ -31,5 +31,9 @@ jobs:
         run: pipx install poetry
       - name: Install dependencies
         run: poetry install --with dev
-      - name: Run tests
-        run: poetry run pytest
+      - name: Run tests with coverage
+        run: poetry run pytest --cov=app --cov=swing_trade --cov-report=xml
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          files: coverage.xml

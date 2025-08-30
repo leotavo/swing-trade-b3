@@ -10,7 +10,7 @@
 [![GitHub Forks](https://img.shields.io/github/forks/leotavo/swing-trade-b3)](https://github.com/leotavo/swing-trade-b3/network/members)
 [![Last Commit](https://img.shields.io/github/last-commit/leotavo/swing-trade-b3)](https://github.com/leotavo/swing-trade-b3/commits)
 [![Code Style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![Coverage](https://img.shields.io/badge/coverage-0%25-red)](https://github.com/leotavo/swing-trade-b3/actions)
+[![codecov](https://codecov.io/gh/leotavo/swing-trade-b3/branch/main/graph/badge.svg)](https://codecov.io/gh/leotavo/swing-trade-b3)
 [![Docs](https://img.shields.io/badge/docs-latest-blue.svg)](https://github.com/leotavo/swing-trade-b3/wiki)
 [![GitHub Release](https://img.shields.io/github/v/release/leotavo/swing-trade-b3?include_prereleases)](https://github.com/leotavo/swing-trade-b3/releases)
 
@@ -24,6 +24,7 @@
 - [Arquitetura](#arquitetura)
 - [Estrutura do Projeto](#estrutura-do-projeto)
 - [Como Começar](#como-começar)
+  - [Quickstart](#quickstart)
   - [Pré-requisitos](#pré-requisitos)
   - [Instalação](#instalação)
   - [Configuração](#configuração)
@@ -59,6 +60,8 @@ Status atual: **aguardando desenvolvimento**
 
 O sistema é dividido em módulos independentes que tratam coleta de dados, geração de sinais, backtesting e exposição de API. Essa separação facilita a manutenção e a transparência de cada etapa do pipeline.
 
+![Arquitetura](docs/arch.svg)
+
 ## Estrutura do Projeto
 
 ```
@@ -70,6 +73,14 @@ O sistema é dividido em módulos independentes que tratam coleta de dados, gera
 ```
 
 ## Como Começar
+
+### Quickstart
+
+Execute tudo com um único comando que instala as dependências e inicia o servidor de desenvolvimento:
+
+```bash
+make dev
+```
 
 ### Pré-requisitos
 
@@ -102,10 +113,18 @@ Crie um arquivo `.env` na raiz do projeto para variáveis sensíveis (tokens de 
 
 ## Uso
 
-Inicie a aplicação FastAPI com:
+Se você utilizou o **Quickstart**, o servidor já estará em execução em `http://localhost:8000`.
+
+Para iniciar manualmente, execute:
 
 ```bash
-poetry run uvicorn app.main:app --reload
+make run
+```
+
+Teste o endpoint inicial com:
+
+```bash
+curl http://localhost:8000/
 ```
 
 Acesse `http://localhost:8000/docs` para explorar os endpoints disponíveis.
@@ -115,12 +134,18 @@ Acesse `http://localhost:8000/docs` para explorar os endpoints disponíveis.
 Execute a suíte de testes com:
 
 ```bash
-poetry run pytest
+make test
 ```
 
 ## Observabilidade
 
-A aplicação FastAPI é instrumentada com métricas de CPU, memória e latência expostas no endpoint `/metrics` para coleta via Prometheus.
+A aplicação FastAPI é instrumentada com métricas de CPU, memória e latência expostas no endpoint `/metrics` para coleta via Prometheus:
+
+```python
+@app.get("/metrics")
+async def metrics():
+    return Response(generate_latest(registry), media_type=CONTENT_TYPE_LATEST)
+```
 
 ## Roadmap
 
@@ -149,7 +174,9 @@ Leia o [CONTRIBUTING.md](CONTRIBUTING.md) para saber como colaborar com o projet
 
 ## Comunidade e Suporte
 
-Problemas e sugestões podem ser registrados na aba [Issues](https://github.com/leotavo/swing-trade-b3/issues). Pull requests são bem-vindos.
+- Consulte o [Código de Conduta](CODE_OF_CONDUCT.md).
+- Dúvidas e sugestões: use as [Issues](https://github.com/leotavo/swing-trade-b3/issues) conforme o guia de [Suporte](SUPPORT.md).
+- Reporte vulnerabilidades seguindo a [Política de Segurança](SECURITY.md).
 
 ## Licença
 
