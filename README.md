@@ -5,7 +5,7 @@
 [![Dependabot](https://img.shields.io/badge/dependabot-enabled-brightgreen?logo=dependabot)](https://github.com/dependabot)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](pyproject.toml)
-[![Roadmap progress](https://img.shields.io/badge/roadmap%20progress-0%25-blue)](Agents.md)
+[![M1 - Community & CI](https://img.shields.io/badge/M1%20--%20Community%20%26%20CI-in%20progress-blue)](https://github.com/leotavo/swing-trade-b3/milestone/1)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 [![Open Issues](https://img.shields.io/github/issues/leotavo/swing-trade-b3)](https://github.com/leotavo/swing-trade-b3/issues)
 [![GitHub Stars](https://img.shields.io/github/stars/leotavo/swing-trade-b3)](https://github.com/leotavo/swing-trade-b3/stargazers)
@@ -46,9 +46,9 @@ O projeto visa construir um agente capaz de operar swing trade automatizado util
 
 ## Status do Projeto
 
-Status atual: **aguardando desenvolvimento**
+Status atual: **M1 – Community & CI em progresso**
 
-![Progresso do roadmap](https://img.shields.io/badge/roadmap%20progress-0%25-blue)
+[![M1 - Community & CI](https://img.shields.io/badge/M1%20--%20Community%20%26%20CI-in%20progress-blue)](https://github.com/leotavo/swing-trade-b3/milestone/1)
 
 ## Recursos
 
@@ -61,6 +61,16 @@ Status atual: **aguardando desenvolvimento**
 ## Arquitetura
 
 O sistema é dividido em módulos independentes que tratam coleta de dados, geração de sinais, backtesting e exposição de API. Essa separação facilita a manutenção e a transparência de cada etapa do pipeline.
+
+```mermaid
+flowchart LR
+  A[Fontes de dados<br/>yfinance/brapi/B3] --> B[Ingestão & Preparação]
+  B --> C[Estratégias<br/>Sinais]
+  C --> D[Backtesting]
+  C --> E[API FastAPI]
+  D --> F[Relatórios/Resultados]
+  E --> G[Notificações<br/>(e-mail/Telegram)]
+```
 
 ![Arquitetura](docs/arch.svg)
 
@@ -147,13 +157,21 @@ make test
 
 ## Observabilidade
 
-A aplicação FastAPI é instrumentada com métricas de CPU, memória e latência expostas no endpoint `/metrics` para coleta via Prometheus. Um endpoint `/healthz` simples está disponível para verificações de vida:
+A aplicação FastAPI expõe endpoints de observabilidade:
 
-```python
-@app.get("/metrics")
-async def metrics():
-    return Response(generate_latest(registry), media_type=CONTENT_TYPE_LATEST)
+- **Healthcheck:** `GET /healthz` → `{"status": "ok"}`
+- **Métricas Prometheus:** `GET /metrics` (OpenMetrics; scrape por Prometheus/Grafana Agent)
+
+### Teste rápido (local)
+```bash
+# saúde geral
+curl -fsS http://localhost:8000/healthz | jq .
+
+# primeiras linhas das métricas
+curl -fsS http://localhost:8000/metrics | head -n 20
 ```
+
+As métricas incluem CPU, memória e latência HTTP. Em produção, configure o scrape do Prometheus para `http://<host>:<port>/metrics`.
 
 ## Roadmap
 
