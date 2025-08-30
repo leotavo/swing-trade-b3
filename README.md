@@ -213,4 +213,5 @@ Projeto **educacional**. Não constitui recomendação de investimento. Os autor
 - **Windows/PowerShell**: use `curl` do Git ou `iwr/irm`.
 - **.env**: mantenha na raiz e reinicie o servidor após alterações.
 
-<!-- Teste de verificação de branch -->
+<!-- Teste de verificação de branch: docs/test-branch-name -->
+
