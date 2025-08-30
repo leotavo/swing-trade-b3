@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="120" viewBox="0 0 360 120">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#000" />
+    </marker>
+  </defs>
+  <rect x="20" y="40" width="80" height="40" fill="#cce5ff" stroke="#000" />
+  <text x="60" y="65" text-anchor="middle" font-size="12">Cliente</text>
+  <rect x="140" y="40" width="80" height="40" fill="#cce5ff" stroke="#000" />
+  <text x="180" y="65" text-anchor="middle" font-size="12">FastAPI</text>
+  <rect x="260" y="40" width="80" height="40" fill="#cce5ff" stroke="#000" />
+  <text x="300" y="65" text-anchor="middle" font-size="12">Motor de
+Trading</text>
+  <line x1="100" y1="60" x2="140" y2="60" stroke="#000" marker-end="url(#arrow)" />
+  <line x1="220" y1="60" x2="260" y2="60" stroke="#000" marker-end="url(#arrow)" />
+</svg>
