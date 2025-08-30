@@ -5,6 +5,14 @@
 [![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](pyproject.toml)
 [![Roadmap progress](https://progress-bar.dev/0/?title=milestones)](Agents.md)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+[![Open Issues](https://img.shields.io/github/issues/leotavo/swing-trade-b3)](https://github.com/leotavo/swing-trade-b3/issues)
+[![GitHub Stars](https://img.shields.io/github/stars/leotavo/swing-trade-b3)](https://github.com/leotavo/swing-trade-b3/stargazers)
+[![GitHub Forks](https://img.shields.io/github/forks/leotavo/swing-trade-b3)](https://github.com/leotavo/swing-trade-b3/network/members)
+[![Last Commit](https://img.shields.io/github/last-commit/leotavo/swing-trade-b3)](https://github.com/leotavo/swing-trade-b3/commits)
+[![Code Style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Coverage](https://img.shields.io/badge/coverage-0%25-red)](https://github.com/leotavo/swing-trade-b3/actions)
+[![Docs](https://img.shields.io/badge/docs-latest-blue.svg)](https://github.com/leotavo/swing-trade-b3/wiki)
+[![GitHub Release](https://img.shields.io/github/v/release/leotavo/swing-trade-b3?include_prereleases)](https://github.com/leotavo/swing-trade-b3/releases)
 
 > Automatizar operações de Swing Trade na B3 (Bolsa de Valores do Brasil) usando dados históricos e indicadores técnicos para gerar sinais de compra e venda, testar estratégias e acompanhar resultados.
 
