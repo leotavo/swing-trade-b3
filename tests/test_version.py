@@ -4,7 +4,7 @@ from pathlib import Path
 from swing_trade import __version__
 
 
-def test_version_matches_pyproject():
+def test_version_matches_pyproject() -> None:
     """Ensure package version matches configuration."""
     data = tomllib.loads(Path("pyproject.toml").read_text())
     expected = data["project"]["version"]

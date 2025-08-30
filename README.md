@@ -1,6 +1,8 @@
 # Swing Trade B3
 
 [![CI](https://github.com/leotavo/swing-trade-b3/actions/workflows/ci.yml/badge.svg)](https://github.com/leotavo/swing-trade-b3/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/leotavo/swing-trade-b3/actions/workflows/codeql.yml/badge.svg)](https://github.com/leotavo/swing-trade-b3/actions/workflows/codeql.yml)
+[![Dependabot](https://img.shields.io/badge/dependabot-enabled-brightgreen?logo=dependabot)](https://github.com/dependabot)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](pyproject.toml)
 [![Roadmap progress](https://img.shields.io/badge/roadmap%20progress-0%25-blue)](Agents.md)
@@ -76,10 +78,16 @@ O sistema é dividido em módulos independentes que tratam coleta de dados, gera
 
 ### Quickstart
 
-Execute tudo com um único comando que instala as dependências e inicia o servidor de desenvolvimento:
+Instale as dependências e configure o ambiente com um único comando:
 
 ```bash
 make dev
+```
+
+Execute a suíte de testes para validar o setup:
+
+```bash
+make test
 ```
 
 ### Pré-requisitos
@@ -139,7 +147,7 @@ make test
 
 ## Observabilidade
 
-A aplicação FastAPI é instrumentada com métricas de CPU, memória e latência expostas no endpoint `/metrics` para coleta via Prometheus:
+A aplicação FastAPI é instrumentada com métricas de CPU, memória e latência expostas no endpoint `/metrics` para coleta via Prometheus. Um endpoint `/healthz` simples está disponível para verificações de vida:
 
 ```python
 @app.get("/metrics")
@@ -185,4 +193,3 @@ Este projeto é licenciado sob os termos da licença MIT. Veja o arquivo [LICENS
 ## Aviso Legal
 
 Este software é disponibilizado somente para fins educacionais. Ele não constitui recomendação de investimento e os autores não se responsabilizam por perdas financeiras decorrentes de seu uso.
-

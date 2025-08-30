@@ -10,4 +10,3 @@ __all__ = ["__version__"]
 # The project version is defined here to allow runtime inspection.
 # It should mirror the version specified in ``pyproject.toml``.
 __version__ = "0.1.0"
-
