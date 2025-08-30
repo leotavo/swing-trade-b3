@@ -77,12 +77,12 @@ O sistema é dividido em módulos independentes que tratam coleta de dados, gera
 
 ```mermaid
 flowchart LR
-  A[Fontes de dados<br/>yfinance/brapi/B3] --> B[Ingestão & Preparação]
-  B --> C[Estratégias<br/>Sinais]
+  A["Fontes de dados\nyfinance/brapi/B3"] --> B["Ingestão & Preparação"]
+  B --> C["Estratégias\nSinais"]
   C --> D[Backtesting]
-  C --> E[API FastAPI]
-  D --> F[Relatórios/Resultados]
-  E --> G[Notificações<br/>(e-mail/Telegram)]
+  C --> E["API FastAPI"]
+  D --> F["Relatórios/Resultados"]
+  E --> G["Notificações\ne-mail/Telegram"]
 ```
 
 ![Arquitetura](docs/arch.svg)
