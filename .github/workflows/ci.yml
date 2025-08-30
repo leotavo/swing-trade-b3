@@ -20,7 +20,7 @@ jobs:
           poetry install --with dev
       - name: Ruff and Black
         run: |
-          poetry run ruff .
+          poetry run ruff check .
           poetry run black --check .
   typecheck:
     runs-on: ubuntu-latest
@@ -36,7 +36,7 @@ jobs:
           pip install poetry
           poetry install --with dev
       - name: Mypy
-        run: poetry run mypy .
+        run: poetry run mypy --strict .
   test:
     runs-on: ubuntu-latest
     needs: typecheck

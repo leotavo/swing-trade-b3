@@ -23,7 +23,8 @@ git clone https://github.com/leotavo/swing-trade-b3 && cd swing-trade-b3
 poetry install && cp -n .env.example .env || true
 poetry run uvicorn app.main:app --reload
 # smoke-test
-curl -fsS http://localhost:8000/docs >/dev/null && echo "API OK"
+curl -fsS http://localhost:8000/healthz | jq .
+curl -I http://localhost:8000/metrics | head -n 1
 ```
 
 > Automatizar operações de Swing Trade na B3 (Bolsa de Valores do Brasil) usando dados históricos e indicadores técnicos para gerar sinais de compra e venda, testar estratégias e acompanhar resultados.
@@ -167,7 +168,7 @@ make test
 A aplicação FastAPI expõe endpoints de observabilidade:
 
 - **Healthcheck:** `GET /healthz` → `{"status": "ok"}`
-- **Métricas Prometheus:** `GET /metrics` (OpenMetrics; scrape por Prometheus/Grafana Agent)
+- **Métricas Prometheus:** `GET /metrics` (OpenMetrics; responde `Content-Type: text/plain; version=0.0.4` e inclui linhas `# HELP`)
 
 Ambos os endpoints possuem testes automatizados garantindo resposta `200 OK` e formato compatível com o Prometheus, evitando regressões.
 
@@ -175,6 +176,7 @@ Ambos os endpoints possuem testes automatizados garantindo resposta `200 OK` e f
 
 ```bash
 curl -fsS http://localhost:8000/healthz | jq .
+curl -I http://localhost:8000/metrics | head -n 1
 curl -fsS http://localhost:8000/metrics | head -n 20
 ```
 

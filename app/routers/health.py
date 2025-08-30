@@ -52,9 +52,19 @@ async def healthz() -> dict[str, str]:
     return {"status": "ok"}
 
 
+@router.head("/healthz")
+async def healthz_head() -> Response:
+    return Response(status_code=200)
+
+
 @router.get("/metrics")
 async def metrics() -> Response:
     return Response(generate_latest(registry), media_type=CONTENT_TYPE_LATEST)
+
+
+@router.head("/metrics")
+async def metrics_head() -> Response:
+    return Response(media_type=CONTENT_TYPE_LATEST)
 
 
 def setup(app: FastAPI) -> None:
