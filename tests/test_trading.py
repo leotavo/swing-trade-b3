@@ -33,15 +33,15 @@ def test_generate_signal_with_position_sell() -> None:
     assert result.stop_loss is None
 
 
-@pytest.mark.parametrize("pct", [0.0, -0.01])
-def test_stop_loss_price_invalid_pct(pct: float) -> None:
-    with pytest.raises(ValueError):
-        stop_loss_price(100.0, pct)
+def test_stop_loss_price_invalid_pct() -> None:
+    for pct in (0.0, -0.01):
+        with pytest.raises(ValueError):
+            stop_loss_price(100.0, pct)
 
 
-@pytest.mark.parametrize("pct", [0.0, -0.01])
-def test_generate_signal_with_position_invalid_pct(pct: float) -> None:
+def test_generate_signal_with_position_invalid_pct() -> None:
     prices = [100.0, 101.0, 102.0, 103.0, 104.0, 105.0]
     config = PositionSizingConfig(capital=10_000, risk_per_trade=0.02)
-    with pytest.raises(ValueError):
-        generate_signal_with_position(prices, config, pct)
+    for pct in (0.0, -0.01):
+        with pytest.raises(ValueError):
+            generate_signal_with_position(prices, config, pct)
