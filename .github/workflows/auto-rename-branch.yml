@@ -1,0 +1,25 @@
+name: Auto rename Codex branches
+
+on:
+  push:
+    branches-ignore:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  rename:
+    if: ${{ !startsWith(github.ref_name, 'feat/') && !startsWith(github.ref_name, 'fix/') && !startsWith(github.ref_name, 'docs/') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Rename branch to match naming convention
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const oldName = context.ref.replace('refs/heads/', '');
+            const newName = `feat/${oldName}`;
+            const { owner, repo } = context.repo;
+            const sha = context.sha;
+            await github.git.createRef({ owner, repo, ref: `refs/heads/${newName}`, sha });
+            await github.git.deleteRef({ owner, repo, ref: `heads/${oldName}` });
