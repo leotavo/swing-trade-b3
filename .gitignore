@@ -2,16 +2,21 @@
 __pycache__/
 *.py[cod]
 *$py.class
+*.pyd
 
 # Virtual environments
 .venv/
 venv/
+pip-wheel-metadata/
+__pypackages__/
 
 # Environment files (keep examples)
 .env
 .env.*
 !.env.example
 !.env.sample
+.envrc
+.python-version
 
 # Packaging / build
 build/
@@ -19,7 +24,6 @@ dist/
 .eggs/
 *.egg
 *.egg-info/
-pip-wheel-metadata/
 
 # Test / coverage artifacts
 .coverage
@@ -28,6 +32,8 @@ pip-wheel-metadata/
 .tox/
 htmlcov/
 .cache/
+coverage.xml
+.hypothesis/
 
 # Type check / tooling caches
 .mypy_cache/
@@ -42,6 +48,7 @@ logs/
 *.swp
 *.swo
 *.bak
+*.orig
 
 # OS-specific
 .DS_Store
@@ -55,10 +62,37 @@ Desktop.ini
 
 # Keys / secrets (prevent accidental commits)
 id_rsa*
+*_rsa
+*_rsa.pub
 *.pem
 *.key
+*.ppk
+.secrets/
 
 # Node/npm (if present in subfolders)
 node_modules/
 *.tsbuildinfo
 
+# Editors/IDE
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+
+# Local data artifacts
+data/
+data/**
+datasets/
+artifacts/
+reports/
+
+# Common local DB/cache files
+*.sqlite
+*.sqlite3
+*.db
+*.db-*
+*.parquet
+*.feather
+*.pkl
+*.joblib
