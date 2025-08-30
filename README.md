@@ -87,15 +87,13 @@ O sistema é dividido em módulos independentes que tratam coleta de dados, gera
 
 ```mermaid
 flowchart LR
-  A["Fontes de dados\nyfinance/brapi/B3"] --> B["Ingestão & Preparação"]
-  B --> C["Estratégias\nSinais"]
+  A[Fontes de dados<br/>yfinance/brapi/B3] --> B[Ingestão & Preparação]
+  B --> C[Estratégias<br/>Sinais]
   C --> D[Backtesting]
-  C --> E["API FastAPI"]
-  D --> F["Relatórios/Resultados"]
-  E --> G["Notificações\ne-mail/Telegram"]
+  C --> E[API FastAPI]
+  D --> F[Relatórios/Resultados]
+  E --> G[Notificações<br/>(e-mail/Telegram)]
 ```
-
-![Arquitetura](docs/arch.svg)
 
 ## Estrutura do Projeto
 
@@ -165,22 +163,14 @@ make test
 ```
 
 ## Observabilidade
+- **Healthcheck:** `GET /healthz` → `{"status":"ok"}`
+- **Métricas Prometheus:** `GET /metrics` (OpenMetrics)
 
-A aplicação FastAPI expõe endpoints de observabilidade:
-
-- **Healthcheck:** `GET /healthz` → `{"status": "ok"}`
-- **Métricas Prometheus:** `GET /metrics` (OpenMetrics; scrape por Prometheus/Grafana Agent)
-
-### Teste rápido (local)
+Teste rápido:
 ```bash
-# saúde geral
 curl -fsS http://localhost:8000/healthz | jq .
-
-# primeiras linhas das métricas
 curl -fsS http://localhost:8000/metrics | head -n 20
 ```
-
-As métricas incluem CPU, memória e latência HTTP. Em produção, configure o scrape do Prometheus para `http://<host>:<port>/metrics`.
 
 ## Roadmap
 
