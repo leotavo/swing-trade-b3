@@ -26,9 +26,9 @@ poetry install
 - Escreva mensagens curtas e no imperativo.
 
 ## Testes e Qualidade
-- Execute os testes e linters antes de enviar um PR:
+- Execute os linters e testes antes de enviar um PR:
   ```bash
-  ruff check .
+  pre-commit run --files <arquivos_modificados>
   pytest
   ```
 - Garanta que todos os testes estejam passando e que o código siga as regras de estilo.

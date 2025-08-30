@@ -163,6 +163,8 @@ make test
 make typecheck
 make lint
 ```
+Para um lint rápido apenas nos arquivos modificados, utilize `pre-commit run --files <arquivos_modificados>`.
+
 - Meta de cobertura: **≥ 80% (alerta se abaixo)**
 - Estilo: **ruff + black**
 - Tipagem: **mypy (strict)**
