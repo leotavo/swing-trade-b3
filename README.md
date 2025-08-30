@@ -200,7 +200,7 @@ Leia o [CONTRIBUTING.md](CONTRIBUTING.md) para saber como colaborar com o projet
 ## Comunidade e Suporte
 
 - Consulte o [Código de Conduta](CODE_OF_CONDUCT.md).
-- Dúvidas e sugestões: use as [Issues](https://github.com/leotavo/swing-trade-b3/issues) conforme o guia de [Suporte](SUPPORT.md).
+- Perguntas gerais: use as [Discussions](https://github.com/leotavo/swing-trade-b3/discussions); bugs e pedidos de funcionalidade: abra [Issues](https://github.com/leotavo/swing-trade-b3/issues) seguindo o guia de [Suporte](SUPPORT.md).
 - Reporte vulnerabilidades seguindo a [Política de Segurança](SECURITY.md).
 
 ## Licença
