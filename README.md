@@ -5,7 +5,7 @@
 [![Dependabot](https://img.shields.io/badge/dependabot-enabled-brightgreen?logo=dependabot)](https://github.com/dependabot)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](pyproject.toml)
-[![M1 - Community & CI](https://img.shields.io/badge/M1%20--%20Community%20%26%20CI-in%20progress-blue)](https://github.com/leotavo/swing-trade-b3/milestone/1)
+[![M1 - Community & CI](https://img.shields.io/github/milestones/progress/leotavo/swing-trade-b3/1?logo=github)](https://github.com/leotavo/swing-trade-b3/milestone/1)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 [![Open Issues](https://img.shields.io/github/issues/leotavo/swing-trade-b3)](https://github.com/leotavo/swing-trade-b3/issues)
 [![GitHub Stars](https://img.shields.io/github/stars/leotavo/swing-trade-b3)](https://github.com/leotavo/swing-trade-b3/stargazers)
@@ -18,15 +18,28 @@
 
 > Automatizar operações de Swing Trade na B3 (Bolsa de Valores do Brasil) usando dados históricos e indicadores técnicos para gerar sinais de compra e venda, testar estratégias e acompanhar resultados.
 
+## Quickstart
+
+```bash
+make dev
+curl -fsS http://localhost:8000/healthz | jq .
+```
+
+Saída esperada:
+
+```json
+{"status": "ok"}
+```
+
 ## Índice
 
+- [Quickstart](#quickstart)
 - [Visão Geral](#visão-geral)
 - [Status do Projeto](#status-do-projeto)
 - [Recursos](#recursos)
 - [Arquitetura](#arquitetura)
 - [Estrutura do Projeto](#estrutura-do-projeto)
 - [Como Começar](#como-começar)
-  - [Quickstart](#quickstart)
   - [Pré-requisitos](#pré-requisitos)
   - [Instalação](#instalação)
   - [Configuração](#configuração)
@@ -48,7 +61,7 @@ O projeto visa construir um agente capaz de operar swing trade automatizado util
 
 Status atual: **M1 – Community & CI em progresso**
 
-[![M1 - Community & CI](https://img.shields.io/badge/M1%20--%20Community%20%26%20CI-in%20progress-blue)](https://github.com/leotavo/swing-trade-b3/milestone/1)
+[![M1 - Community & CI](https://img.shields.io/github/milestones/progress/leotavo/swing-trade-b3/1?logo=github)](https://github.com/leotavo/swing-trade-b3/milestone/1)
 
 ## Recursos
 
@@ -64,12 +77,12 @@ O sistema é dividido em módulos independentes que tratam coleta de dados, gera
 
 ```mermaid
 flowchart LR
-  A[Fontes de dados<br/>yfinance/brapi/B3] --> B[Ingestão & Preparação]
-  B --> C[Estratégias<br/>Sinais]
+  A["Fontes de dados\nyfinance/brapi/B3"] --> B["Ingestão & Preparação"]
+  B --> C["Estratégias\nSinais"]
   C --> D[Backtesting]
-  C --> E[API FastAPI]
-  D --> F[Relatórios/Resultados]
-  E --> G[Notificações<br/>(e-mail/Telegram)]
+  C --> E["API FastAPI"]
+  D --> F["Relatórios/Resultados"]
+  E --> G["Notificações\ne-mail/Telegram"]
 ```
 
 ![Arquitetura](docs/arch.svg)
@@ -85,20 +98,6 @@ flowchart LR
 ```
 
 ## Como Começar
-
-### Quickstart
-
-Instale as dependências e configure o ambiente com um único comando:
-
-```bash
-make dev
-```
-
-Execute a suíte de testes para validar o setup:
-
-```bash
-make test
-```
 
 ### Pré-requisitos
 
