@@ -87,6 +87,9 @@ datasets/
 artifacts/
 reports/
 
+# Generated metadata
+MILESTONES_ISSUES.csv
+
 # Common local DB/cache files
 *.sqlite
 *.sqlite3
