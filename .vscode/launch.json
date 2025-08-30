@@ -1,0 +1,64 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Python: FastAPI (uvicorn)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": ["${env:FASTAPI_APP}", "--reload", "--port", "${env:FASTAPI_PORT}"],
+      "envFile": "${workspaceFolder}/.env",
+      "console": "integratedTerminal",
+      "justMyCode": true
+    },
+    {
+      "name": "Python: Attach (debugpy 5678)",
+      "type": "debugpy",
+      "request": "attach",
+      "connect": { "host": "localhost", "port": 5678 },
+      "justMyCode": true
+    },
+    {
+      "name": "Java: Launch Spring Boot",
+      "type": "java",
+      "request": "launch",
+      "mainClass": "${command:java.resolveMainClass}",
+      "projectName": "${command:java.resolveMainProject}",
+      "vmArgs": "-Dspring.profiles.active=dev"
+    },
+    {
+      "name": "Java: Attach (5005)",
+      "type": "java",
+      "request": "attach",
+      "hostName": "localhost",
+      "port": 5005
+    },
+    {
+      "name": "Angular: Chrome (ng serve)",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:${env:NG_PORT}",
+      "webRoot": "${workspaceFolder}",
+      "preLaunchTask": "Angular: ng serve",
+      "sourceMaps": true,
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "name": "k6: Run script",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "k6 run ${env:K6_SCRIPT}",
+      "cwd": "${workspaceFolder}"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Fullstack: Angular + FastAPI",
+      "configurations": ["Angular: Chrome (ng serve)", "Python: FastAPI (uvicorn)"]
+    },
+    {
+      "name": "Fullstack: Angular + Spring Boot",
+      "configurations": ["Angular: Chrome (ng serve)", "Java: Launch Spring Boot"]
+    }
+  ]
+}

@@ -1,0 +1,205 @@
+{
+  // VS Code Tasks - Leonardo (perfil Global)
+  "version": "2.0.0",
+  "tasks": [
+    // ===========================
+    // PYTHON / FASTAPI
+    // ===========================
+    {
+      "label": "Python: FastAPI (Poetry)",
+      "type": "shell",
+      "command": "poetry run uvicorn ${env:FASTAPI_APP}:app --reload --port ${env:FASTAPI_PORT}",
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Python: FastAPI (venv .venv)",
+      "type": "shell",
+      "command": "${workspaceFolder}/.venv/Scripts/python -m uvicorn ${input:fastapiApp}:app --reload --port ${input:fastapiPort}",
+      "windows": {
+        "command": "${workspaceFolder}\\.venv\\Scripts\\python -m uvicorn ${input:fastapiApp}:app --reload --port ${input:fastapiPort}"
+      },
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": []
+    },
+
+    // ===========================
+    // JAVA / SPRING BOOT
+    // ===========================
+    {
+      "label": "Java: Spring Boot (Maven)",
+      "type": "shell",
+      "command": "mvn -q -DskipTests spring-boot:run",
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Java: Spring Boot (Gradle)",
+      "type": "shell",
+      "command": "gradlew bootRun --quiet",
+      "windows": { "command": "gradlew.bat bootRun --quiet" },
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": []
+    },
+
+    // ===========================
+    // ANGULAR / FRONTEND
+    // ===========================
+    {
+      "label": "Angular: ng serve",
+      "type": "shell",
+      "command": "npm run start -- --port ${env:NG_PORT}",
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": []
+    },
+
+    // ===========================
+    // DOCKER / COMPOSE
+    // ===========================
+    {
+      "label": "Docker: compose up",
+      "type": "shell",
+      "command": "docker compose up -d",
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Docker: compose down",
+      "type": "shell",
+      "command": "docker compose down",
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Docker: logs (follow)",
+      "type": "shell",
+      "command": "docker compose logs -f",
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": []
+    },
+
+    // ===========================
+    // KUBERNETES / K8S
+    // ===========================
+    {
+      "label": "K8s: get pods (ns atual)",
+      "type": "shell",
+      "command": "kubectl get pods -o wide",
+      "problemMatcher": []
+    },
+    {
+      "label": "K8s: use-context",
+      "type": "shell",
+      "command": "kubectl config use-context ${input:k8sContext}",
+      "problemMatcher": []
+    },
+    {
+      "label": "K8s: view contexts",
+      "type": "shell",
+      "command": "kubectl config get-contexts",
+      "problemMatcher": []
+    },
+
+    // ===========================
+    // HELM
+    // ===========================
+    {
+      "label": "Helm: lint chart",
+      "type": "shell",
+      "command": "helm lint ${input:helmChartPath}",
+      "problemMatcher": []
+    },
+    {
+      "label": "Helm: template (render)",
+      "type": "shell",
+      "command": "helm template ${input:helmRelease} ${input:helmChartPath} -f ${input:helmValues}",
+      "problemMatcher": []
+    },
+
+    // ===========================
+    // gRPC
+    // ===========================
+    {
+      "label": "gRPC: listar serviços",
+      "type": "shell",
+      "command": "grpcurl -plaintext ${input:grpcHost}:${input:grpcPort} list",
+      "problemMatcher": []
+    },
+
+    // ===========================
+    // k6 (carga)
+    // ===========================
+    {
+      "label": "k6: run script",
+      "type": "shell",
+      "command": "k6 run ${env:K6_SCRIPT}",
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": []
+    }
+  ],
+
+  // ===========================
+  // INPUTS (perguntas interativas)
+  // ===========================
+  "inputs": [
+    {
+      "id": "fastapiApp",
+      "type": "promptString",
+      "description": "Módulo:App (ex.: main:app)",
+      "default": "main:app"
+    },
+    {
+      "id": "fastapiPort",
+      "type": "promptString",
+      "description": "Porta FastAPI",
+      "default": "8000"
+    },
+    {
+      "id": "ngPort",
+      "type": "promptString",
+      "description": "Porta Angular",
+      "default": "4200"
+    },
+    {
+      "id": "k8sContext",
+      "type": "promptString",
+      "description": "Contexto K8s (kubectl config get-contexts)"
+    },
+    {
+      "id": "helmChartPath",
+      "type": "promptString",
+      "description": "Caminho do chart Helm",
+      "default": "./chart"
+    },
+    {
+      "id": "helmValues",
+      "type": "promptString",
+      "description": "Arquivo values.yaml",
+      "default": "values.yaml"
+    },
+    {
+      "id": "helmRelease",
+      "type": "promptString",
+      "description": "Nome do release (helm)",
+      "default": "my-release"
+    },
+    {
+      "id": "grpcHost",
+      "type": "promptString",
+      "description": "Host gRPC",
+      "default": "localhost"
+    },
+    {
+      "id": "grpcPort",
+      "type": "promptString",
+      "description": "Porta gRPC",
+      "default": "50051"
+    },
+    {
+      "id": "k6Script",
+      "type": "promptString",
+      "description": "Arquivo k6 (ex.: load/script.js)",
+      "default": "script.js"
+    }
+  ]
+}
