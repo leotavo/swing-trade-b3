@@ -1,18 +1,20 @@
-[tool.poetry]
+[project]
 name = "swing-trade-b3"
 version = "0.1.0"
 description = "Automatiza operações de Swing Trade na B3"
-authors = ["Contributors <email@example.com>"]
-license = "MIT"
-packages = [{ include = "swing_trade" }]
 readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Contributors", email = "email@example.com" }]
+requires-python = ">=3.11,<4.0"
+dependencies = [
+    "fastapi>=0.111.0,<0.112.0",
+    "prometheus-client>=0.20.0,<0.21.0",
+    "psutil>=5.9.0,<6.0.0",
+    "uvicorn>=0.30.0,<0.31.0",
+]
 
-[tool.poetry.dependencies]
-python = "^3.11"
-fastapi = "^0.111.0"
-prometheus-client = "^0.20.0"
-psutil = "^5.9.0"
-uvicorn = "^0.30.0"
+[tool.poetry]
+packages = [{ include = "swing_trade" }]
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.2.0"
