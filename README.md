@@ -212,3 +212,5 @@ Projeto **educacional**. Não constitui recomendação de investimento. Os autor
 - **Porta 8000 ocupada**: `make dev PORT=8001` e acesse `http://localhost:8001`.
 - **Windows/PowerShell**: use `curl` do Git ou `iwr/irm`.
 - **.env**: mantenha na raiz e reinicie o servidor após alterações.
+
+<!-- Teste de verificação de branch -->
