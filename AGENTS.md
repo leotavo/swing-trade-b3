@@ -2,6 +2,7 @@
 
 > **Instrução:** Sempre que o projeto for atualizado, revise e atualize o README.md para refletir as mudanças.
 > **Branches:** Devem começar com `feat/`, `fix/` ou `docs/`; a verificação acontece no CI e falhará para nomes inválidos. O Codex também deve usar esses prefixos ao criar branches.
+> **Antes do PR:** Renomeie a branch para seguir o padrão, se necessário.
 
 Gerado automaticamente a partir de **milestones** e **issues** do repositório leotavo/swing-trade-b3.
 > Estado: **all** · Limite: **1000** · Gerado em: 2025-08-30 04:09 (America/Bahia)
