@@ -169,7 +169,7 @@ Para um lint rápido apenas nos arquivos modificados, utilize `pre-commit run --
 - Meta de cobertura: **≥ 80% (alerta se abaixo)**
 - Estilo: **ruff + black**
 - Tipagem: **mypy (strict)**
-- CI: GitHub Actions (lint, typecheck, testes, cobertura)
+- CI: GitHub Actions (lint, typecheck, testes, cobertura) com cache das dependências do Poetry
 
 ## Roadmap
 - [ ] M1 - Configuração Inicial
