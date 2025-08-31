@@ -85,12 +85,12 @@ Divisão em módulos independentes: ingestão, estratégias/sinais, backtesting 
 
 ```mermaid
 flowchart LR
-  A[Fontes de dados: yfinance, brapi, B3] --> B[Ingestão e Preparação];
-  B --> C[Estratégias e Sinais];
-  C --> D[Backtesting];
-  C --> E[API (FastAPI)];
-  D --> F[Relatórios e Resultados];
-  E --> G[Notificações: e-mail e Telegram];
+    A["Fontes de dados: yfinance, brapi, B3"] --> B["Ingestão e Preparação"]
+    B --> C["Estratégias e Sinais"]
+    C --> D["Backtesting"]
+    C --> E["API \(FastAPI\)"]
+    D --> F["Relatórios e Resultados"]
+    E --> G["Notificações: e-mail e Telegram"]
 ```
 
 ## Estrutura do Projeto
