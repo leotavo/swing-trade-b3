@@ -1,19 +1,41 @@
 name: Branch name
 
 on:
+  # Continua validando após o auto-rename do Codex
   workflow_run:
     workflows: ["Auto rename Codex branches"]
-    types:
-      - completed
+    types: [completed]
+  # Valida para contribuições normais
+  pull_request:
+  push:
+    branches-ignore:
+      - main
 
 jobs:
   branch-name:
     name: Validate branch name
     runs-on: ubuntu-latest
     steps:
-      - name: Check branch name
+      - name: Determine branch name
+        id: vars
+        shell: bash
         run: |
-          branch="${{ github.event.workflow_run.head_branch }}"
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            echo "name=${{ github.head_ref }}" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.event_name }}" == "push" ]]; then
+            echo "name=${{ github.ref_name }}" >> $GITHUB_OUTPUT
+          else
+            echo "name=${{ github.event.workflow_run.head_branch }}" >> $GITHUB_OUTPUT
+          fi
+      - name: Check branch name
+        shell: bash
+        run: |
+          branch="${{ steps.vars.outputs.name }}"
+          echo "Branch: $branch"
+          if [[ "$branch" == "main" ]]; then
+            echo "Skipping validation on main."
+            exit 0
+          fi
           if [[ ! "$branch" =~ ^(feat|fix|docs)/ ]]; then
             echo "Invalid branch name: $branch"
             echo "Branch names must start with 'feat/', 'fix/', or 'docs/'."
