@@ -17,8 +17,9 @@
 [![GitHub Release](https://img.shields.io/github/v/release/leotavo/swing-trade-b3?include_prereleases)](https://github.com/leotavo/swing-trade-b3/releases)
 [![Roadmap](https://img.shields.io/badge/roadmap-Milestones-blue)](https://github.com/leotavo/swing-trade-b3/milestones)
 
-> **Resumo**  
+> **Resumo**
 > Agente para automatizar Swing Trade na B3 com dados históricos, indicadores técnicos, backtesting e API REST para integração.
+> O idioma padrão do projeto é o português.
 
 ## TL;DR (Resumo rápido)
 
