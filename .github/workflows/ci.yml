@@ -17,7 +17,8 @@ jobs:
       - name: Install Poetry
         run: |
           pipx install poetry
-          poetry --version
+          ~/.local/bin/poetry --version
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
       - name: Install dependencies
         run: poetry install --with dev
       - name: Ruff and Black
@@ -36,7 +37,8 @@ jobs:
       - name: Install Poetry
         run: |
           pipx install poetry
-          poetry --version
+          ~/.local/bin/poetry --version
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
       - name: Install dependencies
         run: poetry install --with dev
       - name: Mypy
@@ -53,7 +55,8 @@ jobs:
       - name: Install Poetry
         run: |
           pipx install poetry
-          poetry --version
+          ~/.local/bin/poetry --version
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
       - name: Install dependencies
         run: poetry install --with dev
       - name: Pytest

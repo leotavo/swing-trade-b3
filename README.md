@@ -211,7 +211,7 @@ MIT — veja [LICENSE](LICENSE).
 Projeto **educacional**. Não constitui recomendação de investimento. Os autores não se responsabilizam por perdas financeiras.
 
 ## Troubleshooting Rápido
-- **Poetry não encontrado**: `pipx install poetry` ou docs oficiais.
+- **Poetry não encontrado**: `pipx install poetry` e garanta que `$HOME/.local/bin` esteja no `PATH` ou consulte a documentação oficial.
 - **Porta 8000 ocupada**: `make dev PORT=8001` e acesse `http://localhost:8001`.
 - **Windows/PowerShell**: use `curl` do Git ou `iwr/irm`.
 - **.env**: mantenha na raiz e reinicie o servidor após alterações.
