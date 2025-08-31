@@ -49,6 +49,7 @@ curl -I http://localhost:8000/metrics | head -n 1
 - [Roadmap](#roadmap)
 - [Stack Tecnológica](#stack-tecnológica)
 - [Contribuindo](#contribuindo)
+  - [Convenção de Branches](#convenção-de-branches)
 - [Comunidade e Suporte](#comunidade-e-suporte)
 - [Licença](#licença)
 - [Aviso Legal](#aviso-legal)
@@ -151,11 +152,8 @@ curl -fsS  http://localhost:8000/metrics | head -n 20
 | `make dev`         | Sobe FastAPI com reload                          |
 | `make run`         | Executa a API (sem reload)                       |
 | `make lint`        | ruff/black                                       |
-| `make format`      | Formata código                                   |
 | `make typecheck`   | mypy (strict)                                    |
 | `make test`        | pytest                                           |
-| `make cov`         | cobertura local                                  |
-| `make ci`          | lint + typecheck + test + cov                    |
 
 ## Testes e Qualidade
 ```bash
@@ -190,10 +188,12 @@ Para um lint rápido apenas nos arquivos modificados, utilize `pre-commit run --
 Confira [TECH_STACK.md](TECH_STACK.md).
 
 ## Contribuindo
-Leia o [CONTRIBUTING.md](CONTRIBUTING.md) e siga _Conventional Commits_.
-PRs com testes e atualização de docs quando aplicável.
-Branches devem seguir `feat/`, `fix/` ou `docs/` e são verificadas automaticamente no CI. Antes de abrir o PR, renomeie a branch para seguir esse padrão. Um workflow renomeia automaticamente branches criadas pelo Codex para esse padrão antes da validação.
-Se o workflow falhar devido ao nome, renomeie a branch para começar com um dos prefixos permitidos (ex.: `fix/codex-add-branch-name-validation-workflow`).
+Leia o [CONTRIBUTING.md](CONTRIBUTING.md) e siga _Conventional Commits_. PRs com testes e atualização de docs quando aplicável.
+
+### Convenção de Branches
+Use os prefixos `feat/`, `fix/` ou `docs/` ao criar novas branches. O CI valida esse padrão e um workflow renomeia automaticamente branches criadas pelo Codex antes da verificação. Renomeie manualmente se necessário; se o token do workflow não tiver permissão (como em forks), o rename será ignorado.
+
+> O repositório inclui um `.gitignore` cobrindo Python, IDEs e dados brutos para evitar commits acidentais.
 
 ## Comunidade e Suporte
 - Código de Conduta: [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
@@ -208,9 +208,8 @@ MIT — veja [LICENSE](LICENSE).
 Projeto **educacional**. Não constitui recomendação de investimento. Os autores não se responsabilizam por perdas financeiras.
 
 ## Troubleshooting Rápido
-- **Poetry não encontrado**: `pipx install poetry` ou docs oficiais.
+- **Poetry não encontrado**: `pipx install poetry` e garanta que `$HOME/.local/bin` esteja no `PATH` (o CI já adiciona automaticamente) ou consulte a documentação oficial.
 - **Porta 8000 ocupada**: `make dev PORT=8001` e acesse `http://localhost:8001`.
 - **Windows/PowerShell**: use `curl` do Git ou `iwr/irm`.
 - **.env**: mantenha na raiz e reinicie o servidor após alterações.
 
-<!-- Teste de verificação de branch -->

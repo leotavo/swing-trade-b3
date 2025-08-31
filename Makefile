@@ -1,4 +1,4 @@
-.PHONY: dev run test lint
+.PHONY: dev run test lint typecheck
 
 dev:
 	poetry install --with dev
@@ -8,7 +8,11 @@ run:
 	poetry run uvicorn app.main:app --reload
 
 test:
-	poetry run pytest --cov=app --cov=swing_trade
+	PYTHONPATH=. poetry run pytest --cov=app --cov=swing_trade
 
 lint:
 	pre-commit run --all-files
+
+
+typecheck:
+	poetry run mypy --strict .
