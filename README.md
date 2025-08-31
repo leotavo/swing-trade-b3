@@ -114,7 +114,9 @@ flowchart LR
 
 ```bash
 poetry install
-# opcional: requirements.txt para pip
+poetry shell  # ativa o ambiente virtual gerenciado pelo Poetry
+pre-commit install  # configura hooks locais
+# opcional: gerar requirements.txt para uso com pip
 poetry export -f requirements.txt -o requirements.txt --without-hashes
 ```
 
