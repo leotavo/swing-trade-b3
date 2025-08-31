@@ -87,6 +87,12 @@ data/**
 datasets/
 artifacts/
 reports/
+# Arquivos de dados brutos
+*.csv
+*.tsv
+*.json
+*.xls
+*.xlsx
 
 # Generated metadata
 MILESTONES_ISSUES.csv

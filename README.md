@@ -193,8 +193,14 @@ Confira [TECH_STACK.md](TECH_STACK.md).
 ## Contribuindo
 Leia o [CONTRIBUTING.md](CONTRIBUTING.md) e siga _Conventional Commits_.
 PRs com testes e atualização de docs quando aplicável.
-Branches devem seguir `feat/`, `fix/` ou `docs/` e são verificadas automaticamente no CI. Antes de abrir o PR, renomeie a branch para seguir esse padrão. Um workflow renomeia automaticamente branches criadas pelo Codex para esse padrão antes da validação.
-Se o workflow falhar devido ao nome, renomeie a branch para começar com um dos prefixos permitidos (ex.: `fix/codex-add-branch-name-validation-workflow`).
+
+### Convenção de Branches
+Para facilitar a validação no CI, use os prefixos:
+- `feat/` para novas funcionalidades
+- `fix/` para correções
+- `docs/` para documentação
+
+Antes de abrir o PR, renomeie a branch para seguir esse padrão. Um workflow renomeia automaticamente branches criadas pelo Codex para esse padrão antes da validação. Se o workflow falhar devido ao nome, renomeie a branch para começar com um dos prefixos permitidos (ex.: `fix/codex-add-branch-name-validation-workflow`).
 
 ## Comunidade e Suporte
 - Código de Conduta: [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
@@ -214,4 +220,3 @@ Projeto **educacional**. Não constitui recomendação de investimento. Os autor
 - **Windows/PowerShell**: use `curl` do Git ou `iwr/irm`.
 - **.env**: mantenha na raiz e reinicie o servidor após alterações.
 
-<!-- Teste de verificação de branch -->
