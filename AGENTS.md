@@ -4,6 +4,7 @@
 > **Branches:** Devem começar com `feat/`, `fix/` ou `docs/`; a verificação acontece no CI e falhará para nomes inválidos. O Codex também deve usar esses prefixos ao criar branches.
 > **Automação:** Branches criadas pelo Codex são renomeadas automaticamente para seguir essa regra antes da execução do workflow `branch-name`.
 > **Antes do PR:** Renomeie a branch para seguir o padrão, se necessário.
+> **Idioma:** Responda aos usuários sempre em português.
 
 Gerado automaticamente a partir de **milestones** e **issues** do repositório leotavo/swing-trade-b3.
 > Estado: **all** · Limite: **1000** · Gerado em: 2025-08-30 04:09 (America/Bahia)

@@ -59,6 +59,7 @@ Desktop.ini
 
 # Jupyter
 .ipynb_checkpoints/
+*.ipynb
 
 # Keys / secrets (prevent accidental commits)
 id_rsa*
