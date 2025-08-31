@@ -1,3 +1,4 @@
 {
-    "commentTranslate.targetLanguage": "pt"
+    "commentTranslate.targetLanguage": "pt",
+    "chatgpt.openOnStartup": true
 }

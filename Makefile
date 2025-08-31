@@ -2,7 +2,7 @@
 
 dev:
 	poetry install --with dev
-	pre-commit install
+	poetry run pre-commit install
 
 run:
 	poetry run uvicorn app.main:app --reload
@@ -11,4 +11,4 @@ test:
 	poetry run pytest --cov=app --cov=swing_trade
 
 lint:
-	pre-commit run --all-files
+	poetry run pre-commit run --all-files
