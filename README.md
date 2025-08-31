@@ -96,7 +96,7 @@ flowchart LR
 
 ### Pré-requisitos
 - [Python 3.11](https://www.python.org/)
-- [Poetry](https://python-poetry.org/) instalado e no PATH
+ - [Poetry](https://python-poetry.org/) instalado e no PATH (`pipx install poetry` se necessário; o CI usa o mesmo método)
 
 ### Instalação
 ```bash
@@ -209,7 +209,7 @@ MIT — veja [LICENSE](LICENSE).
 Projeto **educacional**. Não constitui recomendação de investimento. Os autores não se responsabilizam por perdas financeiras.
 
 ## Troubleshooting Rápido
-- **Poetry não encontrado**: `pipx install poetry` ou docs oficiais.
+- **Poetry não encontrado**: `pipx install poetry` (mesmo método usado no CI) ou docs oficiais.
 - **Porta 8000 ocupada**: `make dev PORT=8001` e acesse `http://localhost:8001`.
 - **Windows/PowerShell**: use `curl` do Git ou `iwr/irm`.
 - **.env**: mantenha na raiz e reinicie o servidor após alterações.
