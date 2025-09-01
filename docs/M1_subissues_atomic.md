@@ -134,8 +134,8 @@ Subissues atômicas com critérios de aceite
 **Escopo.** Criar `.gitignore` cobrindo Python, Poetry (`.venv/`), VS Code, sistemas operacionais e diretórios temporários.  
 **Critérios de Aceite.**
 
-- [ ] `.gitignore` inclui: `__pycache__/`, `.pytest_cache/`, `.venv/`, `.mypy_cache/`, `.ruff_cache/`, `.vscode/`, `*.log`, `*.tmp`, `data/raw/` (se aplicável).
-- [ ] Teste prático: criar um arquivo temporário e confirmar que é ignorado.
+- [x] `.gitignore` inclui: `__pycache__/`, `.pytest_cache/`, `.venv/`, `.mypy_cache/`, `.ruff_cache/`, `.vscode/`, `*.log`, `*.tmp`, `data/raw/` (se aplicável).
+- [x] Teste prático: criar um arquivo temporário e confirmar que é ignorado.
 
 **Entregáveis.** Conteúdo do `.gitignore` + print de `git status` sem ruído.  
 **Notas.** Não ignorar `data/processed/` se for fonte de artefatos versionados.
