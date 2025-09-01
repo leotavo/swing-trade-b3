@@ -154,5 +154,33 @@ Exemplo de JSON (resumo)
 - Recomendações: use ambos — logs para timeline e troubleshooting; summary para integrações/CI.
   - Exemplo completo de summary: `docs/summary-example.json`.
 
+### Consultas rápidas com `jq`
+
+Filtrar apenas WARN/ERROR (Unix shells):
+
+```bash
+jq -r 'select(.level=="WARNING" or .level=="ERROR") | .time+" "+.level+" "+.message' logs/fetch.jsonl
+```
+
+Salvar particionamentos escritos (persistence):
+
+```bash
+jq -r 'select(.logger=="app.persistence" and .message=="saved raw partition") | {symbol,year,rows,bytes,path}' logs/fetch.jsonl
+```
+
+Contar ocorrências por nível:
+
+```bash
+jq -s 'group_by(.level) | map({level: .[0].level, count: length})' logs/fetch.jsonl
+```
+
+Filtrar eventos HTTP 429 (rate limit):
+
+```bash
+jq -r 'select(.logger=="app.connector.b3" and (.message|test("429")))' logs/fetch.jsonl
+```
+
+Observação (PowerShell): use aspas duplas e escape `"` conforme necessário.
+
 Veja também um exemplo completo em:
 - docs/summary-example.json
