@@ -94,9 +94,9 @@ Subissues atômicas com critérios de aceite
 **Escopo.** Documentar colunas, dtypes, índices e ordenação.  
 **Critérios de Aceite.**
 
-- [ ] Colunas mínimas: `date, symbol, open, high, low, close, volume`.
-- [ ] Dtypes e timezone formalizados; índice opcional (`date,symbol`).
-- [ ] Regras de missing/duplicatas explicitadas.
+- [x] Colunas mínimas: `date, symbol, open, high, low, close, volume`.
+- [x] Dtypes e timezone formalizados; índice opcional (`date,symbol`).
+- [x] Regras de missing/duplicatas explicitadas.
 
 **Entregáveis.** `docs/data-schema.md` (seção dataset processado).  
 **Notas.** Facilitar consumo posterior por backtest/estratégia.
@@ -109,9 +109,9 @@ Subissues atômicas com critérios de aceite
 **Escopo.** Remover duplicatas, tratar NaN, coerção de tipos, ordenação por data.  
 **Critérios de Aceite.**
 
-- [ ] Saída sem valores nulos; datas estritamente crescentes por `symbol`.
-- [ ] Dtypes corretos e consistentes entre arquivos.
-- [ ] Relatório de qualidade (contagens removidas, range de datas) no log.
+- [x] Saída sem valores nulos; datas estritamente crescentes por `symbol`.
+- [x] Dtypes corretos e consistentes entre arquivos.
+- [x] Relatório de qualidade (contagens removidas, range de datas) no log.
 
 **Entregáveis.** Função `clean_and_validate(df_raw) -> DataFrame`.  
 **Notas.** Evitar preenchimento artificial que masque problemas.
@@ -124,9 +124,9 @@ Subissues atômicas com critérios de aceite
 **Escopo.** Escrever em `data/processed/{symbol}.parquet` (ou particionado por ano).  
 **Critérios de Aceite.**
 
-- [ ] Reexecuções não criam duplicatas (chave `(symbol,date)`).
-- [ ] Ordenação estável e compressão adequada (ex.: snappy/zstd).
-- [ ] Log da operação com tempo e linhas escritas.
+- [x] Reexecuções não criam duplicatas (chave `(symbol,date)`).
+- [x] Ordenação estável e compressão adequada (ex.: snappy/zstd).
+- [x] Log da operação com tempo e linhas escritas.
 
 **Entregáveis.** Função de persistência + exemplo de arquivo.  
 **Notas.** Considerar tamanho/particionamento para múltiplos anos.
@@ -139,8 +139,8 @@ Subissues atômicas com critérios de aceite
 **Escopo.** Testes para NaN=0, ordenação, dtypes e consistência de chaves.  
 **Critérios de Aceite.**
 
-- [ ] `pytest -q` passa com asserts de qualidade principais.
-- [ ] Casos com dados problemáticos cobertos (linhas duplicadas, NaN, tipos errados).
+- [x] `pytest -q` passa com asserts de qualidade principais.
+- [x] Casos com dados problemáticos cobertos (linhas duplicadas, NaN, tipos errados).
 
 **Entregáveis.** Arquivos `tests/test_data_cleaning.py` (ou similar).  
 **Notas.** Usar fixtures mínimos e determinísticos.
