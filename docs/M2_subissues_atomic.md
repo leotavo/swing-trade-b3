@@ -5,6 +5,8 @@ Subissues atômicas com critérios de aceite
 > Contexto: M2 cobre 4 issues — **#4 Implementar conector API B3 (histórico)**, **#5 Rotina de limpeza e normalização dos dados**, **#6 Script de atualização diária automática**, **#7 Resiliência da coleta de dados da B3 (Mitigação de Risco)**.  
 > Formato padrão por subissue: **Objetivo**, **Escopo**, **Critérios de Aceite**, **Entregáveis**, **Notas**.
 
+> Roadmap: ver `docs/MILESTONES_ISSUES.md` (bloco M2).
+
 ---
 
 ## Issue #4 — Implementar conector API B3 (histórico)
