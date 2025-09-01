@@ -36,9 +36,9 @@ _Subissues atômicas com critérios de aceite_
 **Objetivo.** Garantir versão e isolamento reprodutíveis.  
 **Escopo.** Definição da versão Python e venv local.  
 **Critérios de Aceite.**
-- [ ] `tool.poetry.dependencies.python = "^3.11"` no `pyproject.toml`.
-- [ ] Venv no diretório do projeto configurada (`poetry config virtualenvs.in-project true`).
-- [ ] README atualizado com instruções de ativação (`poetry install`, `poetry shell`).
+- [x] `tool.poetry.dependencies.python = "^3.11"` no `pyproject.toml`.
+- [x] Venv no diretório do projeto configurada (`poetry config virtualenvs.in-project true`).
+- [x] README atualizado com instruções de ativação (`poetry install`, `poetry shell`).
 **Entregáveis.** Trechos do `pyproject.toml` + README.  
 **Notas.** Não criar `.venv` no git (será ignorado via .gitignore na Issue #2).
 
