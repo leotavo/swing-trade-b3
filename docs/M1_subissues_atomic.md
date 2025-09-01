@@ -192,8 +192,8 @@ Subissues atômicas com critérios de aceite
 **Escopo.** `.github/PULL_REQUEST_TEMPLATE.md` e `.github/ISSUE_TEMPLATE/bug.md` + `feature.md`.  
 **Critérios de Aceite.**
 
-- [ ] Templates criados com seções mínimas (descrição, evidências, checklist, riscos).
-- [ ] PRs novos herdam o template automaticamente.
+- [x] Templates criados com seções mínimas (descrição, evidências, checklist, riscos).
+- [x] PRs novos herdam o template automaticamente.
 
 **Entregáveis.** Arquivos under `.github/` + print de PR com template.  
 **Notas.** Simples e direto; sem exagero de campos.
@@ -206,8 +206,8 @@ Subissues atômicas com critérios de aceite
 **Escopo.** Adicionar seção “Fluxo de Git” e links para `CONTRIBUTING.md` e `docs/git-flow.md`.  
 **Critérios de Aceite.**
 
-- [ ] Seção adicionada ao README.
-- [ ] Links verificados funcionam.
+- [x] Seção adicionada ao README.
+- [x] Links verificados funcionam.
 
 **Entregáveis.** Diff do README.  
 **Notas.** Manter linguagem clara e objetiva.

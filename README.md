@@ -46,3 +46,9 @@ poetry run test       # pytest com cobertura
 ```
 
 Com a venv ativa, basta executar `lint`, `format`, `typecheck`, `test`.
+
+## Fluxo de Git
+
+- Convenção de branches: `{type}/{slug}` (feat, fix, docs, chore, refactor, test). Veja `CONTRIBUTING.md`.
+- Proteções da `main` e política de PR: consulte `docs/git-flow.md`.
+- Mensagens seguindo Conventional Commits.
