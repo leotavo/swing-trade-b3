@@ -16,3 +16,4 @@ __pycache__/
 
 # Dados brutos (não versionados)
 data/raw/
+out/
