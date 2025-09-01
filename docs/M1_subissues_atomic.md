@@ -71,8 +71,8 @@ _Subissues atômicas com critérios de aceite_
 **Objetivo.** Validar import básico e execução da CLI.  
 **Escopo.** `tests/test_smoke.py` com 3 asserts (import, versão, main()).  
 **Critérios de Aceite.**
-- [ ] `pytest -q` passa localmente.
-- [ ] Cobertura mínima exibida (`--cov`), sem exigência de threshold.
+ - [x] `pytest -q` passa localmente.
+ - [x] Cobertura mínima exibida (`--cov`), sem exigência de threshold.
 **Entregáveis.** Saída do `pytest` + arquivo de teste.  
 **Notas.** Threshold será tratado futuramente.
 
