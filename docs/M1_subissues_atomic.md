@@ -94,8 +94,8 @@ _Subissues atômicas com critérios de aceite_
 **Objetivo.** Documentar setup local e exibir badges essenciais.  
 **Escopo.** Atualizar README com instruções de dev e badges de MIT/Python.  
 **Critérios de Aceite.**
-- [ ] README com seções: requisitos, instalação (`poetry install`), ativação, scripts.
-- [ ] Badges: Licença MIT e Python 3.11. (Badge de CI será adicionado na Issue #3.)
+- [x] README com seções: requisitos, instalação (`poetry install`), ativação, scripts.
+- [x] Badges: Licença MIT e Python 3.11. (Badge de CI será adicionado na Issue #3.)
 **Entregáveis.** Diff do README + renderização com badges.  
 **Notas.** Manter PT-BR no README.
 
