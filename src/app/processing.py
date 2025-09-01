@@ -75,6 +75,73 @@ def clean_and_validate(df_raw: pd.DataFrame) -> pd.DataFrame:
     return df[STD_COLS]
 
 
+def load_raw(
+    symbol: str,
+    base_dir: str | Path = "data/raw",
+    *,
+    start: Optional[pd.Timestamp] = None,
+    end: Optional[pd.Timestamp] = None,
+) -> pd.DataFrame:
+    """Load raw OHLCV partitions for a symbol from data/raw and optionally filter by date.
+
+    Supports CSV and Parquet files under data/raw/{symbol}/. Ensures STD_COLS and UTC timezone.
+    """
+    root = Path(base_dir) / symbol
+    if not root.exists():
+        return pd.DataFrame(columns=STD_COLS)
+
+    files = list(root.glob("*.csv")) + list(root.glob("*.parquet"))
+    if not files:
+        return pd.DataFrame(columns=STD_COLS)
+
+    frames: list[pd.DataFrame] = []
+    for path in files:
+        try:
+            if path.suffix == ".csv":
+                df = pd.read_csv(path, parse_dates=["date"])  # type: ignore[arg-type]
+            else:
+                df = pd.read_parquet(path)
+        except Exception as exc:  # pragma: no cover - defensive
+            LOG.warning(
+                "processing: skip unreadable raw", extra={"path": str(path), "error": str(exc)}
+            )
+            continue
+        # normalize columns order
+        missing = [c for c in STD_COLS if c not in df.columns]
+        if missing:
+            LOG.warning(
+                "processing: raw file missing columns",
+                extra={"path": str(path), "missing": missing},
+            )
+            continue
+        df = df[STD_COLS].copy()
+        frames.append(df)
+
+    if not frames:
+        return pd.DataFrame(columns=STD_COLS)
+
+    all_df = pd.concat(frames, ignore_index=True)
+    # timezone/typing normalization
+    all_df["date"] = pd.to_datetime(all_df["date"], utc=True)
+    # optional filtering
+    if start is not None:
+        s = (
+            pd.Timestamp(start).tz_convert("UTC")
+            if start.tz is not None
+            else pd.Timestamp(start, tz="UTC")
+        )
+        all_df = all_df[all_df["date"] >= s]
+    if end is not None:
+        e = (
+            pd.Timestamp(end).tz_convert("UTC")
+            if end.tz is not None
+            else pd.Timestamp(end, tz="UTC")
+        )
+        all_df = all_df[all_df["date"] <= e]
+
+    return all_df.reset_index(drop=True)
+
+
 def save_processed(
     symbol: str,
     df: pd.DataFrame,

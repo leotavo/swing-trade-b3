@@ -9,6 +9,8 @@ from datetime import date, datetime, timezone
 from . import __version__
 from .connector import fetch_daily
 from .persistence import save_raw
+from .processing import load_raw, clean_and_validate, save_processed
+import pandas as pd
 
 
 def _parse_date(s: str) -> date:
@@ -65,6 +67,38 @@ def _make_parser() -> argparse.ArgumentParser:
         help="Emite resumo em JSON (use '-' para stdout)",
     )
     pf.add_argument(
+        "--log-json",
+        action="store_true",
+        help="Ativa logging estruturado em JSON no stdout",
+    )
+
+    # process command
+    pp = sub.add_parser(
+        "process",
+        help="Processa dados brutos de data/raw para data/processed",
+    )
+    pp.add_argument("--symbol", "-s", nargs="+", required=True, help="Ticker(s), ex.: PETR4 VALE3")
+    pp.add_argument("--start", type=_parse_date, help="Data inicial YYYY-MM-DD", required=False)
+    pp.add_argument("--end", type=_parse_date, help="Data final YYYY-MM-DD", required=False)
+    pp.add_argument(
+        "--raw", default="data/raw", help="Diretório base dos dados brutos (default: data/raw)"
+    )
+    pp.add_argument(
+        "--out", default="data/processed", help="Diretório de saída (default: data/processed)"
+    )
+    pp.add_argument(
+        "--format",
+        choices=["csv", "parquet"],
+        default="parquet",
+        help="Formato de saída para dados processados (csv|parquet)",
+    )
+    pp.add_argument(
+        "--compression",
+        choices=["none", "snappy", "zstd"],
+        default="snappy",
+        help="Compressão para Parquet (snappy|zstd). Ignorado em CSV.",
+    )
+    pp.add_argument(
         "--log-json",
         action="store_true",
         help="Ativa logging estruturado em JSON no stdout",
@@ -290,12 +324,67 @@ def _cmd_fetch(args: argparse.Namespace) -> int:
     return 0 if successes > 0 else 1
 
 
+def _cmd_process(args: argparse.Namespace) -> int:
+    _setup_logging(bool(args.log_json))
+    symbols: list[str] = [s.strip() for s in (args.symbol or [])]
+    start: date | None = args.start
+    end: date | None = args.end
+    raw_dir: str = args.raw
+    out_dir: str = args.out
+    out_fmt: str = args.format
+    compression: str = args.compression
+
+    if end is not None and start is not None and end < start:
+        print("Erro: --end deve ser >= --start")
+        return 2
+    if not symbols:
+        print("Erro: --symbol não pode ser vazio")
+        return 2
+
+    successes = 0
+    failures: list[tuple[str, str]] = []
+    for sym in symbols:
+        try:
+            df_raw = load_raw(
+                sym,
+                raw_dir,
+                start=pd.Timestamp(start, tz="UTC") if start else None,
+                end=pd.Timestamp(end, tz="UTC") if end else None,
+            )
+            if df_raw.empty:
+                print(f"[{sym}] Nenhum dado bruto encontrado no intervalo.")
+                failures.append((sym, "sem dados brutos"))
+                continue
+            df = clean_and_validate(df_raw)
+            parquet_kwargs = {}
+            if out_fmt == "parquet":
+                parquet_kwargs["compression"] = None if compression == "none" else compression
+            path = save_processed(sym, df, base_dir=out_dir, fmt=out_fmt, **parquet_kwargs)
+            print(f"[{sym}] Processado {len(df)} linhas -> {path}")
+            successes += 1
+        except Exception as exc:
+            logging.error("falha no processamento", exc_info=False)
+            print(f"[{sym}] Erro no processamento: {exc}")
+            failures.append((sym, str(exc)))
+
+    total = len(symbols)
+    print(f"Resumo processamento: {successes}/{total} símbolos com sucesso.")
+    if failures:
+        print("Falhas:")
+        for sym, msg in failures:
+            print(f" - {sym}: {msg}")
+
+    return 0 if successes > 0 else 1
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = _make_parser()
     # Use parse_known_args to be resilient to external flags (e.g., pytest -q)
     args, _unknown = parser.parse_known_args(argv)
     if args.cmd == "fetch":
         return _cmd_fetch(args)
+    if args.cmd == "process":
+        return _cmd_process(args)
     # default: show brief info when no subcommand
     print(f"swing-trade-b3 {__version__} - use 'fetch --help' para coletar dados")
     return 0
