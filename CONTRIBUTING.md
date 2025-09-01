@@ -44,3 +44,10 @@ Exemplos
 
 - Atualize a branch com `rebase` para manter o histórico limpo.
 - Prefira vários PRs pequenos a um PR grande.
+
+## Releases e tags
+
+- Use apenas tags semânticas no formato `vMAJOR.MINOR.PATCH` (ex.: `v0.2.0`).
+- Publique um Release no GitHub reutilizando notas em `docs/releases/`.
+- Referencie Issues e PRs no corpo do Release (ex.: "Closes #2").
+- Evite tags por issue (ex.: `issue-2`); esse padrão não será mais usado.

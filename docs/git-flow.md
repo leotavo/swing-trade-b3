@@ -35,3 +35,9 @@ Link direto para configuração da regra de proteção:
 5) Salve
 
 Observação: Os nomes exatos dos status checks serão definidos na Issue #3 (CI) e documentados em `docs/ci-status-checks.md`.
+
+## Releases e versionamento
+
+- Adoção de versionamento semântico: crie tags no formato `vMAJOR.MINOR.PATCH`.
+- Crie o Release no GitHub para cada tag semântica e inclua notas relevantes (Issues/PRs).
+- Não usar tags por issue (ex.: `issue-123`). Historicamente pode haver tags assim no passado, mas o padrão atual é apenas semântico.
