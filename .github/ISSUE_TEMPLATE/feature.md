@@ -10,6 +10,8 @@ assignees: ''
 
 Explique a necessidade e o objetivo da funcionalidade.
 
+Observação: explique em português; mantenha nomes de funções/variáveis/identificadores em inglês ao propor mudanças de código.
+
 ## Escopo
 
 Pontos principais do que deve ser feito.
