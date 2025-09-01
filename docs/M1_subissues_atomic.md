@@ -103,9 +103,9 @@ Subissues atômicas com critérios de aceite
 **Escopo.** `.pre-commit-config.yaml` com hooks ruff/black/EOF/trailing-whitespace.  
 **Critérios de Aceite.**
 
-- [ ] Arquivo `.pre-commit-config.yaml` criado com os hooks citados.
-- [ ] `pre-commit install` executado e evidenciado.
-- [ ] Um commit demonstrando execução dos hooks.
+- [x] Arquivo `.pre-commit-config.yaml` criado com os hooks citados.
+- [x] `pre-commit install` executado e evidenciado.
+- [x] Um commit demonstrando execução dos hooks.
 
 **Entregáveis.** Log do pre-commit + diff dos arquivos.  
 **Notas.** Bandit/pip-audit podem ser adicionados depois.
