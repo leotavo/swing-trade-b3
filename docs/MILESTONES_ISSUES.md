@@ -49,6 +49,7 @@ State: open  |  Created: 2025-08-14T04:49:20Z  |  Due: N/A  |  Issues: 4
 
 Milestone description:
 > Obter e preparar dados históricos da B3 para análise.
+  > Subissues: ver `docs/M2_subissues_atomic.md`.
 
 - [ ] [#4](https://github.com/leotavo/swing-trade-b3/issues/4) - Implementar conector API B3 (histórico) - labels: data
   > Consegue baixar pelo menos 1 ano de dados diários sem erros.
