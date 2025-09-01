@@ -53,3 +53,93 @@ Com a venv ativa, basta executar `lint`, `format`, `typecheck`, `test`.
 - Convenção de branches: `{type}/{slug}` (feat, fix, docs, chore, refactor, test). Veja `CONTRIBUTING.md`.
 - Proteções da `main` e política de PR: consulte `docs/git-flow.md`.
 - Mensagens seguindo Conventional Commits.
+
+## Coleta de dados (CLI)
+
+Com a venv ativa, exemplos:
+
+```bash
+# Um símbolo em CSV
+python -m app fetch --symbol PETR4 --start 2023-01-01 --end 2024-01-01
+
+# Parquet comprimido (snappy) com throttle de 5 req/s
+python -m app fetch --symbol PETR4 --start 2023-01-01 --end 2024-01-01 \
+  --format parquet --compression snappy --throttle 0.2
+
+# Vários símbolos via linha e arquivo
+python -m app fetch -s PETR4 VALE3 --symbols-file symbols.txt \
+  --start 2023-01-01 --end 2024-01-01 --format parquet
+
+# Forçar histórico completo do provedor e filtrar localmente
+python -m app fetch --symbol PETR4 --start 2008-01-01 --end 2025-01-01 --force-max
+
+# Resumo em JSON (para automações)
+python -m app fetch -s PETR4 VALE3 --start 2023-01-01 --end 2024-01-01 \
+  --format parquet --compression snappy --throttle 0.2 \
+  --json-summary out/summary.json
+```
+
+Arquivo `symbols.txt` (exemplo):
+
+```
+# carteira base
+PETR4
+VALE3
+ITUB4
+```
+
+Saída e comportamento:
+- Salva em `data/raw/{SYMBOL}/YYYY.csv|.parquet` com mesclagem idempotente e sem duplicatas.
+- Resumo final com sucessos/falhas por símbolo.
+- `--throttle` limita a taxa de requisições; retries usam o mesmo limitador.
+- `--json-summary` grava um relatório estruturado (run/symbols/summary) para uso em CI/scripts.
+
+Exemplo de JSON (resumo)
+
+```json
+{
+  "run": {
+    "started_at": "2025-09-01T17:13:49Z",
+    "ended_at": "2025-09-01T17:13:51Z",
+    "duration_s": 1.35,
+    "provider": "brapi.dev",
+    "args": {
+      "start": "2023-01-01",
+      "end": "2024-01-01",
+      "format": "parquet",
+      "compression": "snappy",
+      "throttle": 0.2,
+      "force_max": false,
+      "symbols": ["PETR4", "VALE3"]
+    }
+  },
+  "symbols": [
+    {
+      "symbol": "PETR4",
+      "status": "ok",
+      "rows": 248,
+      "date_first": "2023-01-02",
+      "date_last": "2023-12-28",
+      "files": ["data/raw/PETR4/2023.parquet"],
+      "range_used": "5y",
+      "duration_s": 0.78,
+      "http": {"attempts": 1, "retries": 0, "sleep_total_s": 0.0, "last_status": 200, "throttle_calls": 1}
+    },
+    {
+      "symbol": "VALE3",
+      "status": "ok",
+      "rows": 248,
+      "date_first": "2023-01-02",
+      "date_last": "2023-12-28",
+      "files": ["data/raw/VALE3/2023.parquet"],
+      "range_used": "5y",
+      "duration_s": 0.56,
+      "http": {"attempts": 1, "retries": 0, "sleep_total_s": 0.0, "last_status": 200, "throttle_calls": 1}
+    }
+  ],
+  "summary": {"ok": 2, "no_data": 0, "failed": 0, "total": 2}
+}
+```
+
+Veja também um exemplo completo em:
+- docs/summary-example.json

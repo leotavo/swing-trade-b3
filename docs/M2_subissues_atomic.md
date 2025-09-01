@@ -17,9 +17,9 @@ Subissues atômicas com critérios de aceite
 **Escopo.** Documento curto com endpoints, limites, parâmetros e interface Python (funções públicas).  
 **Critérios de Aceite.**
 
-- [ ] Interface definida (ex.: `fetch_daily(symbol: str, start: date, end: date) -> DataFrame`).
-- [ ] Campos padronizados: `date, symbol, open, high, low, close, volume` (dtypes e timezone UTC).
-- [ ] Padrão de erros: exceções específicas para HTTP, parsing e limites (429/5xx/timeouts).
+- [x] Interface definida (ex.: `fetch_daily(symbol: str, start: date, end: date) -> DataFrame`).
+- [x] Campos padronizados: `date, symbol, open, high, low, close, volume` (dtypes e timezone UTC).
+- [x] Padrão de erros: exceções específicas para HTTP, parsing e limites (429/5xx/timeouts).
 
 **Entregáveis.** `docs/data-connector-spec.md` com contrato e limites.  
 **Notas.** Fonte pode ser API oficial/serviço compatível; manter design desacoplado.
@@ -32,9 +32,9 @@ Subissues atômicas com critérios de aceite
 **Escopo.** Implementar cliente com timeouts, retries exponenciais com jitter e user-agent identificável.  
 **Critérios de Aceite.**
 
-- [ ] Timeout configurável (padrão ≤ 10s) e `max_retries` (padrão 3).
-- [ ] Backoff exponencial com jitter e tratamento de 429/5xx.
-- [ ] Logs estruturados por tentativa e motivo do retry.
+- [x] Timeout configurável (padrão ≤ 10s) e `max_retries` (padrão 3).
+- [x] Backoff exponencial com jitter e tratamento de 429/5xx.
+- [x] Logs estruturados por tentativa e motivo do retry.
 
 **Entregáveis.** Código + exemplo de uso (snippet).  
 **Notas.** Sem expor chaves em logs; respeitar termos de uso.
@@ -47,9 +47,9 @@ Subissues atômicas com critérios de aceite
 **Escopo.** Mapear campos, normalizar datas/timezone, ordenar e validar colunas/dtypes.  
 **Critérios de Aceite.**
 
-- [ ] Colunas: `date` (datetime64[ns, UTC]), `symbol` (str), `open/high/low/close` (float64), `volume` (int64).
-- [ ] Ordenação crescente por `date`, sem duplicatas.
-- [ ] Linhas com valores inválidos (NaN/negativos) removidas com log de contagem.
+- [x] Colunas: `date` (datetime64[ns, UTC]), `symbol` (str), `open/high/low/close` (float64), `volume` (int64).
+- [x] Ordenação crescente por `date`, sem duplicatas.
+- [x] Linhas com valores inválidos (NaN/negativos) removidas com log de contagem.
 
 **Entregáveis.** Função `to_ohlcv(df_raw) -> DataFrame` + testes de forma.  
 **Notas.** Considerar feriados/ausência de pregão sem criar valores sintéticos.
@@ -62,9 +62,9 @@ Subissues atômicas com critérios de aceite
 **Escopo.** Escrever arquivo por `symbol` e `YYYY` ou intervalo solicitado.  
 **Critérios de Aceite.**
 
-- [ ] Arquivos em `data/raw/{symbol}/YYYY.parquet` (ou `.csv`) com schema consistente.
-- [ ] Reexecução não duplica linhas (merge + dedupe por `(symbol,date)`).
-- [ ] Registro de caminho e tamanho final no log.
+- [x] Arquivos em `data/raw/{symbol}/YYYY.parquet` (ou `.csv`) com schema consistente.
+- [x] Reexecução não duplica linhas (merge + dedupe por `(symbol,date)`).
+- [x] Registro de caminho e tamanho final no log.
 
 **Entregáveis.** Função de persistência + amostra de arquivo.  
 **Notas.** Evitar commits de `data/raw/` (já ignorado no .gitignore).
@@ -77,9 +77,9 @@ Subissues atômicas com critérios de aceite
 **Escopo.** Comando `python -m app fetch --symbol PETR4 --start 2022-01-01 --end 2023-01-01`.  
 **Critérios de Aceite.**
 
-- [ ] Exit code 0; imprime contagem de linhas, período e caminho salvo.
-- [ ] Valida parâmetros (datas válidas, símbolo não vazio).
-- [ ] Erros tratáveis retornam código ≠ 0 com mensagem clara.
+- [x] Exit code 0; imprime contagem de linhas, período e caminho salvo.
+- [x] Valida parâmetros (datas válidas, símbolo não vazio).
+- [x] Erros tratáveis retornam código ≠ 0 com mensagem clara.
 
 **Entregáveis.** Help (`--help`) + exemplo de execução.  
 **Notas.** Padronizar timezone e locale independentes do SO.
@@ -217,8 +217,8 @@ Subissues atômicas com critérios de aceite
 - [ ] Execução não encerra em primeira falha; erros coletados e reportados ao final.
 - [ ] Exit code 0 quando houver dados úteis salvos; ≠0 apenas se 0 sucesso.
 
-**Entregáveis.** Resumo final (sucesso/falha por símbolo).  
-**Notas.** Acordar política com o time.
+**Entregáveis.** Resumo final (sucesso/falha por símbolo) + resumo JSON opcional via `--json-summary` (ex.: `docs/summary-example.json`).  
+**Notas.** JSON inclui metadados da execução (`run/symbols/summary`) para integrações/CI; acordar política com o time.
 
 ---
 
