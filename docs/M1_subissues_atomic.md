@@ -178,8 +178,8 @@ Subissues atômicas com critérios de aceite
 **Escopo.** Checklist manual/documental para aplicar nas Settings.  
 **Critérios de Aceite.**
 
-- [ ] Checklist inclui: PR obrigatório, 1 reviewer, status checks do CI obrigatórios, proibição de force-push, exigir branches atualizadas antes do merge.
-- [ ] Link/print das Settings (quando aplicadas).
+- [x] Checklist inclui: PR obrigatório, 1 reviewer, status checks do CI obrigatórios, proibição de force-push, exigir branches atualizadas antes do merge.
+- [x] Link/print das Settings (quando aplicadas).
 
 **Entregáveis.** `docs/git-flow.md` com checklist.  
 **Notas.** Aplicação efetiva pode ser feita depois; aqui é documentação.
