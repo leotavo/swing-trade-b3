@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "swing-trade-b3"
+version = "0.1.0"
+description = "Ferramentas e automações para swing trade na B3"
+authors = ["Leonardo Trindade <leotavo@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/leotavo/swing-trade-b3"
+packages = [
+  { include = "app", from = "src" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+

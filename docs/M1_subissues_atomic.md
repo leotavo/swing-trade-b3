@@ -24,9 +24,9 @@ _Subissues atômicas com critérios de aceite_
 **Objetivo.** Configurar `pyproject.toml` com layout `src` e pacote `app`.  
 **Escopo.** `poetry init` + ajustes para layout `src`.  
 **Critérios de Aceite.**
-- [ ] `pyproject.toml` com `name`, `version`, `description` e `authors` definidos.
-- [ ] Mapeamento de pacote: `packages = [{ include = "app", from = "src" }]`.
-- [ ] `poetry lock` executa sem erros e gera `poetry.lock`.
+- [x] `pyproject.toml` com `name`, `version`, `description` e `authors` definidos.
+- [x] Mapeamento de pacote: `packages = [{ include = "app", from = "src" }]`.
+- [x] `poetry lock` executa sem erros e gera `poetry.lock`.
 **Entregáveis.** Diff do `pyproject.toml` + saída do `poetry lock`.  
 **Notas.** Sem dependências além das padrão do projeto.
 
