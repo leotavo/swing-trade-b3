@@ -10,6 +10,8 @@ assignees: ''
 
 Explique o bug de forma clara e concisa.
 
+Observação: explique em português; mantenha nomes de funções/variáveis/identificadores em inglês ao referenciar código.
+
 ## Passos para reproduzir
 
 1.

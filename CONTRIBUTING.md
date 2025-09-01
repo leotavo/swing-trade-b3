@@ -40,6 +40,18 @@ Exemplos
 - `test(data): cobrir limpeza de nulos`
 - `chore(pre-commit): atualizar hooks`
 
+## Padrões de código e qualidade
+
+- Use tipagem sempre que possível (mypy habilitado).
+- Siga o formato/lint definidos (black/ruff).
+- Escreva testes quando tocar em lógica não trivial.
+
+### Idioma e estilo
+
+- Explique e documente em português (pt‑BR): descrições de PRs, issues, comentários em docs.
+- Mantenha nomes de funções, variáveis, classes e identificadores em inglês no código.
+- Mensagens de commit seguem Conventional Commits; o texto pode ser em português.
+
 ## Dicas
 
 - Atualize a branch com `rebase` para manter o histórico limpo.

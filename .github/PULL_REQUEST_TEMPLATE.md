@@ -14,6 +14,7 @@ Closes #<número-da-issue>
 - [ ] Lint/Format/Typecheck/Testes passaram localmente
 - [ ] Atualizei docs/README quando necessário
 - [ ] Alterações pequenas e focadas (< 300 linhas)
+- [ ] Expliquei e documentei em português; mantive nomes de funções/variáveis em inglês
 
 ## Riscos e mitigação
 

@@ -226,5 +226,11 @@ jq -r 'select(.logger=="app.connector.b3" and (.message|test("429")))' logs/fetc
 
 Observação (PowerShell): use aspas duplas e escape `"` conforme necessário.
 
+## Padrões de Estilo
+
+- Idioma: explique e documente em português (pt‑BR); mantenha nomes de funções, variáveis e identificadores em inglês.
+- Commits: Conventional Commits (ex.: `feat:`, `fix:`, `docs:`, `chore:`). Mensagens podem ser em português; escopo/código permanecem em inglês.
+- Código: siga tipagem e lint configurados (ruff, black, mypy) e priorize nomes claros em inglês.
+
 Veja também um exemplo completo em:
 - docs/summary-example.json
