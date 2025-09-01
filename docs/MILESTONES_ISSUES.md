@@ -32,10 +32,9 @@ Milestone description:
 - [x] [#1](https://github.com/leotavo/swing-trade-b3/issues/1) - Criar repositório GitHub com Python + Poetry - labels: setup, infra
   > Repositório criado com ambiente virtual configurado e poetry install executando sem erros.
   > Release: tag `issue-1` (commit ee0ac42), ver `docs/releases/issue-1.md`.
-- [x] [#2](https://github.com/leotavo/swing-trade-b3/issues/2) - Configurar .gitignore e convenção de branches - labels: setup
+- [ ] [#2](https://github.com/leotavo/swing-trade-b3/issues/2) - Configurar .gitignore e convenção de branches - labels: setup
   > .gitignore curado (Python/Poetry/IDE/OS) e convenção de branches definida.
   > Documentação: `CONTRIBUTING.md` (branches + Conventional Commits). Commits: 4bd3d3c, b5295cf.
-  > Release: tag `issue-2` (commit 47f8bee), ver `docs/releases/issue-2.md`.
 - [ ] [#3](https://github.com/leotavo/swing-trade-b3/issues/3) - Criar pipeline inicial no GitHub Actions para lint/testes - labels: ci/cd
   > Pipeline executa lint e testes automatizados com sucesso a cada commit.
 
