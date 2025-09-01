@@ -72,7 +72,10 @@ def _http_get_json(
             resp = requests.get(url, headers=headers, timeout=cfg.timeout)
         except (requests.Timeout, requests.ConnectionError) as exc:  # type: ignore[attr-defined]
             last_err = exc
-            LOG.warning("http_get timeout/connection", extra={"attempt": attempt, "url": url})
+            LOG.warning(
+                f"http_get timeout/connection (attempt={attempt})",
+                extra={"attempt": attempt, "url": url},
+            )
         else:
             if resp.status_code == 200:
                 if meta is not None:
@@ -86,7 +89,7 @@ def _http_get_json(
                 # Rate limit; raise after retries exhausted
                 last_err = RateLimitError("HTTP 429 Too Many Requests")
                 LOG.warning(
-                    "http_get 429 ratelimited",
+                    f"http_get 429 ratelimited (attempt={attempt})",
                     extra={"attempt": attempt, "url": url, "status": resp.status_code},
                 )
                 if meta is not None:
@@ -94,7 +97,7 @@ def _http_get_json(
             elif 500 <= resp.status_code < 600:
                 last_err = ServerError(f"HTTP {resp.status_code}")
                 LOG.warning(
-                    "http_get 5xx",
+                    f"http_get 5xx (status={resp.status_code}, attempt={attempt})",
                     extra={"attempt": attempt, "url": url, "status": resp.status_code},
                 )
                 if meta is not None:

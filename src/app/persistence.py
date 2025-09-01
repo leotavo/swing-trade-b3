@@ -71,6 +71,7 @@ def save_raw(
             if compression and compression.lower() != "none":
                 to_kwargs["compression"] = compression
             merged.to_parquet(path, **to_kwargs)
+            size_bytes = path.stat().st_size if path.exists() else None
         else:
             path = base / f"{int(year)}.csv"
             if path.exists():
@@ -87,11 +88,18 @@ def save_raw(
                 .reset_index(drop=True)
             )
             merged.to_csv(path, index=False)
+            size_bytes = path.stat().st_size if path.exists() else None
 
         written.append(path)
         LOG.info(
             "saved raw partition",
-            extra={"symbol": symbol, "year": int(year), "rows": len(merged), "path": str(path)},
+            extra={
+                "symbol": symbol,
+                "year": int(year),
+                "rows": len(merged),
+                "path": str(path),
+                "bytes": int(size_bytes) if size_bytes is not None else None,
+            },
         )
 
     return written
