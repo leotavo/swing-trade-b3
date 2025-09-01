@@ -148,9 +148,9 @@ Subissues atômicas com critérios de aceite
 **Escopo.** Documento curto no `CONTRIBUTING.md`.  
 **Critérios de Aceite.**
 
-- [ ] Padrão `{type}/{slug}` com `type ∈ {feat, fix, docs, chore, refactor, test}`.
-- [ ] Exemplo prático com 3 nomes válidos.
-- [ ] Regra de PR curta: rebase ou squash; PR menor que 300 linhas.
+- [x] Padrão `{type}/{slug}` com `type ∈ {feat, fix, docs, chore, refactor, test}`.
+- [x] Exemplo prático com 3 nomes válidos.
+- [x] Regra de PR curta: rebase ou squash; PR menor que 300 linhas.
 
 **Entregáveis.** `CONTRIBUTING.md` atualizado.  
 **Notas.** Alinha com Conventional Commits.
