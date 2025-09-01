@@ -77,6 +77,10 @@ python -m app fetch --symbol PETR4 --start 2008-01-01 --end 2025-01-01 --force-m
 python -m app fetch -s PETR4 VALE3 --start 2023-01-01 --end 2024-01-01 \
   --format parquet --compression snappy --throttle 0.2 \
   --json-summary out/summary.json
+
+# Logging estruturado (JSON)
+python -m app fetch --symbol PETR4 --start 2023-01-01 --end 2024-01-01 \
+  --log-json  # emite logs no stdout em JSON (útil p/ observabilidade/CI)
 ```
 
 Arquivo `symbols.txt` (exemplo):

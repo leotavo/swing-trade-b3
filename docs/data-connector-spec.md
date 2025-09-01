@@ -56,9 +56,14 @@ Exemplo de uso (CLI)
 python -m app fetch --symbol PETR4 --start 2023-01-01 --end 2024-01-01 --format parquet --compression snappy --throttle 0.2
 python -m app fetch --symbol PETR4 VALE3 --start 2023-01-01 --end 2024-01-01 --symbols-file symbols.txt
 python -m app fetch --symbol PETR4 --start 2023-01-01 --end 2024-01-01 --json-summary out/summary.json
+python -m app fetch --symbol PETR4 --start 2023-01-01 --end 2024-01-01 --log-json  # logs estruturados (JSON)
 ```
 
 Resumo JSON (opcional)
 - Habilite com `--json-summary PATH` (ou `-` para stdout).
 - Contém metadados da execução (janela, formato/compressão, throttle, force_max), status por símbolo (linhas, datas, arquivos, range_used) e totais agregados.
 - Útil para integrações/CI sem depender de parse de textos.
+
+Logging estruturado (opcional)
+- Habilite com `--log-json` para emitir logs em JSON no stdout.
+- Inclui campos de contexto (logger, nível, tempo, mensagem) e extras (ex.: attempt/status/url em HTTP; bytes/rows/path na persistência).
