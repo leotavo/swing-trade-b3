@@ -254,3 +254,4 @@ Subissues atômicas com critérios de aceite
 
 - **DoR (Definition of Ready):** escopo claro, dependências listadas, estimativa e plano de teste local.  
 - **DoD (Definition of Done):** `ruff` e `black` sem erro, `mypy` sem erro, `pytest` ok, README/Docs atualizados quando tocados, evidências anexadas na issue/PR.
+- **Observabilidade:** preferir logs estruturados com `--log-json` quando aplicável e emitir resumo em `--json-summary` para integrações/CI.
