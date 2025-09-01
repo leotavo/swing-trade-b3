@@ -36,8 +36,8 @@ Milestone description:
   > .gitignore curado (Python/Poetry/IDE/OS) e convenção de branches definida.
   > Documentação: `CONTRIBUTING.md` (branches + Conventional Commits). Commits: 4bd3d3c, b5295cf, 086d54d, 6d685d2.
   > Release: tag `v0.2.0` (commit 6598dea), ver `docs/releases/v0.2.0.md`.
-- [ ] [#3](https://github.com/leotavo/swing-trade-b3/issues/3) - Criar pipeline inicial no GitHub Actions para lint/testes - labels: ci/cd
-  > Pipeline executa lint e testes automatizados com sucesso a cada commit.
+- [x] [#3](https://github.com/leotavo/swing-trade-b3/issues/3) - Criar pipeline inicial no GitHub Actions para lint/testes - labels: ci/cd
+  > Workflow CI criado (ruff/black/mypy/pytest + cache). Badge no README e status checks documentados (docs/ci-status-checks.md).
 
 ---
 
