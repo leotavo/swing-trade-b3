@@ -17,4 +17,3 @@ def test_main_returns_zero():
     from app.__main__ import main
 
     assert main() == 0
-

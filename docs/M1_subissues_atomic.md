@@ -50,7 +50,7 @@ _Subissues atômicas com critérios de aceite_
 **Critérios de Aceite.**
 - [x] Dev-deps instaladas: `ruff`, `black`, `mypy`, `pytest`, `pytest-cov`.
 - [x] Seções `[tool.ruff]`, `[tool.black]`, `[tool.mypy]` definidas.
-- [x] Scripts `lint`, `format`, `typecheck`, `test` definidos em `[tool.poetry.scripts]` ou `tool.task`. 
+- [x] Scripts `lint`, `format`, `typecheck`, `test` definidos em `[tool.poetry.scripts]` ou `tool.task`.
 **Entregáveis.** Diff do `pyproject.toml` + execução dos comandos (prints).  
 **Notas.** CI virá na Issue #3.
 
@@ -131,7 +131,7 @@ _Subissues atômicas com critérios de aceite_
 **Escopo.** Seção no `CONTRIBUTING.md`.  
 **Critérios de Aceite.**
 - [ ] Exemplos para `feat:`, `fix:`, `docs:`, `refactor:`, `test:`.
-- [ ] Regra de escopo opcional (ex.: `feat(api): ...`). 
+- [ ] Regra de escopo opcional (ex.: `feat(api): ...`).
 - [ ] Referência à documentação oficial.
 **Entregáveis.** Trecho do CONTRIBUTING + 1 commit de exemplo.  
 **Notas.** Validadores de mensagem podem ser adicionados depois.
