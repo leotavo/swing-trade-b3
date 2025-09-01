@@ -1,0 +1,54 @@
+{
+  "run": {
+    "started_at": "2025-09-01T17:13:49Z",
+    "ended_at": "2025-09-01T17:13:51Z",
+    "duration_s": 1.35,
+    "provider": "brapi.dev",
+    "args": {
+      "start": "2023-01-01",
+      "end": "2024-01-01",
+      "format": "parquet",
+      "compression": "snappy",
+      "throttle": 0.2,
+      "force_max": false,
+      "symbols": ["PETR4", "VALE3"]
+    }
+  },
+  "symbols": [
+    {
+      "symbol": "PETR4",
+      "status": "ok",
+      "rows": 248,
+      "date_first": "2023-01-02",
+      "date_last": "2023-12-28",
+      "files": ["data/raw/PETR4/2023.parquet"],
+      "range_used": "5y",
+      "duration_s": 0.78,
+      "http": {
+        "attempts": 1,
+        "retries": 0,
+        "sleep_total_s": 0.0,
+        "last_status": 200,
+        "throttle_calls": 1
+      }
+    },
+    {
+      "symbol": "VALE3",
+      "status": "ok",
+      "rows": 248,
+      "date_first": "2023-01-02",
+      "date_last": "2023-12-28",
+      "files": ["data/raw/VALE3/2023.parquet"],
+      "range_used": "5y",
+      "duration_s": 0.56,
+      "http": {
+        "attempts": 1,
+        "retries": 0,
+        "sleep_total_s": 0.0,
+        "last_status": 200,
+        "throttle_calls": 1
+      }
+    }
+  ],
+  "summary": {"ok": 2, "no_data": 0, "failed": 0, "total": 2}
+}
