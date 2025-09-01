@@ -222,8 +222,8 @@ Subissues atômicas com critérios de aceite
 **Escopo.** `.github/workflows/ci.yml` com `actions/setup-python`, cache do Poetry e dependências.  
 **Critérios de Aceite.**
 
-- [ ] Job `ci` roda em `ubuntu-latest` com Python 3.11.
-- [ ] Cache de `~/.cache/pypoetry` e de `__pycache__`/pip funciona (hit em execuções subsequentes).
+- [x] Job `ci` roda em `ubuntu-latest` com Python 3.11.
+- [x] Cache de `~/.cache/pypoetry` e de `__pycache__`/pip funciona (hit em execuções subsequentes).
 
 **Entregáveis.** Workflow YAML + print do log destacando cache hit.  
 **Notas.** Usar `poetry install --no-interaction --no-root` quando apropriado.
@@ -236,8 +236,8 @@ Subissues atômicas com critérios de aceite
 **Escopo.** Steps para `ruff check .` e `black --check .`.  
 **Critérios de Aceite.**
 
-- [ ] Falhas de lint/format fazem o job falhar.
-- [ ] Logs da CI mostram contagem de arquivos verificados.
+- [x] Falhas de lint/format fazem o job falhar.
+- [x] Logs da CI mostram contagem de arquivos verificados.
 
 **Entregáveis.** Log da execução.  
 **Notas.** Estilos já definidos no `pyproject.toml` (Issue #1).
@@ -250,8 +250,8 @@ Subissues atômicas com critérios de aceite
 **Escopo.** Step `mypy .` com configuração strict.  
 **Critérios de Aceite.**
 
-- [ ] Job falha se houver erros de type.
-- [ ] Log contém estatística de módulos verificados.
+- [x] Job falha se houver erros de type.
+- [x] Log contém estatística de módulos verificados.
 
 **Entregáveis.** Log da execução.  
 **Notas.** Suppressions devem ser justificadas em código.
@@ -264,8 +264,8 @@ Subissues atômicas com critérios de aceite
 **Escopo.** Step `pytest -q --cov=src --cov-report=xml --cov-report=term`.  
 **Critérios de Aceite.**
 
-- [ ] CI conclui sem erros com pelo menos 1 teste executado.
-- [ ] Artefato `coverage.xml` salvo (upload como artifact).
+- [x] CI conclui sem erros com pelo menos 1 teste executado.
+- [x] Artefato `coverage.xml` salvo (upload como artifact).
 
 **Entregáveis.** Log do pytest + artifact anexo na execução.  
 **Notas.** Threshold de 80% será apenas alerta (não bloqueia) por enquanto.
@@ -278,8 +278,8 @@ Subissues atômicas com critérios de aceite
 **Escopo.** `on: [push, pull_request]` (main e branches), `concurrency: group: ci-${{ github.ref }}, cancel-in-progress: true`.  
 **Critérios de Aceite.**
 
-- [ ] PRs acionam a CI automaticamente.
-- [ ] Novos pushes cancelam execução anterior do mesmo ref.
+- [x] PRs acionam a CI automaticamente.
+- [x] Novos pushes cancelam execução anterior do mesmo ref.
 
 **Entregáveis.** YAML com as chaves referidas + print de execução cancelada por concurrency.  
 **Notas.** Pode incluir `paths-ignore` para ignorar mudanças em docs.
@@ -292,8 +292,8 @@ Subissues atômicas com critérios de aceite
 **Escopo.** Adicionar badge do workflow ao topo do README.  
 **Critérios de Aceite.**
 
-- [ ] Badge renderiza corretamente e reflete status do último run.
-- [ ] Link do badge aponta para a página do workflow.
+- [x] Badge renderiza corretamente e reflete status do último run.
+- [x] Link do badge aponta para a página do workflow.
 
 **Entregáveis.** Diff do README + print do badge.  
 **Notas.** Manter perto das demais badges (MIT/Python).
@@ -306,8 +306,8 @@ Subissues atômicas com critérios de aceite
 **Escopo.** Upload de `coverage.xml`, relatório HTML de cobertura (se gerado) e logs relevantes.  
 **Critérios de Aceite.**
 
-- [ ] Artifacts disponíveis para download nos runs da CI.
-- [ ] Tamanho dos artifacts mantido razoável (<10 MB).
+- [x] Artifacts disponíveis para download nos runs da CI.
+- [x] Tamanho dos artifacts mantido razoável (<10 MB).
 
 **Entregáveis.** Lista de artifacts anexados.  
 **Notas.** Evitar anexar `.venv`/caches.
@@ -320,8 +320,8 @@ Subissues atômicas com critérios de aceite
 **Escopo.** Documentar quais checks serão obrigatórios (lint, type, tests).  
 **Critérios de Aceite.**
 
-- [ ] Documento `docs/ci-status-checks.md` com os nomes exatos dos checks.
-- [ ] Passo-a-passo de como ativar nas Settings do repositório.
+- [x] Documento `docs/ci-status-checks.md` com os nomes exatos dos checks.
+- [x] Passo-a-passo de como ativar nas Settings do repositório.
 
 **Entregáveis.** Documento citado.  
 **Notas.** A ativação efetiva nas Settings pode ser feita depois.
