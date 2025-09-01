@@ -12,32 +12,33 @@ Ferramentas e automações para swing trade na B3.
 
 ### Instalação
 
-1) Instalar dependências
+1. Instalar dependências
 
-```
+```bash
 poetry install
 ```
 
-2) Ativar o ambiente virtual (Poetry 2.x)
+1. Ativar o ambiente virtual (Poetry 2.x)
 
 PowerShell (Windows):
 
-```
+```powershell
 Invoke-Expression (poetry env activate)
 ```
 
 ou use sem ativar, prefixando com `poetry run` (ex.: `poetry run python -m app`).
 
-3) Desativar (quando terminar)
+1. Desativar (quando terminar)
 
-```
+```powershell
 deactivate
+```
 
 ### Scripts de conveniência
 
 Sem ativar a venv:
 
-```
+```bash
 poetry run lint       # ruff check .
 poetry run format     # black .
 poetry run typecheck  # mypy .
@@ -45,4 +46,3 @@ poetry run test       # pytest com cobertura
 ```
 
 Com a venv ativa, basta executar `lint`, `format`, `typecheck`, `test`.
-```
