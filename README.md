@@ -145,5 +145,14 @@ Exemplo de JSON (resumo)
 }
 ```
 
+## Observabilidade
+
+- Logs estruturados: use `--log-json` para emitir logs em JSON (um por linha), ideal para pipelines/ELK.
+  - Exemplo: `python -m app fetch -s PETR4 --start 2023-01-01 --end 2024-01-01 --log-json > logs/fetch.jsonl`
+- Resumo de execução: use `--json-summary PATH` para gerar um relatório consolidado da execução.
+  - Exemplo: `python -m app fetch -s PETR4 --start 2023-01-01 --end 2024-01-01 --json-summary out/summary.json`
+- Recomendações: use ambos — logs para timeline e troubleshooting; summary para integrações/CI.
+  - Exemplo completo de summary: `docs/summary-example.json`.
+
 Veja também um exemplo completo em:
 - docs/summary-example.json
