@@ -64,19 +64,67 @@ def _make_parser() -> argparse.ArgumentParser:
         metavar="PATH|-",
         help="Emite resumo em JSON (use '-' para stdout)",
     )
+    pf.add_argument(
+        "--log-json",
+        action="store_true",
+        help="Ativa logging estruturado em JSON no stdout",
+    )
 
     return p
 
 
-def _setup_logging() -> None:
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s %(levelname)s %(name)s: %(message)s",
-    )
+class _JsonFormatter(logging.Formatter):
+    def format(self, record: logging.LogRecord) -> str:  # pragma: no cover
+        payload: dict[str, object] = {
+            "time": datetime.fromtimestamp(record.created, tz=timezone.utc).isoformat(),
+            "level": record.levelname,
+            "logger": record.name,
+            "message": record.getMessage(),
+        }
+        std = {
+            "name",
+            "msg",
+            "args",
+            "levelname",
+            "levelno",
+            "pathname",
+            "filename",
+            "module",
+            "exc_info",
+            "exc_text",
+            "stack_info",
+            "lineno",
+            "funcName",
+            "created",
+            "msecs",
+            "relativeCreated",
+            "thread",
+            "threadName",
+            "processName",
+            "process",
+        }
+        for k, v in record.__dict__.items():
+            if k not in std and k not in payload and not k.startswith("_"):
+                payload[k] = v
+        return json.dumps(payload, ensure_ascii=False)
+
+
+def _setup_logging(json_mode: bool) -> None:
+    if json_mode:
+        handler = logging.StreamHandler()
+        handler.setFormatter(_JsonFormatter())
+        root = logging.getLogger()
+        root.handlers[:] = [handler]
+        root.setLevel(logging.INFO)
+    else:
+        logging.basicConfig(
+            level=logging.INFO,
+            format="%(asctime)s %(levelname)s %(name)s: %(message)s",
+        )
 
 
 def _cmd_fetch(args: argparse.Namespace) -> int:
-    _setup_logging()
+    _setup_logging(bool(args.log_json))
     symbols: list[str] = [s.strip() for s in (args.symbol or [])]
     start: date = args.start
     end: date = args.end

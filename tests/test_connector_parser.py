@@ -60,7 +60,9 @@ def test_to_ohlcv_shape_and_types():
     assert len(df) == 2  # duplicate removed
 
     # dtypes
-    assert pd.api.types.is_datetime64tz_dtype(df["date"]) and str(df["date"].dt.tz) == "UTC"
+    # dtype check without deprecated is_datetime64tz_dtype
+    assert isinstance(df["date"].dtype, pd.DatetimeTZDtype)
+    assert str(df["date"].dt.tz) == "UTC"
     for col in ["open", "high", "low", "close"]:
         assert df[col].dtype == "float64"
         assert (df[col] >= 0).all()
