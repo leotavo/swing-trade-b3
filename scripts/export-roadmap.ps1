@@ -48,6 +48,7 @@ Add-Line $outPath "# Roadmap - Milestones and Issues"
 Add-Blank $outPath
 Add-Line $outPath ("- Repository: " + $repo)
 Add-Line $outPath ("- Generated at: " + (Get-Date -Format "yyyy-MM-dd HH:mm:ss"))
+Add-Line $outPath ("- Updated at:   " + (Get-Date -Format "yyyy-MM-dd HH:mm:ss"))
 Add-Blank $outPath
 Add-Line $outPath "---"
 Add-Blank $outPath

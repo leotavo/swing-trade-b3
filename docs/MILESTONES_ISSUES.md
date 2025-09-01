@@ -1,8 +1,8 @@
 # Roadmap - Milestones and Issues
 
 - Repository: leotavo/swing-trade-b3
-- Generated at: 2025-09-01 00:28:37
-- Updated at: 2025-09-01 18:45:00
+- Generated at: 2025-09-01 18:09:26
+- Updated at:   2025-09-01 18:09:26
 
 ---
 
@@ -25,39 +25,31 @@
 
 ## M1 - Configuração Inicial (#1)
 
-State: closed  |  Created: 2025-08-14T04:46:59Z  |  Due: N/A  |  Issues: 3
+State: closed  |  Created: 08/14/2025 04:46:59  |  Due: N/A  |  Issues: 3
 
 Milestone description:
 > Preparar ambiente de desenvolvimento e controle de versão.
 
 - [x] [#1](https://github.com/leotavo/swing-trade-b3/issues/1) - Criar repositório GitHub com Python + Poetry - labels: setup, infra
   > Repositório criado com ambiente virtual configurado e poetry install executando sem erros.
-  > Release: tag `v0.1.0` (commit 8859cd3), ver `docs/releases/v0.1.0.md`.
 - [x] [#2](https://github.com/leotavo/swing-trade-b3/issues/2) - Configurar .gitignore e convenção de branches - labels: setup
-  > .gitignore curado (Python/Poetry/IDE/OS) e convenção de branches definida.
-  > Documentação: `CONTRIBUTING.md` (branches + Conventional Commits). Commits: 4bd3d3c, b5295cf, 086d54d, 6d685d2.
-  > Release: tag `v0.2.0` (commit 6598dea), ver `docs/releases/v0.2.0.md`.
+  > Arquivo .gitignore cobre Python, IDEs e dados brutos; convenção de branches documentada no README.
 - [x] [#3](https://github.com/leotavo/swing-trade-b3/issues/3) - Criar pipeline inicial no GitHub Actions para lint/testes - labels: ci/cd
-  > Workflow CI criado (ruff/black/mypy/pytest + cache). Badge no README e status checks documentados (docs/ci-status-checks.md).
-  > Release: tag `v0.3.0` (commit 4f7b1eb), ver `docs/releases/v0.3.0.md`.
-  > Resumo do Milestone: `docs/releases/m1-summary.md`.
+  > Pipeline executa lint e testes automatizados com sucesso a cada commit.
 
 ---
 
 ## M2 - Coleta e Preparação de Dados (#2)
 
-State: open  |  Created: 2025-08-14T04:49:20Z  |  Due: N/A  |  Issues: 4
+State: open  |  Created: 08/14/2025 04:49:20  |  Due: N/A  |  Issues: 4
 
 Milestone description:
 > Obter e preparar dados históricos da B3 para análise.
-  > Subissues: ver `docs/M2_subissues_atomic.md`.
 
 - [x] [#4](https://github.com/leotavo/swing-trade-b3/issues/4) - Implementar conector API B3 (histórico) - labels: data
-  > Conector histórico (brapi.dev) com cliente HTTP resiliente (timeout/retries/backoff), parser OHLCV padronizado, persistência raw e CLI de coleta.
-  > Release: tag `v0.4.0` — ver `docs/releases/v0.4.0.md` (PR #110).
-- [x] [#5](https://github.com/leotavo/swing-trade-b3/issues/5) - Rotina de limpeza e normalização dos dados - labels: data
-  > Limpeza/normalização do dataset, idempotência e persistência `data/processed/` + CLI `process`.
-  > Release: tag `v0.5.0` — ver `docs/releases/v0.5.0.md`.
+  > Consegue baixar pelo menos 1 ano de dados diários sem erros.
+- [ ] [#5](https://github.com/leotavo/swing-trade-b3/issues/5) - Rotina de limpeza e normalização dos dados - labels: data
+  > Dataset final sem valores nulos, datas ordenadas e colunas padronizadas.
 - [ ] [#6](https://github.com/leotavo/swing-trade-b3/issues/6) - Script de atualização diária automática - labels: data, automation
   > Script atualiza dados em menos de 5 minutos e sem duplicatas.
 - [ ] [#7](https://github.com/leotavo/swing-trade-b3/issues/7) - Testar resiliência da coleta de dados da B3 (Mitigação de Risco) - labels: risk, qa
@@ -67,7 +59,7 @@ Milestone description:
 
 ## M3 - Estratégia Base Swing Trade (#3)
 
-State: open  |  Created: 2025-08-14T04:51:01Z  |  Due: N/A  |  Issues: 3
+State: open  |  Created: 08/14/2025 04:51:01  |  Due: N/A  |  Issues: 3
 
 Milestone description:
 > Implementar lógica inicial de sinais.
@@ -83,7 +75,7 @@ Milestone description:
 
 ## M4 - Backtesting Inicial (#4)
 
-State: open  |  Created: 2025-08-14T04:53:31Z  |  Due: N/A  |  Issues: 3
+State: open  |  Created: 08/14/2025 04:53:31  |  Due: N/A  |  Issues: 3
 
 Milestone description:
 > Avaliar desempenho histórico da estratégia.
@@ -99,7 +91,7 @@ Milestone description:
 
 ## M5 - Notificações e Monitoramento (#5)
 
-State: open  |  Created: 2025-08-14T04:57:11Z  |  Due: N/A  |  Issues: 3
+State: open  |  Created: 08/14/2025 04:57:11  |  Due: N/A  |  Issues: 3
 
 Milestone description:
 > Criar sistema básico de alertas.
@@ -115,7 +107,7 @@ Milestone description:
 
 ## M6 - Ajuste de Parâmetros e Otimização (#6)
 
-State: open  |  Created: 2025-08-14T04:58:56Z  |  Due: N/A  |  Issues: 3
+State: open  |  Created: 08/14/2025 04:58:56  |  Due: N/A  |  Issues: 3
 
 Milestone description:
 > Melhorar acurácia da estratégia.
@@ -131,7 +123,7 @@ Milestone description:
 
 ## M7 - Modelo de ML Básico (#7)
 
-State: open  |  Created: 2025-08-14T05:00:34Z  |  Due: N/A  |  Issues: 3
+State: open  |  Created: 08/14/2025 05:00:34  |  Due: N/A  |  Issues: 3
 
 Milestone description:
 > Adicionar filtro por aprendizado de máquina.
@@ -147,7 +139,7 @@ Milestone description:
 
 ## M8 - Paper Trading (#8)
 
-State: open  |  Created: 2025-08-14T05:01:56Z  |  Due: N/A  |  Issues: 3
+State: open  |  Created: 08/14/2025 05:01:56  |  Due: N/A  |  Issues: 3
 
 Milestone description:
 > Simular operação em tempo real.
@@ -163,7 +155,7 @@ Milestone description:
 
 ## M9 - Observabilidade Básica (#9)
 
-State: open  |  Created: 2025-08-14T05:03:24Z  |  Due: N/A  |  Issues: 3
+State: open  |  Created: 08/14/2025 05:03:24  |  Due: N/A  |  Issues: 3
 
 Milestone description:
 > Monitorar execução e erros.
@@ -179,7 +171,7 @@ Milestone description:
 
 ## M10 - Segurança e Compliance (#10)
 
-State: open  |  Created: 2025-08-14T05:04:50Z  |  Due: N/A  |  Issues: 3
+State: open  |  Created: 08/14/2025 05:04:50  |  Due: N/A  |  Issues: 3
 
 Milestone description:
 > Garantir segurança mínima no uso.
@@ -195,7 +187,7 @@ Milestone description:
 
 ## M11 - Documentação e Guias (#11)
 
-State: open  |  Created: 2025-08-14T05:05:54Z  |  Due: N/A  |  Issues: 3
+State: open  |  Created: 08/14/2025 05:05:54  |  Due: N/A  |  Issues: 3
 
 Milestone description:
 > Documentar uso e manutenção do sistema.
@@ -211,7 +203,7 @@ Milestone description:
 
 ## M12 - Validação Final do MVP (#12)
 
-State: open  |  Created: 2025-08-14T05:06:59Z  |  Due: N/A  |  Issues: 3
+State: open  |  Created: 08/14/2025 05:06:59  |  Due: N/A  |  Issues: 3
 
 Milestone description:
 > Garantir que o MVP está pronto.
