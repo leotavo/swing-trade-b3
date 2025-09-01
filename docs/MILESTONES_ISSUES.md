@@ -1,4 +1,4 @@
-﻿# Roadmap - Milestones and Issues
+# Roadmap - Milestones and Issues
 
 - Repository: leotavo/swing-trade-b3
 - Generated at: 2025-09-01 00:28:37
@@ -35,7 +35,7 @@ Milestone description:
 - [x] [#2](https://github.com/leotavo/swing-trade-b3/issues/2) - Configurar .gitignore e convenção de branches - labels: setup
   > .gitignore curado (Python/Poetry/IDE/OS) e convenção de branches definida.
   > Documentação: `CONTRIBUTING.md` (branches + Conventional Commits). Commits: 4bd3d3c, b5295cf, 086d54d, 6d685d2.
-  > Release: tag `v0.2.0` (commit TO_FILL), ver `docs/releases/v0.2.0.md`.
+  > Release: tag `v0.2.0` (commit 6598dea), ver `docs/releases/v0.2.0.md`.
 - [ ] [#3](https://github.com/leotavo/swing-trade-b3/issues/3) - Criar pipeline inicial no GitHub Actions para lint/testes - labels: ci/cd
   > Pipeline executa lint e testes automatizados com sucesso a cada commit.
 
