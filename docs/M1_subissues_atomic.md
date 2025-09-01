@@ -48,9 +48,9 @@ _Subissues atômicas com critérios de aceite_
 **Objetivo.** Preparar ferramentas locais de qualidade.  
 **Escopo.** Adicionar dev-deps e scripts de conveniência em `pyproject.toml`.  
 **Critérios de Aceite.**
-- [ ] Dev-deps instaladas: `ruff`, `black`, `mypy`, `pytest`, `pytest-cov`.
-- [ ] Seções `[tool.ruff]`, `[tool.black]`, `[tool.mypy]` definidas.
-- [ ] Scripts `lint`, `format`, `typecheck`, `test` definidos em `[tool.poetry.scripts]` ou `tool.task`. 
+- [x] Dev-deps instaladas: `ruff`, `black`, `mypy`, `pytest`, `pytest-cov`.
+- [x] Seções `[tool.ruff]`, `[tool.black]`, `[tool.mypy]` definidas.
+- [x] Scripts `lint`, `format`, `typecheck`, `test` definidos em `[tool.poetry.scripts]` ou `tool.task`. 
 **Entregáveis.** Diff do `pyproject.toml` + execução dos comandos (prints).  
 **Notas.** CI virá na Issue #3.
 
