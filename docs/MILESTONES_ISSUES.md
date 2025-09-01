@@ -24,7 +24,7 @@
 
 ## M1 - Configuração Inicial (#1)
 
-State: open  |  Created: 2025-08-14T04:46:59Z  |  Due: N/A  |  Issues: 3
+State: closed  |  Created: 2025-08-14T04:46:59Z  |  Due: N/A  |  Issues: 3
 
 Milestone description:
 > Preparar ambiente de desenvolvimento e controle de versão.
@@ -39,6 +39,7 @@ Milestone description:
 - [x] [#3](https://github.com/leotavo/swing-trade-b3/issues/3) - Criar pipeline inicial no GitHub Actions para lint/testes - labels: ci/cd
   > Workflow CI criado (ruff/black/mypy/pytest + cache). Badge no README e status checks documentados (docs/ci-status-checks.md).
   > Release: tag `v0.3.0` (commit 4f7b1eb), ver `docs/releases/v0.3.0.md`.
+  > Resumo do Milestone: `docs/releases/m1-summary.md`.
 
 ---
 
