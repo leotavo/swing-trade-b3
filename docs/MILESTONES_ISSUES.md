@@ -38,6 +38,7 @@ Milestone description:
   > Release: tag `v0.2.0` (commit 6598dea), ver `docs/releases/v0.2.0.md`.
 - [x] [#3](https://github.com/leotavo/swing-trade-b3/issues/3) - Criar pipeline inicial no GitHub Actions para lint/testes - labels: ci/cd
   > Workflow CI criado (ruff/black/mypy/pytest + cache). Badge no README e status checks documentados (docs/ci-status-checks.md).
+  > Release: tag 0.3.0 (commit TO_FILL), ver docs/releases/v0.3.0.md.
 
 ---
 
