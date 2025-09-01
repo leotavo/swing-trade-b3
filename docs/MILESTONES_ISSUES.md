@@ -51,10 +51,12 @@ Milestone description:
 > Obter e preparar dados históricos da B3 para análise.
   > Subissues: ver `docs/M2_subissues_atomic.md`.
 
-- [ ] [#4](https://github.com/leotavo/swing-trade-b3/issues/4) - Implementar conector API B3 (histórico) - labels: data
-  > Consegue baixar pelo menos 1 ano de dados diários sem erros.
-- [ ] [#5](https://github.com/leotavo/swing-trade-b3/issues/5) - Rotina de limpeza e normalização dos dados - labels: data
-  > Dataset final sem valores nulos, datas ordenadas e colunas padronizadas.
+- [x] [#4](https://github.com/leotavo/swing-trade-b3/issues/4) - Implementar conector API B3 (histórico) - labels: data
+  > Conector histórico (brapi.dev) com cliente HTTP resiliente (timeout/retries/backoff), parser OHLCV padronizado, persistência raw e CLI de coleta.
+  > Release: tag `v0.4.0` — ver `docs/releases/v0.4.0.md` (PR #110).
+- [x] [#5](https://github.com/leotavo/swing-trade-b3/issues/5) - Rotina de limpeza e normalização dos dados - labels: data
+  > Limpeza/normalização do dataset, idempotência e persistência `data/processed/` + CLI `process`.
+  > Release: tag `v0.5.0` — ver `docs/releases/v0.5.0.md`.
 - [ ] [#6](https://github.com/leotavo/swing-trade-b3/issues/6) - Script de atualização diária automática - labels: data, automation
   > Script atualiza dados em menos de 5 minutos e sem duplicatas.
 - [ ] [#7](https://github.com/leotavo/swing-trade-b3/issues/7) - Testar resiliência da coleta de dados da B3 (Mitigação de Risco) - labels: risk, qa
