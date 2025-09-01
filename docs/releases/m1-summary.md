@@ -19,3 +19,9 @@
 - Releases: `docs/releases/v0.1.0.md`, `docs/releases/v0.2.0.md`, `docs/releases/v0.3.0.md`
 - Roadmap: `docs/MILESTONES_ISSUES.md`
 - Fluxo de Git: `docs/git-flow.md` e `CONTRIBUTING.md`
+
+## Links rápidos
+
+- GitHub Release v0.1.0: https://github.com/leotavo/swing-trade-b3/releases/tag/v0.1.0
+- GitHub Release v0.2.0: https://github.com/leotavo/swing-trade-b3/releases/tag/v0.2.0
+- GitHub Release v0.3.0: https://github.com/leotavo/swing-trade-b3/releases/tag/v0.3.0
