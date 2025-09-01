@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "swing-trade-b3"
-version = "0.1.0"
+version = "0.4.0"
 description = "Ferramentas e automações para swing trade na B3"
 authors = ["Leonardo Trindade <leotavo@gmail.com>"]
 license = "MIT"
@@ -23,6 +23,7 @@ mypy = "^1.10.0"
 pytest = "^8.2.0"
 pytest-cov = "^5.0.0"
 pre-commit = "^3.7.1"
+ipykernel = "^6.30.1"
 
 [tool.poetry.scripts]
 lint = "app.cli:lint"
