@@ -60,8 +60,8 @@ _Subissues atômicas com critérios de aceite_
 **Objetivo.** Executar `python -m app` e retornar exit code 0.  
 **Escopo.** `src/app/__main__.py` com `main()` simples e `__version__` em `app/__init__.py`.  
 **Critérios de Aceite.**
-- [ ] `python -m app` imprime uma linha de teste e encerra com exit code 0.
-- [ ] `app.__version__` disponível e importável.
+- [x] `python -m app` imprime uma linha de teste e encerra com exit code 0.
+- [x] `app.__version__` disponível e importável.
 **Entregáveis.** Saída do terminal + trecho do código.  
 **Notas.** Sem argumentos/flags por enquanto.
 
