@@ -25,6 +25,10 @@ Persistência
 - Idempotente: reexecuções mesclam e removem duplicatas, preservando ordenação e tipos.
 - Compressão Parquet recomendada: `snappy`.
 
+CLI
+- Use `python -m app process` para converter `data/raw/` em `data/processed/`.
+- Exemplos no README (seção "Processamento de dados (CLI)").
+
 Funções públicas (Python)
 - `clean_and_validate(df_raw: pandas.DataFrame) -> pandas.DataFrame`
   - Aplica normalização, validações e garante o schema final.

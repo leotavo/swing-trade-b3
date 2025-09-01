@@ -145,6 +145,29 @@ Exemplo de JSON (resumo)
 }
 ```
 
+## Processamento de dados (CLI)
+
+Converte dados brutos de `data/raw/{SYMBOL}/YYYY.(csv|parquet)` para dataset processado idempotente em `data/processed/{SYMBOL}.(parquet|csv)`.
+
+Pré‑requisito: ter dados brutos salvos via `fetch`.
+
+```bash
+# Processar um símbolo (Parquet com snappy)
+python -m app process --symbol PETR4 --start 2023-01-01 --end 2024-01-01 \
+  --format parquet --compression snappy
+
+# Processar vários símbolos
+python -m app process -s PETR4 VALE3 --format parquet --compression snappy
+
+# Logging JSON durante o processamento
+python -m app process -s PETR4 --log-json
+```
+
+Saída e comportamento:
+- Lê partições em `data/raw/{SYMBOL}/` (CSV e/ou Parquet).
+- Limpa e valida (sem nulos/negativos; dtypes corretos; UTC; dedupe e ordenação por `symbol,date`).
+- Salva idempotente em `data/processed/{SYMBOL}.parquet` (ou `.csv`).
+
 ## Observabilidade
 
 - Logs estruturados: use `--log-json` para emitir logs em JSON (um por linha), ideal para pipelines/ELK.
