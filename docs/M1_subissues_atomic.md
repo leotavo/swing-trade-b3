@@ -163,9 +163,9 @@ Subissues atômicas com critérios de aceite
 **Escopo.** Seção no `CONTRIBUTING.md`.  
 **Critérios de Aceite.**
 
-- [ ] Exemplos para `feat:`, `fix:`, `docs:`, `refactor:`, `test:`.
-- [ ] Regra de escopo opcional (ex.: `feat(api): ...`).
-- [ ] Referência à documentação oficial.
+- [x] Exemplos para `feat:`, `fix:`, `docs:`, `refactor:`, `test:`.
+- [x] Regra de escopo opcional (ex.: `feat(api): ...`).
+- [x] Referência à documentação oficial.
 
 **Entregáveis.** Trecho do CONTRIBUTING + 1 commit de exemplo.  
 **Notas.** Validadores de mensagem podem ser adicionados depois.

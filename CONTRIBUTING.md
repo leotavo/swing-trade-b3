@@ -21,10 +21,24 @@ Exemplos válidos
 - Qualidade: rode pre-commit, lint, typecheck e testes antes de abrir o PR.
 - Descrição: inclua contexto, escopo e referência a issues (ex.: `Closes #123`).
 
-## Mensagens de commit
+## Mensagens de commit (Conventional Commits)
 
-- Alinhe com Conventional Commits (ex.: `feat: ...`, `fix: ...`).
-- Detalhamento de exemplos e escopos será documentado em M1-SI-2.3.
+Siga o padrão https://www.conventionalcommits.org/.
+
+- Tipos comuns: `feat`, `fix`, `docs`, `refactor`, `test`, `chore`.
+- Escopo opcional: `type(scope): descrição` (ex.: `feat(api): adicionar endpoint de sinais`).
+- Descrição: em português claro, no imperativo, concisa.
+- Breaking change: use `!` após o tipo/escopo (ex.: `feat(core)!: altera contrato de sinais`)
+  e detalhe no corpo: `BREAKING CHANGE: ...`.
+
+Exemplos
+
+- `feat(strategy): implementar RSI + MACD`
+- `fix(ci): corrigir path no Windows`
+- `docs(contributing): adicionar guia de Conventional Commits`
+- `refactor(backtest): extrair cálculo de métricas`
+- `test(data): cobrir limpeza de nulos`
+- `chore(pre-commit): atualizar hooks`
 
 ## Dicas
 
