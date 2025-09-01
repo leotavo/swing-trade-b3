@@ -168,6 +168,27 @@ Saída e comportamento:
 - Limpa e valida (sem nulos/negativos; dtypes corretos; UTC; dedupe e ordenação por `symbol,date`).
 - Salva idempotente em `data/processed/{SYMBOL}.parquet` (ou `.csv`).
 
+## Pipeline ponta a ponta (fetch → process)
+
+Exemplo prático coletando dados brutos e gerando o dataset processado:
+
+```bash
+# 1) Coletar dados brutos (Parquet + snappy) com throttle e summary
+python -m app fetch -s PETR4 VALE3 \
+  --start 2023-01-01 --end 2024-01-01 \
+  --format parquet --compression snappy --throttle 0.2 \
+  --json-summary out/fetch-summary.json
+
+# 2) Processar para dataset final (idempotente)
+python -m app process -s PETR4 VALE3 \
+  --start 2023-01-01 --end 2024-01-01 \
+  --format parquet --compression snappy
+
+# Arquivos gerados (exemplos):
+# - data/raw/PETR4/2023.parquet, data/raw/VALE3/2023.parquet
+# - data/processed/PETR4.parquet, data/processed/VALE3.parquet
+```
+
 ## Observabilidade
 
 - Logs estruturados: use `--log-json` para emitir logs em JSON (um por linha), ideal para pipelines/ELK.
