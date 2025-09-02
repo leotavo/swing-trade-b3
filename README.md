@@ -95,7 +95,7 @@ python -m app fetch --symbol PETR4 --start 2023-01-01 --end 2024-01-01 \
 
 Arquivo `symbols.txt` (exemplo):
 
-```
+```text
 # carteira base
 PETR4
 VALE3
@@ -103,6 +103,7 @@ ITUB4
 ```
 
 Saída e comportamento:
+
 - Salva em `data/raw/{SYMBOL}/YYYY.csv|.parquet` com mesclagem idempotente e sem duplicatas.
 - Resumo final com sucessos/falhas por símbolo.
 - `--throttle` limita a taxa de requisições; retries usam o mesmo limitador.
@@ -174,6 +175,7 @@ python -m app process -s PETR4 --log-json
 ```
 
 Saída e comportamento:
+
 - Lê partições em `data/raw/{SYMBOL}/` (CSV e/ou Parquet).
 - Limpa e valida (sem nulos/negativos; dtypes corretos; UTC; dedupe e ordenação por `symbol,date`).
 - Salva idempotente em `data/processed/{SYMBOL}.parquet` (ou `.csv`).
@@ -243,4 +245,5 @@ Observação (PowerShell): use aspas duplas e escape `"` conforme necessário.
 - Código: siga tipagem e lint configurados (ruff, black, mypy) e priorize nomes claros em inglês.
 
 Veja também um exemplo completo em:
+
 - docs/summary-example.json

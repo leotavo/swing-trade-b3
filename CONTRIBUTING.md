@@ -46,6 +46,33 @@ Exemplos
 - Siga o formato/lint definidos (black/ruff).
 - Escreva testes quando tocar em lógica não trivial.
 
+### Markdown e documentação
+
+- Lint: usamos markdownlint com configuração em `.markdownlint.json`.
+- Regras relevantes: MD040 (code fence com linguagem), MD022 (linhas em branco ao redor de títulos), MD032 (linhas em branco ao redor de listas).
+- Dicas rápidas:
+  - Sempre use linguagem em blocos de código, ex.: ` ```bash`, ` ```json`, ` ```text`.
+  - Deixe 1 linha em branco antes/depois de títulos (`#`, `##`, ...).
+  - Deixe 1 linha em branco antes/depois de listas com `-`, `*` ou `1.`.
+
+Como rodar localmente (requer Node.js 18+):
+
+```bash
+npx markdownlint-cli "**/*.md" --config .markdownlint.json
+```
+
+Pre-commit: há um hook configurado. Para instalar os hooks:
+
+```bash
+pre-commit install
+```
+
+Para checar e autofixar tudo:
+
+```bash
+pre-commit run --all-files
+```
+
 ### Idioma e estilo
 
 - Explique e documente em português (pt‑BR): descrições de PRs, issues, comentários em docs.
