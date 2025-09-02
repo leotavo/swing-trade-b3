@@ -14,6 +14,7 @@
 - Fluxo de Git: `docs/git-flow.md`
 - Especificação do conector de dados: `docs/data-connector-spec.md`
 - Esquema de dados: `docs/data-schema.md`
+- Checks de CI: `docs/ci-status-checks.md`
 
 ## Ambiente de desenvolvimento
 
