@@ -11,6 +11,9 @@
 ## Documentação
 
 - Tech Stack: `docs/TECH_STACK.md`
+- Fluxo de Git: `docs/git-flow.md`
+- Especificação do conector de dados: `docs/data-connector-spec.md`
+- Esquema de dados: `docs/data-schema.md`
 
 ## Ambiente de desenvolvimento
 
