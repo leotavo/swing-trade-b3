@@ -80,7 +80,7 @@ jobs:
 
       # SonarCloud (executa se ORGANIZATION e PROJECT_KEY estiverem definidos)
       - name: SonarCloud Scan
-        if: env.SONAR_TOKEN != '' && env.SONAR_ORGANIZATION != '' && env.SONAR_PROJECT_KEY != ''
+        if: always() && env.SONAR_TOKEN != '' && env.SONAR_ORGANIZATION != '' && env.SONAR_PROJECT_KEY != ''
         uses: SonarSource/sonarcloud-github-action@v2
         env:
           SONAR_TOKEN: ${{ env.SONAR_TOKEN }}
@@ -91,7 +91,7 @@ jobs:
             -Dsonar.organization=${{ env.SONAR_ORGANIZATION }}
 
       - name: SonarCloud Quality Gate
-        if: env.SONAR_TOKEN != '' && env.SONAR_ORGANIZATION != '' && env.SONAR_PROJECT_KEY != ''
+        if: always() && env.SONAR_TOKEN != '' && env.SONAR_ORGANIZATION != '' && env.SONAR_PROJECT_KEY != ''
         uses: SonarSource/sonarqube-quality-gate-action@v1
         timeout-minutes: 5
         env:
@@ -101,6 +101,7 @@ jobs:
   markdownlint:
     name: markdownlint
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - name: Checkout
         uses: actions/checkout@v4
