@@ -15,6 +15,7 @@
 - Esquema de dados: `docs/data-schema.md`
 - Fluxo de Git: `docs/git-flow.md`
 - Tech Stack: `docs/TECH_STACK.md`
+- Guia do Markdownlint: `docs/markdownlint.md`
 
 ## Ambiente de desenvolvimento
 
