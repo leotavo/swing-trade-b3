@@ -8,6 +8,10 @@
 
  Consulte o Tech Stack em [docs/TECH_STACK.md](docs/TECH_STACK.md).
 
+## Documentação
+
+- Tech Stack: `docs/TECH_STACK.md`
+
 ## Ambiente de desenvolvimento
 
 - Pré-requisitos: Python 3.11+ e Poetry 2.x
