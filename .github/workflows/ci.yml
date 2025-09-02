@@ -8,6 +8,7 @@ on:
   pull_request:
     branches:
       - '**'
+  workflow_dispatch:
 
 concurrency:
   group: ci-${{ github.ref }}
@@ -17,9 +18,18 @@ jobs:
   ci:
     name: ci (3.11)
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    env:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      SONAR_ORGANIZATION: ${{ vars.SONAR_ORGANIZATION }}
+      SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Python
         id: setup-python
@@ -67,6 +77,25 @@ jobs:
           name: coverage-xml
           path: coverage.xml
           if-no-files-found: warn
+
+      # SonarCloud (executa se ORGANIZATION e PROJECT_KEY estiverem definidos)
+      - name: SonarCloud Scan
+        if: env.SONAR_TOKEN != '' && env.SONAR_ORGANIZATION != '' && env.SONAR_PROJECT_KEY != ''
+        uses: SonarSource/sonarcloud-github-action@v2
+        env:
+          SONAR_TOKEN: ${{ env.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          args: >
+            -Dsonar.projectKey=${{ env.SONAR_PROJECT_KEY }}
+            -Dsonar.organization=${{ env.SONAR_ORGANIZATION }}
+
+      - name: SonarCloud Quality Gate
+        if: env.SONAR_TOKEN != '' && env.SONAR_ORGANIZATION != '' && env.SONAR_PROJECT_KEY != ''
+        uses: SonarSource/sonarcloud-quality-gate-action@v1
+        timeout-minutes: 5
+        env:
+          SONAR_TOKEN: ${{ env.SONAR_TOKEN }}
 
   markdownlint:
     name: markdownlint
