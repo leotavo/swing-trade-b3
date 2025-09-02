@@ -92,10 +92,11 @@ jobs:
 
       - name: SonarCloud Quality Gate
         if: env.SONAR_TOKEN != '' && env.SONAR_ORGANIZATION != '' && env.SONAR_PROJECT_KEY != ''
-        uses: SonarSource/sonarcloud-quality-gate-action@v1
+        uses: SonarSource/sonarqube-quality-gate-action@v1
         timeout-minutes: 5
         env:
           SONAR_TOKEN: ${{ env.SONAR_TOKEN }}
+          SONAR_HOST_URL: https://sonarcloud.io
 
   markdownlint:
     name: markdownlint
