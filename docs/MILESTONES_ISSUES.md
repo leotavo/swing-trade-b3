@@ -4,8 +4,8 @@
 > Gere via scripts/export-roadmap.ps1 ou pelo workflow de CI.
 
 - Repository: leotavo/swing-trade-b3
-- Generated at: 2025-09-01 23:39:19
-- Updated at:   2025-09-01 23:39:19
+- Generated at: 2025-09-01 23:42:28
+- Updated at:   2025-09-01 23:42:28
 
 ---
 
@@ -51,7 +51,7 @@ Milestone description:
 
 - [x] [#4](https://github.com/leotavo/swing-trade-b3/issues/4) - Implementar conector API B3 (histórico) - labels: data
   > Consegue baixar pelo menos 1 ano de dados diários sem erros.
-- [ ] [#5](https://github.com/leotavo/swing-trade-b3/issues/5) - Rotina de limpeza e normalização dos dados - labels: data
+- [x] [#5](https://github.com/leotavo/swing-trade-b3/issues/5) - Rotina de limpeza e normalização dos dados - labels: data
   > Dataset final sem valores nulos, datas ordenadas e colunas padronizadas.
 - [ ] [#6](https://github.com/leotavo/swing-trade-b3/issues/6) - Script de atualização diária automática - labels: data, automation
   > Script atualiza dados em menos de 5 minutos e sem duplicatas.
