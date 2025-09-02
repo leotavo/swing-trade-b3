@@ -66,8 +66,10 @@ jobs:
 
       - name: Mypy (type check)
         run: poetry run mypy .
+        if: always()
 
       - name: Pytest (with coverage, 100% required)
+        if: always()
         run: poetry run pytest -q
 
       - name: Upload coverage.xml
@@ -89,6 +91,7 @@ jobs:
           args: >
             -Dsonar.projectKey=${{ env.SONAR_PROJECT_KEY }}
             -Dsonar.organization=${{ env.SONAR_ORGANIZATION }}
+            -Dsonar.python.coverage.reportPaths=coverage.xml
 
       - name: SonarCloud Quality Gate
         if: always() && env.SONAR_TOKEN != '' && env.SONAR_ORGANIZATION != '' && env.SONAR_PROJECT_KEY != ''
