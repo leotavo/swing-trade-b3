@@ -46,6 +46,9 @@ $issueByNumber = @{}; foreach ($i in $issues) { $issueByNumber[$i.number] = $i }
 # --- header ---
 Add-Line $outPath "# Roadmap - Milestones and Issues"
 Add-Blank $outPath
+Add-Line $outPath "> AUTO-GERADO — NÃO EDITAR MANUALMENTE"
+Add-Line $outPath "> Gere via scripts/export-roadmap.ps1 ou pelo workflow de CI."
+Add-Blank $outPath
 Add-Line $outPath ("- Repository: " + $repo)
 Add-Line $outPath ("- Generated at: " + (Get-Date -Format "yyyy-MM-dd HH:mm:ss"))
 Add-Line $outPath ("- Updated at:   " + (Get-Date -Format "yyyy-MM-dd HH:mm:ss"))

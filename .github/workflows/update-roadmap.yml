@@ -1,0 +1,49 @@
+name: Refresh Roadmap
+
+on:
+  release:
+    types: [published]
+  issues:
+    types: [closed, reopened]
+  pull_request:
+    types: [closed]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: roadmap-refresh
+  cancel-in-progress: true
+
+jobs:
+  refresh:
+    if: github.event_name != 'pull_request' || github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Authenticate gh
+      	run: echo "$GH_TOKEN" | gh auth login --with-token
+
+      - name: Regenerate roadmap
+        shell: pwsh
+        run: pwsh -File scripts/export-roadmap.ps1
+
+      - name: Commit changes if meaningful (ignore timestamps)
+        run: |
+          if ! git diff -I '^- Updated at:' -I '^- Generated at:' --quiet -- docs/MILESTONES_ISSUES.md; then
+            git add docs/MILESTONES_ISSUES.md
+            git commit -m "chore(roadmap): refresh after ${GITHUB_EVENT_NAME}"
+            git push
+          else
+            echo "Only timestamps changed; skipping commit."

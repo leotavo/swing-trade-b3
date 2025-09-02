@@ -1,5 +1,8 @@
 # Roadmap - Milestones and Issues
 
+> AUTO-GERADO — NÃO EDITAR MANUALMENTE
+> Gere via scripts/export-roadmap.ps1 ou pelo workflow de CI.
+
 - Repository: leotavo/swing-trade-b3
 - Generated at: 2025-09-01 18:09:26
 - Updated at:   2025-09-01 18:09:26
