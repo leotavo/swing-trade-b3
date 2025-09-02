@@ -9,6 +9,11 @@ __pycache__/
 .scannerwork/
 .sonar/
 
+# Coverage reports
+coverage.xml
+.coverage*
+htmlcov/
+
 # IDE/Editor
 .vscode/
 
