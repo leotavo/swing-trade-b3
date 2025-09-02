@@ -10,11 +10,11 @@
 
 ## Documentação
 
-- Tech Stack: `docs/TECH_STACK.md`
-- Fluxo de Git: `docs/git-flow.md`
+- Checks de CI: `docs/ci-status-checks.md`
 - Especificação do conector de dados: `docs/data-connector-spec.md`
 - Esquema de dados: `docs/data-schema.md`
-- Checks de CI: `docs/ci-status-checks.md`
+- Fluxo de Git: `docs/git-flow.md`
+- Tech Stack: `docs/TECH_STACK.md`
 
 ## Ambiente de desenvolvimento
 
