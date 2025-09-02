@@ -1,0 +1,59 @@
+import subprocess
+
+import pytest
+
+from app import cli
+
+
+def test_run_prints_command_and_returns_code(monkeypatch, capsys):
+    calls = {}
+
+    def fake_call(cmd):
+        calls["cmd"] = cmd
+        return 0
+
+    monkeypatch.setattr(subprocess, "call", fake_call)
+    rc = cli._run(["echo", "hello"])  # type: ignore[attr-defined]
+    captured = capsys.readouterr().out
+    assert rc == 0
+    assert "$ echo hello" in captured
+    assert calls["cmd"] == ["echo", "hello"]
+
+
+def test_run_handles_command_not_found(monkeypatch, capsys):
+    def boom(cmd):  # noqa: ARG001
+        raise FileNotFoundError("missing-cmd")
+
+    monkeypatch.setattr(subprocess, "call", boom)
+    rc = cli._run(["missing-cmd"])  # type: ignore[attr-defined]
+    err = capsys.readouterr().err
+    assert rc == 127
+    assert "Command not found" in err
+
+
+@pytest.mark.parametrize(
+    "func, expected_code, fake_rc",
+    [
+        (cli.lint, 3, 3),
+        (cli.format, 0, 0),
+        (cli.typecheck, 7, 7),
+    ],
+)
+def test_cli_simple_wrappers_exit_code(monkeypatch, func, expected_code, fake_rc):
+    def fake_call(cmd):
+        return fake_rc
+
+    monkeypatch.setattr(subprocess, "call", fake_call)
+    with pytest.raises(SystemExit) as ex:
+        func()
+    assert ex.value.code == expected_code
+
+
+def test_cli_test_treats_no_tests_collected_as_success(monkeypatch):
+    def fake_call(cmd):
+        return 5  # pytest exit code for no tests collected
+
+    monkeypatch.setattr(subprocess, "call", fake_call)
+    with pytest.raises(SystemExit) as ex:
+        cli.test()
+    assert ex.value.code == 0

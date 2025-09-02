@@ -59,7 +59,7 @@ def save_raw(
                     existing = pd.read_parquet(path)
                 except Exception:  # pragma: no cover - defensive
                     existing = pd.DataFrame(columns=cols)
-                merged = pd.concat([existing, part], ignore_index=True)
+                merged = part if existing.empty else pd.concat([existing, part], ignore_index=True)
             else:
                 merged = part
             merged = (
@@ -79,7 +79,7 @@ def save_raw(
                     existing = pd.read_csv(path, parse_dates=["date"])
                 except Exception:  # pragma: no cover - defensive
                     existing = pd.DataFrame(columns=cols)
-                merged = pd.concat([existing, part], ignore_index=True)
+                merged = part if existing.empty else pd.concat([existing, part], ignore_index=True)
             else:
                 merged = part
             merged = (

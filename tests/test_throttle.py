@@ -1,31 +1,41 @@
-from __future__ import annotations
+import pytest
 
 from app.throttle import Throttler
 
 
-def test_throttler_wait_schedules_correctly():
-    calls: list[float] = []
-
+def test_throttler_waits_and_validates():
     now = 0.0
+    slept = {"s": 0.0}
 
-    def now_fn() -> float:
+    def now_fn():
         return now
 
-    def sleep_fn(dt: float) -> None:
-        nonlocal now
-        calls.append(dt)
-        now += dt
+    def sleep_fn(s):
+        slept["s"] += s
+        nonlocal_now[0] += s  # advance time
 
-    t = Throttler(0.5, now_fn=now_fn, sleep_fn=sleep_fn)
+    # use a list to allow closure mutation in sleep_fn
+    nonlocal_now = [now]
 
-    # First call: should not sleep (immediate)
+    def now_fn2():
+        return nonlocal_now[0]
+
+    t = Throttler(1.0, now_fn=now_fn2, sleep_fn=sleep_fn)
+
+    # first call should not sleep
     t.wait()
-    assert calls == []
+    assert slept["s"] == 0
 
-    # Immediately call again: should sleep 0.5s
+    # second call immediately should sleep ~1.0s
     t.wait()
-    assert calls == [0.5]
+    assert slept["s"] == pytest.approx(1.0, rel=1e-3)
 
-    # Immediately again: another 0.5s
+    # advance time beyond next_ready; no further sleep
+    nonlocal_now[0] += 1.1
     t.wait()
-    assert calls == [0.5, 0.5]
+    assert slept["s"] == pytest.approx(1.0, rel=1e-3)
+
+
+def test_throttler_rejects_negative_interval():
+    with pytest.raises(ValueError):
+        Throttler(-0.1)

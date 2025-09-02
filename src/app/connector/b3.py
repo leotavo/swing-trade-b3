@@ -6,7 +6,7 @@ import math
 import random
 import time
 from dataclasses import dataclass
-from datetime import date, datetime
+from datetime import date, datetime, timezone
 from typing import Any, Callable, Dict, List, Optional, Tuple
 
 import pandas as pd
@@ -131,7 +131,8 @@ def _choose_range(start: date, end: date) -> str:
     brapi's `range` is relative to "now" (today), not anchored at `start`.
     We compute the coverage window as distance from `end` to today plus the span size.
     """
-    today = datetime.utcnow().date()
+    # Use timezone-aware UTC to avoid deprecation warnings
+    today = datetime.now(timezone.utc).date()
     span_days = (end - start).days + 1
     dist_to_now = max(0, (today - end).days)
     coverage = span_days + dist_to_now

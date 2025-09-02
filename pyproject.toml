@@ -47,6 +47,10 @@ warn_unused_ignores = true
 warn_redundant_casts = true
 warn_return_any = true
 
+[tool.pytest.ini_options]
+addopts = "-q --cov=src --cov-report=term-missing --cov-report=xml --cov-fail-under=100"
+testpaths = ["tests"]
+
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"

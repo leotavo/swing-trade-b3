@@ -18,12 +18,12 @@ Exemplos válidos
 
 - Merge: use rebase ou squash (evite merge commits).
 - Tamanho: mantenha PRs pequenos (idealmente < 300 linhas alteradas).
-- Qualidade: rode pre-commit, lint, typecheck e testes antes de abrir o PR.
+- Qualidade: rode pre-commit, lint, typecheck e testes antes de abrir o PR. Para cobertura total, utilize `pytest --cov=src --cov-report=term-missing --cov-fail-under=100` (veja `docs/testing.md`).
 - Descrição: inclua contexto, escopo e referência a issues (ex.: `Closes #123`).
 
 ## Mensagens de commit (Conventional Commits)
 
-Siga o padrão https://www.conventionalcommits.org/.
+Siga o padrão de [Conventional Commits](https://www.conventionalcommits.org/).
 
 - Tipos comuns: `feat`, `fix`, `docs`, `refactor`, `test`, `chore`.
 - Escopo opcional: `type(scope): descrição` (ex.: `feat(api): adicionar endpoint de sinais`).

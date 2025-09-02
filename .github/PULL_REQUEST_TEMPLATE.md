@@ -12,6 +12,7 @@ Closes #<número-da-issue>
 
 - [ ] Rodei pre-commit (`pre-commit run --all-files`)
 - [ ] Lint/Format/Typecheck/Testes passaram localmente
+- [ ] Cobertura de testes ≥ 100% (quando aplicável)
 - [ ] Atualizei docs/README quando necessário
 - [ ] Alterações pequenas e focadas (< 300 linhas)
 - [ ] Expliquei e documentei em português; mantive nomes de funções/variáveis em inglês

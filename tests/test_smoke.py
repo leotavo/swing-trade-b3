@@ -3,7 +3,8 @@ import importlib
 
 def test_import_app():
     mod = importlib.import_module("app")
-    assert mod is not None
+    # Avoid identity check warning; assert a meaningful property instead
+    assert getattr(mod, "__name__", None) == "app"
 
 
 def test_version_available():

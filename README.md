@@ -11,11 +11,13 @@
 ## Documentação
 
 - Checks de CI: `docs/ci-status-checks.md`
+- Troubleshooting de CI: `docs/ci-troubleshooting.md`
 - Especificação do conector de dados: `docs/data-connector-spec.md`
 - Esquema de dados: `docs/data-schema.md`
 - Fluxo de Git: `docs/git-flow.md`
 - Tech Stack: `docs/TECH_STACK.md`
 - Guia do Markdownlint: `docs/markdownlint.md`
+- Guia de testes e cobertura: `docs/testing.md`
 
 ## Ambiente de desenvolvimento
 
@@ -54,10 +56,18 @@ Sem ativar a venv:
 poetry run lint       # ruff check .
 poetry run format     # black .
 poetry run typecheck  # mypy .
-poetry run test       # pytest com cobertura
+poetry run test       # pytest com cobertura (exige 100%)
 ```
 
 Com a venv ativa, basta executar `lint`, `format`, `typecheck`, `test`.
+
+### Cobertura de testes (100%)
+
+- Cobertura rápida no terminal: `poetry run pytest --cov=src --cov-report=term-missing`
+- Enforçar 100%: `poetry run pytest --cov=src --cov-report=term-missing --cov-fail-under=100`
+- Relatório HTML: `poetry run pytest --cov=src --cov-report=html` e abra `htmlcov/index.html`
+
+Dicas e boas práticas: veja `docs/testing.md`.
 
 ## Fluxo de Git
 

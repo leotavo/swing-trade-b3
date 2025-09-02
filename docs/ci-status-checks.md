@@ -12,3 +12,5 @@ Para habilitar status checks obrigatórios na branch `main`:
 5) Salve.
 
 Observação: O nome do check corresponde ao nome do job definido no workflow (neste caso, `ci (3.11)`).
+
+Cobertura: o CI exige 100% de cobertura (flag `--cov-fail-under=100`). Caso falhe, siga o guia de resolução em `docs/ci-troubleshooting.md`.

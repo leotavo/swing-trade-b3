@@ -30,18 +30,9 @@ def typecheck() -> None:
 
 
 def test() -> None:
-    # Pytest with coverage; treat "no tests collected" (exit 5) as success for now
-    rc = _run(
-        [
-            sys.executable,
-            "-m",
-            "pytest",
-            "-q",
-            "--cov=src",
-            "--cov-report=term-missing",
-            "--cov-report=xml",
-        ]
-    )
+    # Pytest uses default options from pyproject.toml (coverage + 100% required)
+    # Treat "no tests collected" (exit 5) as success for now
+    rc = _run([sys.executable, "-m", "pytest", "-q"])
     if rc == 5:
         # no tests collected; do not fail developer workflow at this stage
         rc = 0

@@ -379,6 +379,8 @@ def _cmd_process(args: argparse.Namespace) -> int:
 
 def main(argv: list[str] | None = None) -> int:
     parser = _make_parser()
+    # Ensure pytest or shell flags don't leak into parsing when argv is None
+    argv = [] if argv is None else argv
     # Use parse_known_args to be resilient to external flags (e.g., pytest -q)
     args, _unknown = parser.parse_known_args(argv)
     if args.cmd == "fetch":
