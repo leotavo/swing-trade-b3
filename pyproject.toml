@@ -30,6 +30,8 @@ lint = "app.cli:lint"
 format = "app.cli:format"
 typecheck = "app.cli:typecheck"
 test = "app.cli:test"
+ci = "app.cli:ci"
+fmt = "app.cli:fmt"
 
 [tool.ruff]
 target-version = "py311"
