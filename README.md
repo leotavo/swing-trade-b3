@@ -1,8 +1,10 @@
 # swing-trade-b3
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/quality_gate?project=leotavo_swing-trade-b3)](https://sonarcloud.io/summary/new_code?id=leotavo_swing-trade-b3)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=leotavo_swing-trade-b3&metric=coverage)](https://sonarcloud.io/summary/new_code?id=leotavo_swing-trade-b3)
+[![CI](https://github.com/leotavo/swing-trade-b3/actions/workflows/ci.yml/badge.svg)](https://github.com/leotavo/swing-trade-b3/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 ![Python](https://img.shields.io/badge/python-3.11-blue.svg)
-[![CI](https://github.com/leotavo/swing-trade-b3/actions/workflows/ci.yml/badge.svg)](https://github.com/leotavo/swing-trade-b3/actions/workflows/ci.yml)
 
  Ferramentas e automações para swing trade na B3.
 
