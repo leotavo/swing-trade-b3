@@ -23,4 +23,5 @@ htmlcov/
 
 # Dados brutos (não versionados)
 data/raw/
+data/processed/
 out/
