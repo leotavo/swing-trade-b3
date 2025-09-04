@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.3](https://github.com/leotavo/swing-trade-b3/compare/v0.5.2...v0.5.3) (2025-09-04)
+
+
+### Documentation
+
+* **readme:** add release badge and fix links; normalize EOL ([5b21e29](https://github.com/leotavo/swing-trade-b3/commit/5b21e2951bf74bd5506b9953adb8fb7081fbdca0))
+
 ## [0.5.2](https://github.com/leotavo/swing-trade-b3/compare/v0.5.1...v0.5.2) (2025-09-04)
 
 
