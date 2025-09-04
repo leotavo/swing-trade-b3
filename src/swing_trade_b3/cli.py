@@ -29,8 +29,8 @@ def _run(cmd: list[str]) -> int:
     """
     print("$", " ".join(cmd))
     try:
-        proc = subprocess.run(cmd, check=False)
-        return proc.returncode
+        rc = subprocess.call(cmd)
+        return rc
     except FileNotFoundError as exc:
         print(f"Command not found: {exc}", file=sys.stderr)
         return 127
@@ -42,13 +42,13 @@ def _run(cmd: list[str]) -> int:
 def lint() -> None:
     """Run ruff linter."""
     rc = _run([sys.executable, "-m", "ruff", "check", "."])
-    sys.exit(rc)
+    raise SystemExit(rc)
 
 
 def format() -> None:  # noqa: A001 - keep name for script compatibility
     """Run black code formatter (in-place)."""
     rc = _run([sys.executable, "-m", "black", "."])
-    sys.exit(rc)
+    raise SystemExit(rc)
 
 
 def fmt() -> None:
@@ -59,16 +59,16 @@ def fmt() -> None:
 def typecheck() -> None:
     """Run mypy type checker."""
     rc = _run([sys.executable, "-m", "mypy", "."])
-    sys.exit(rc)
+    raise SystemExit(rc)
 
 
 def test() -> None:
     """Run pytest with repo defaults (coverage enforced via pyproject)."""
     rc = _run([sys.executable, "-m", "pytest", "-q"])
     if rc == 5:
-        # No tests collected — treat as success for local workflow convenience
+        # No tests collected - treat as success for local workflow convenience
         rc = 0
-    sys.exit(rc)
+    raise SystemExit(rc)
 
 
 def ci() -> None:
@@ -85,5 +85,5 @@ def ci() -> None:
     for cmd in steps:
         rc = _run(cmd)
         if rc != 0 and rc != 5:  # allow "no tests collected" to pass
-            sys.exit(rc)
-    sys.exit(0)
+            raise SystemExit(rc)
+    raise SystemExit(0)

@@ -17,7 +17,7 @@ Subissues atômicas com critérios de aceite
 
 - [x] Repositório com commit inicial e `README.md` com título do projeto.
 - [x] `LICENSE` com MIT.
-- [x] Estrutura criada: `src/app/` e `tests/` (com `__init__.py` onde couber).
+- [x] Estrutura criada: `src/swing_trade_b3/` e `tests/` (com `__init__.py` onde couber).
 
 **Entregáveis.** Árvores de diretório + screenshot/print do primeiro commit.  
 **Notas.** Sem CI e sem .gitignore (tratados em outras issues).
@@ -71,11 +71,11 @@ Subissues atômicas com critérios de aceite
 
 ### M1-SI-1.5 — Esqueleto de CLI mínima
 
-**Objetivo.** Executar `python -m app` e retornar exit code 0.  
-**Escopo.** `src/app/__main__.py` com `main()` simples e `__version__` em `app/__init__.py`.  
+**Objetivo.** Executar `python -m swing_trade_b3` e retornar exit code 0.  
+**Escopo.** `src/swing_trade_b3/__main__.py` com `main()` simples e `__version__` em `swing_trade_b3/__init__.py`.  
 **Critérios de Aceite.**
 
-- [x] `python -m app` imprime uma linha de teste e encerra com exit code 0.
+- [x] `python -m swing_trade_b3` imprime uma linha de teste e encerra com exit code 0.
 - [x] `app.__version__` disponível e importável.
 
 **Entregáveis.** Saída do terminal + trecho do código.  

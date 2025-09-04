@@ -84,9 +84,10 @@ pre-commit run --all-files
 - Atualize a branch com `rebase` para manter o histórico limpo.
 - Prefira vários PRs pequenos a um PR grande.
 
-## Releases e tags
+## Releases e versionamento
 
-- Use apenas tags semânticas no formato `vMAJOR.MINOR.PATCH` (ex.: `v0.2.0`).
-- Publique um Release no GitHub reutilizando notas em `docs/releases/`.
-- Referencie Issues e PRs no corpo do Release (ex.: "Closes #2").
-- Evite tags por issue (ex.: `issue-2`); esse padrão não será mais usado.
+- Automatizado via Release Please (GitHub Actions): `.github/workflows/release-please.yml`.
+- Não faça bump de versão manual no PR. Use Conventional Commits; o bot gera o PR de release.
+- Ao mergear o PR de release na `main`, o workflow cria a tag `vX.Y.Z`, atualiza `pyproject.toml` e `src/swing_trade_b3/__init__.py` e abre o GitHub Release.
+- Notas de release: baseadas nos commits. Pode complementar em `docs/releases/` conforme necessário.
+- Padrão de tags: semânticas `vMAJOR.MINOR.PATCH` (ex.: `v0.6.0`).

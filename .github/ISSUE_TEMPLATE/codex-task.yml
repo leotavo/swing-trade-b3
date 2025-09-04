@@ -1,0 +1,60 @@
+name: Codex Task
+description: Solicitação de tarefa para o agente Codex (responder em pt-br)
+title: "codex: <objetivo curto>"
+labels:
+  - codex-task
+body:
+  - type: textarea
+    id: objetivo
+    attributes:
+      label: Objetivo
+      description: O que precisa ser feito e por quê.
+      placeholder: Descreva o problema/necessidade e o impacto.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: idioma
+    attributes:
+      label: Idioma preferencial do prompt
+      description: O agente Codex responde por padrão em português (pt-br).
+      options:
+        - pt-br (padrão)
+        - en-US
+      default: 0
+
+  - type: checkboxes
+    id: criterios
+    attributes:
+      label: Critérios de Aceite
+      options:
+        - label: CI verde (lint, tipos, testes)
+        - label: Sem quebra de API/CLI pública
+        - label: Documentação mínima atualizada
+        - label: Cobertura conforme política do repositório (fonte: pyproject/CI)
+
+  - type: textarea
+    id: validar
+    attributes:
+      label: Como validar
+      description: Comandos e passos para verificar a entrega (evitar redundâncias com o CI).
+      placeholder: |
+        # Durante desenvolvimento (escopo pequeno)
+        poetry run ruff check <paths_tocados>
+        poetry run mypy <pastas_tocadas>
+        poetry run pytest -q -k <padrao>
+
+        # Validação final única (antes do PR)
+        poetry run ci
+
+  - type: textarea
+    id: restricoes
+    attributes:
+      label: Restrições (do/don't)
+      description: Limites claros de escopo e o que evitar.
+
+  - type: textarea
+    id: contexto
+    attributes:
+      label: Contexto adicional
+      description: Links, decisões, riscos ou observações úteis.

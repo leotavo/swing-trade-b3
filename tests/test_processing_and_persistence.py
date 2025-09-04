@@ -1,7 +1,7 @@
 import pandas as pd
 
-from app.persistence import save_raw
-from app.processing import clean_and_validate, load_raw, save_processed, STD_COLS
+from swing_trade_b3.adapters.persistence.repositories import save_raw, load_raw, save_processed
+from swing_trade_b3.services.signals import clean_and_validate, STD_COLS
 
 
 def make_df(rows):
@@ -292,7 +292,7 @@ def test_save_processed_csv_merges_idempotently(tmp_path):
     assert p2 == p1
 
     # Verify file contents merged to 3 unique rows
-    final = pd.read_csv(p1, parse_dates=["date"])  # type: ignore[arg-type]
+    final = pd.read_csv(p1, parse_dates=["date"])  # pandas accepts Path
     assert len(final) == 3
 
 

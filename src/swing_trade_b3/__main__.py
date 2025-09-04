@@ -6,11 +6,16 @@ import logging
 import time
 from datetime import date, datetime, timezone
 
-from . import __version__
-from .connector import fetch_daily
-from .persistence import save_raw
-from .processing import load_raw, clean_and_validate, save_processed
 import pandas as pd
+
+from . import __version__
+from .adapters.connectors.market_data.composite_provider import fetch_daily
+from .adapters.persistence.repositories import (
+    load_raw,
+    save_processed,
+    save_raw,
+)
+from .services.signals import clean_and_validate
 
 
 def _parse_date(s: str) -> date:
@@ -138,46 +143,43 @@ class _JsonFormatter(logging.Formatter):
             "process",
         }
         for k, v in record.__dict__.items():
-            if k not in std and k not in payload and not k.startswith("_"):
+            if k not in std:
                 payload[k] = v
         return json.dumps(payload, ensure_ascii=False)
 
 
-def _setup_logging(json_mode: bool) -> None:
-    if json_mode:
-        handler = logging.StreamHandler()
-        handler.setFormatter(_JsonFormatter())
-        root = logging.getLogger()
-        root.handlers[:] = [handler]
-        root.setLevel(logging.INFO)
-    else:
-        logging.basicConfig(
-            level=logging.INFO,
-            format="%(asctime)s %(levelname)s %(name)s: %(message)s",
-        )
+def _setup_logging(as_json: bool) -> None:
+    root = logging.getLogger()
+    root.handlers.clear()
+    root.setLevel(logging.INFO)
+    h = logging.StreamHandler()
+    if as_json:
+        h.setFormatter(_JsonFormatter())
+    root.addHandler(h)
 
 
 def _cmd_fetch(args: argparse.Namespace) -> int:
     _setup_logging(bool(args.log_json))
-    symbols: list[str] = [s.strip() for s in (args.symbol or [])]
+    symbols: list[str] = []
+    if args.symbol:
+        symbols.extend([s.strip() for s in args.symbol if s.strip()])
+    if args.symbols_file:
+        try:
+            with open(args.symbols_file, "r", encoding="utf-8") as fh:
+                for line in fh:
+                    line = line.strip()
+                    if not line or line.startswith("#"):
+                        continue
+                    symbols.append(line)
+        except OSError as exc:
+            print(f"Aviso: não foi possível ler --symbols-file ({exc})")
+
     start: date = args.start
     end: date = args.end
-    base_out: str = args.out
-    throttle_s: float = float(args.throttle)
+    out_dir: str = args.out
     out_fmt: str = args.format
     compression: str = args.compression
-    symbols_file: str | None = args.symbols_file
-    json_summary: str | None = args.json_summary
-
-    # Merge symbols from file if provided
-    if symbols_file:
-        try:
-            with open(symbols_file, "r", encoding="utf-8") as fh:
-                extra = [ln.strip() for ln in fh if ln.strip() and not ln.strip().startswith("#")]
-                symbols.extend(extra)
-        except OSError as exc:
-            print(f"Erro ao ler --symbols-file: {exc}")
-            return 1
+    throttle_s: float = float(args.throttle or 0.0)
 
     if end < start:
         print("Erro: --end deve ser >= --start")
@@ -186,93 +188,88 @@ def _cmd_fetch(args: argparse.Namespace) -> int:
         print("Erro: --symbol não pode ser vazio")
         return 2
 
-    # Setup throttler if requested
-    throttle_wait = None
-    if throttle_s > 0:
-        from .throttle import Throttler
-
-        throttle_wait = Throttler(throttle_s).wait
-
     successes = 0
     failures: list[tuple[str, str]] = []
-    per_symbol: list[dict] = []
+    per_symbol: list[dict[str, object]] = []
     run_started = datetime.now(timezone.utc)
-    for symbol in symbols:
-        if not symbol:
-            continue
+    for sym in symbols:
         t0 = time.monotonic()
-        meta: dict = {}
+        meta: dict[str, object] = {}
         try:
+            throttle_calls = {"n": 0}
+
+            def maybe_throttle() -> None:
+                # track calls; actual sleep controlled by caller
+                throttle_calls["n"] += 1
+                if throttle_s > 0:
+                    time.sleep(throttle_s)
+
             df = fetch_daily(
-                symbol,
+                sym,
                 start,
                 end,
                 prefer_max=bool(args.force_max),
-                throttle_wait=throttle_wait,
+                throttle_wait=maybe_throttle,
                 meta=meta,
             )
-        except Exception as exc:
-            logging.error("falha na coleta", exc_info=False)
-            msg = str(exc)
-            print(f"[{symbol}] Erro na coleta: {msg}")
-            failures.append((symbol, msg))
-            per_symbol.append(
-                {
-                    "symbol": symbol,
-                    "status": "error",
-                    "error": msg,
-                    "files": [],
-                    "rows": 0,
-                    "duration_s": round(time.monotonic() - t0, 3),
-                    "http": meta.get("http"),
-                }
-            )
-            continue
+            if df.empty:
+                print(f"[{sym}] Nenhum dado retornado no intervalo.")
+                failures.append((sym, "no_data"))
+                per_symbol.append(
+                    {
+                        "symbol": sym,
+                        "status": "no_data",
+                        "rows": 0,
+                        "files": [],
+                        "provider": meta.get("provider"),
+                        "range_used": meta.get("range_used"),
+                        "date_first": None,
+                        "date_last": None,
+                        "http": meta.get("http"),
+                    }
+                )
+                continue
 
-        rows = len(df)
-        if rows == 0:
-            msg = f"Nenhuma linha no período [{start}..{end}]. Nada a salvar."
-            print(f"[{symbol}] {msg}")
-            failures.append((symbol, "sem dados no período"))
+            # Persist raw partitions
+            parquet_kwargs = {}
+            if out_fmt == "parquet":
+                parquet_kwargs["compression"] = None if compression == "none" else compression
+            paths = save_raw(sym, df, base_dir=out_dir, fmt=out_fmt, **parquet_kwargs)
+            successes += 1
+            first = df["date"].min()
+            last = df["date"].max()
             per_symbol.append(
                 {
-                    "symbol": symbol,
-                    "status": "no_data",
-                    "files": [],
-                    "rows": 0,
+                    "symbol": sym,
+                    "status": "ok",
+                    "rows": int(len(df)),
+                    "provider": meta.get("provider"),
+                    "date_first": str(first.date()),
+                    "date_last": str(last.date()),
+                    "files": [str(p) for p in paths],
                     "range_used": meta.get("range_used"),
                     "duration_s": round(time.monotonic() - t0, 3),
                     "http": meta.get("http"),
                 }
             )
-            continue
-
-        parquet_kwargs = {}
-        if out_fmt == "parquet":
-            parquet_kwargs["compression"] = None if compression == "none" else compression
-
-        paths = save_raw(symbol, df, base_out, fmt=out_fmt, **parquet_kwargs)
-        first = df["date"].min()
-        last = df["date"].max()
-        print(
-            f"[{symbol}] OK: {rows} linhas ({first.date()}..{last.date()}); salvo em {len(paths)} arquivo(s)."
-        )
-        for p in paths:
-            print(f" - {p}")
-        successes += 1
-        per_symbol.append(
-            {
-                "symbol": symbol,
-                "status": "ok",
-                "rows": int(rows),
-                "date_first": str(first.date()),
-                "date_last": str(last.date()),
-                "files": [str(p) for p in paths],
-                "range_used": meta.get("range_used"),
-                "duration_s": round(time.monotonic() - t0, 3),
-                "http": meta.get("http"),
-            }
-        )
+        except Exception as exc:
+            logging.error("falha na coleta", exc_info=False)
+            print(f"[{sym}] Erro: {exc}")
+            failures.append((sym, str(exc)))
+            per_symbol.append(
+                {
+                    "symbol": sym,
+                    "status": "failed",
+                    "rows": 0,
+                    "files": [],
+                    "provider": meta.get("provider"),
+                    "date_first": None,
+                    "date_last": None,
+                    "range_used": meta.get("range_used"),
+                    "duration_s": round(time.monotonic() - t0, 3),
+                    "http": meta.get("http"),
+                }
+            )
 
     # final summary (M2-SI-7.2)
     total = len(symbols)
@@ -282,6 +279,7 @@ def _cmd_fetch(args: argparse.Namespace) -> int:
         for sym, msg in failures:
             print(f" - {sym}: {msg}")
 
+    json_summary = getattr(args, "json_summary", None)
     if json_summary:
         run_ended = datetime.now(timezone.utc)
         payload = {

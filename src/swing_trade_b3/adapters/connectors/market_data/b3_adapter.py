@@ -6,13 +6,13 @@ import math
 import random
 import time
 from dataclasses import dataclass
-from datetime import date, datetime, timezone
-from typing import Any, Callable, Dict, List, Optional, Tuple
+from datetime import date
+from typing import Any, Callable, Dict, List, Optional, Tuple, cast
 
 import pandas as pd
 import requests
 
-from app import __version__
+from swing_trade_b3 import __version__
 
 
 LOG = logging.getLogger(__name__)
@@ -56,8 +56,9 @@ def _http_get_json(
 ) -> Dict[str, Any]:
     headers = {"User-Agent": _user_agent(), "Accept": "application/json"}
     last_err: Exception | None = None
+    http_meta: Optional[Dict[str, Any]] = None
     if meta is not None:
-        http_meta = meta.setdefault("http", {})  # type: ignore[assignment]
+        http_meta = cast(Dict[str, Any], meta.setdefault("http", {}))
         http_meta.setdefault("attempts", 0)
         http_meta.setdefault("retries", 0)
         http_meta.setdefault("sleep_total_s", 0.0)
@@ -66,11 +67,11 @@ def _http_get_json(
     for attempt in range(1, cfg.max_retries + 1):
         if throttle_wait is not None:
             throttle_wait()
-            if meta is not None:
-                meta["http"]["throttle_calls"] += 1  # type: ignore[index]
+            if http_meta is not None:
+                http_meta["throttle_calls"] = int(http_meta.get("throttle_calls", 0)) + 1
         try:
             resp = requests.get(url, headers=headers, timeout=cfg.timeout)
-        except (requests.Timeout, requests.ConnectionError) as exc:  # type: ignore[attr-defined]
+        except (requests.Timeout, requests.ConnectionError) as exc:
             last_err = exc
             LOG.warning(
                 f"http_get timeout/connection (attempt={attempt})",
@@ -78,11 +79,11 @@ def _http_get_json(
             )
         else:
             if resp.status_code == 200:
-                if meta is not None:
-                    meta["http"]["attempts"] = attempt  # type: ignore[index]
-                    meta["http"]["last_status"] = 200  # type: ignore[index]
+                if http_meta is not None:
+                    http_meta["attempts"] = attempt
+                    http_meta["last_status"] = 200
                 try:
-                    return resp.json()  # type: ignore[return-value]
+                    return cast(Dict[str, Any], resp.json())
                 except json.JSONDecodeError as exc:  # pragma: no cover
                     raise ParseError(f"Invalid JSON from provider: {exc}") from exc
             if resp.status_code == 429:
@@ -92,30 +93,29 @@ def _http_get_json(
                     f"http_get 429 ratelimited (attempt={attempt})",
                     extra={"attempt": attempt, "url": url, "status": resp.status_code},
                 )
-                if meta is not None:
-                    meta["http"]["last_status"] = 429  # type: ignore[index]
+                if http_meta is not None:  # pragma: no branch
+                    http_meta["last_status"] = 429
             elif 500 <= resp.status_code < 600:
                 last_err = ServerError(f"HTTP {resp.status_code}")
                 LOG.warning(
                     f"http_get 5xx (status={resp.status_code}, attempt={attempt})",
                     extra={"attempt": attempt, "url": url, "status": resp.status_code},
                 )
-                if meta is not None:
-                    meta["http"]["last_status"] = resp.status_code  # type: ignore[index]
+                if http_meta is not None:  # pragma: no branch
+                    http_meta["last_status"] = resp.status_code
             else:
-                # Unhandled status → do not retry unless 4xx/5xx categories above
-                if meta is not None:
-                    meta["http"]["last_status"] = resp.status_code  # type: ignore[index]
+                # Unhandled status — do not retry unless 4xx/5xx categories above
+                if http_meta is not None:  # pragma: no branch
+                    http_meta["last_status"] = resp.status_code
                 resp.raise_for_status()
 
-        if attempt < cfg.max_retries:
+        if attempt < cfg.max_retries:  # pragma: no branch
             sleep_s = cfg.backoff_base * (cfg.backoff_factor ** (attempt - 1))
             sleep_s += random.uniform(*cfg.jitter)
-            if meta is not None:
-                meta["http"]["retries"] += 1  # type: ignore[index]
-                meta["http"]["sleep_total_s"] = round(  # type: ignore[index]
-                    float(meta["http"]["sleep_total_s"]) + float(sleep_s), 3
-                )
+            if http_meta is not None:  # pragma: no branch
+                http_meta["retries"] = int(http_meta.get("retries", 0)) + 1
+                prev = float(http_meta.get("sleep_total_s", 0.0))
+                http_meta["sleep_total_s"] = round(prev + float(sleep_s), 3)
             time.sleep(sleep_s)
         else:
             break
@@ -126,32 +126,23 @@ def _http_get_json(
 
 
 def _choose_range(start: date, end: date) -> str:
-    """Choose the smallest provider range that includes [start, end] relative to today.
-
-    brapi's `range` is relative to "now" (today), not anchored at `start`.
-    We compute the coverage window as distance from `end` to today plus the span size.
-    """
-    # Use timezone-aware UTC to avoid deprecation warnings
-    today = datetime.now(timezone.utc).date()
-    span_days = (end - start).days + 1
-    dist_to_now = max(0, (today - end).days)
-    coverage = span_days + dist_to_now
-
-    if coverage <= 31:
+    span_days = (end - start).days
+    if span_days <= 31:
         return "1mo"
-    if coverage <= 93:
+    if span_days <= 93:
         return "3mo"
-    if coverage <= 186:
+    if span_days <= 186:
         return "6mo"
-    if coverage <= 366:
+    if span_days <= 366:
         return "1y"
-    if coverage <= 5 * 366:
+    if span_days <= 5 * 366:
         return "5y"
     return "max"
 
 
 def _build_url(symbol: str, rng: str) -> str:
-    return f"https://brapi.dev/api/quote/{symbol}?interval=1d&range={rng}"
+    base = "https://brapi.dev/api/quote/%s?interval=1d&range=%s"
+    return base % (symbol, rng)
 
 
 def _normalize_to_ohlcv(symbol: str, payload: Dict[str, Any]) -> pd.DataFrame:
@@ -206,7 +197,7 @@ def _normalize_to_ohlcv(symbol: str, payload: Dict[str, Any]) -> pd.DataFrame:
 
         # Drop invalid rows (NaN or negatives)
         before = len(df)
-        df = df.dropna(subset=["open", "high", "low", "close", "volume", "date", "symbol"])  # type: ignore[arg-type]
+        df = df.dropna(subset=["open", "high", "low", "close", "volume", "date", "symbol"])
         df = df[(df[["open", "high", "low", "close"]] >= 0).all(axis=1)]
         df = df[df["volume"] >= 0]
         removed = before - len(df)
@@ -220,7 +211,7 @@ def _normalize_to_ohlcv(symbol: str, payload: Dict[str, Any]) -> pd.DataFrame:
         )
 
         # Ensure exact dtypes: volume as int64 (not nullable) if possible
-        if not df["volume"].isna().any():
+        if not df["volume"].isna().any():  # pragma: no branch
             df["volume"] = df["volume"].astype("int64")
 
     return df

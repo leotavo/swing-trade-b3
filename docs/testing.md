@@ -1,6 +1,6 @@
 # Testes e Cobertura (100%)
 
-Este projeto usa `pytest` com `pytest-cov` para medir a cobertura dos testes. As dependências de desenvolvimento já incluem o plugin (`pytest-cov`).
+Este projeto usa `pytest` com `pytest-cov` para medir a cobertura dos testes. As dependências de desenvolvimento já incluem o plugin (`pytest-cov`). A política atual exige 100% de cobertura via `pyproject.toml`/CI.
 
 ## Pré‑requisitos
 
@@ -44,11 +44,11 @@ poetry run pytest --cov=src --cov-report=term-missing --cov-fail-under=100
 poetry run pytest --cov=src --cov-report=html
 ```
 
-- XML para integrações de CI: o script `poetry run test` já gera `coverage.xml` por padrão e exige 100% de cobertura.
+- XML para integrações de CI: o script `poetry run test` já gera `coverage.xml` por padrão e exige 100% de cobertura (CI consome este arquivo).
 
 ## Dicas avançadas
 
-- Desativar temporariamente as opções padrão (ex.: rodar rápido sem cobertura):
+- Rodar rápido, sem cobertura (Modo Leve local; não vale para PR/CI):
 
 ```bash
 poetry run pytest -q -o addopts=
@@ -63,12 +63,12 @@ PYTEST_ADDOPTS="-k mytestpattern" poetry run pytest
 ## Dicas para alcançar 100%
 
 - Cubra caminhos de erro e validações (ex.: argumentos inválidos, arquivos ausentes, ranges de datas inconsistentes).
-- Teste o CLI (`app.__main__.py`): cenários com e sem subcomandos, parâmetros obrigatórios/ausentes.
+- Teste o CLI (`swing_trade_b3.__main__.py`): cenários com e sem subcomandos, parâmetros obrigatórios/ausentes.
 - Use `pytest.mark.parametrize` para variações de entradas sem código duplicado.
 - Isole integrações externas com dublês (mocks/stubs) para forçar ramos difíceis.
 - Marque apenas trechos verdadeiramente inalcançáveis com `# pragma: no cover` (ex.: salvaguardas de logging/formatters, branches dependentes de SO). Evite usar como atalho.
 
 ## Observações
 
-- Se estiver rodando `pytest` fora do ambiente Poetry e receber erro "unrecognized arguments: --cov...", instale o plugin manualmente: `pip install pytest-cov`.
-- Por padrão, não forçamos 100% via configuração global para não surpreender contribuidores; use a flag `--cov-fail-under=100` quando desejar enforcing local ou em jobs específicos de CI.
+- Se rodar `pytest` fora do ambiente Poetry e receber "unrecognized arguments: --cov...", instale o plugin manualmente: `pip install pytest-cov`.
+- A política do repositório exige 100% de cobertura e é aplicada pelo `pyproject.toml`/CI. Use o Modo Leve apenas para acelerar ciclos locais (sem alterar a política de cobertura do PR/CI).

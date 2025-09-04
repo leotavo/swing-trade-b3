@@ -1,13 +1,13 @@
 [tool.poetry]
 name = "swing-trade-b3"
-version = "0.5.1"
+version = "0.6.0"
 description = "Ferramentas e automações para swing trade na B3"
 authors = ["Leonardo Trindade <leotavo@gmail.com>"]
 license = "MIT"
 readme = "README.md"
 repository = "https://github.com/leotavo/swing-trade-b3"
 packages = [
-  { include = "app", from = "src" }
+  { include = "swing_trade_b3", from = "src" }
 ]
 
 [tool.poetry.dependencies]
@@ -15,6 +15,11 @@ python = "^3.11"
 pandas = "^2.2.2"
 requests = "^2.32.3"
 pyarrow = "^17.0.0"
+fastapi = "^0.112.0"
+uvicorn = {version = "^0.30.0", extras = ["standard"]}
+pydantic = "^2.8.2"
+yfinance = "^0.2.43"
+typer = "^0.12.3"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.5.6"
@@ -24,14 +29,19 @@ pytest = "^8.2.0"
 pytest-cov = "^5.0.0"
 pre-commit = "^3.7.1"
 ipykernel = "^6.30.1"
+bandit = "^1.7.9"
+pip-audit = "^2.7.3"
+httpx = "^0.28.1"
+types-requests = "^2.32.4.20250809"
 
 [tool.poetry.scripts]
-lint = "app.cli:lint"
-format = "app.cli:format"
-typecheck = "app.cli:typecheck"
-test = "app.cli:test"
-ci = "app.cli:ci"
-fmt = "app.cli:fmt"
+lint = "swing_trade_b3.cli:lint"
+format = "swing_trade_b3.cli:format"
+typecheck = "swing_trade_b3.cli:typecheck"
+test = "swing_trade_b3.cli:test"
+ci = "swing_trade_b3.cli:ci"
+fmt = "swing_trade_b3.cli:fmt"
+stb3 = "swing_trade_b3.cli.main:app"
 
 [tool.ruff]
 target-version = "py311"

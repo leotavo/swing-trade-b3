@@ -24,7 +24,7 @@ Marque as opções abaixo ao criar/editar a regra em Settings › Branches:
 
 Link direto para configuração da regra de proteção:
 
-- https://github.com/leotavo/swing-trade-b3/settings/branches
+- <https://github.com/leotavo/swing-trade-b3/settings/branches>
 
 ## Passo a passo (GitHub UI)
 

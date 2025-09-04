@@ -1,9 +1,10 @@
 from datetime import date, timedelta
+from typing import Any
 
 import pandas as pd
 import pytest
 
-from app.connector.b3 import (
+from swing_trade_b3.adapters.connectors.market_data.b3_adapter import (
     HttpConfig,
     ParseError,
     RateLimitError,
@@ -103,9 +104,11 @@ def test_http_get_json_success_and_errors(monkeypatch):
         calls["n"] += 1
         return FakeResp(200, {"ok": True})
 
-    monkeypatch.setattr("app.connector.b3.requests.get", fake_get)
+    monkeypatch.setattr(
+        "swing_trade_b3.adapters.connectors.market_data.b3_adapter.requests.get", fake_get
+    )
 
-    meta = {}
+    meta: dict[str, Any] = {}
     out = _http_get_json(
         "http://x", cfg=HttpConfig(max_retries=2), throttle_wait=lambda: None, meta=meta
     )
@@ -113,25 +116,46 @@ def test_http_get_json_success_and_errors(monkeypatch):
     assert meta["http"]["attempts"] == 1
     assert meta["http"]["throttle_calls"] >= 1
 
+    # success path with throttle but without meta (exercise branches where http_meta is None)
+    monkeypatch.setattr(
+        "swing_trade_b3.adapters.connectors.market_data.b3_adapter.requests.get",
+        lambda *a, **k: FakeResp(200, {"ok": True}),
+    )
+    out2 = _http_get_json("http://x", cfg=HttpConfig(max_retries=1), throttle_wait=lambda: None)
+    assert out2 == {"ok": True}
+
     # 429 then exhaust retries -> RateLimitError
     seq = [FakeResp(429), FakeResp(429)]
 
     def fake_get_429(url, headers=None, timeout=None):  # noqa: ARG001
         return seq.pop(0)
 
-    monkeypatch.setattr("app.connector.b3.requests.get", fake_get_429)
-    monkeypatch.setattr("app.connector.b3.time.sleep", lambda s: None)
+    monkeypatch.setattr(
+        "swing_trade_b3.adapters.connectors.market_data.b3_adapter.requests.get", fake_get_429
+    )
+    monkeypatch.setattr(
+        "swing_trade_b3.adapters.connectors.market_data.b3_adapter.time.sleep", lambda s: None
+    )
     with pytest.raises(RateLimitError):
         _http_get_json("http://x", cfg=HttpConfig(max_retries=2), meta={})
 
     # 500 -> ServerError
-    monkeypatch.setattr("app.connector.b3.requests.get", lambda *a, **k: FakeResp(503))
+    monkeypatch.setattr(
+        "swing_trade_b3.adapters.connectors.market_data.b3_adapter.requests.get",
+        lambda *a, **k: FakeResp(503),
+    )
     with pytest.raises(ServerError):
         _http_get_json("http://x", cfg=HttpConfig(max_retries=1), meta={})
+    # 5xx with meta=None (exercise http_meta is None branch)
+    with pytest.raises(ServerError):
+        _http_get_json("http://x", cfg=HttpConfig(max_retries=1))
 
     # 400 -> raise_for_status
     err = Exception("bad request")
-    monkeypatch.setattr("app.connector.b3.requests.get", lambda *a, **k: FakeResp(400, err=err))
+    monkeypatch.setattr(
+        "swing_trade_b3.adapters.connectors.market_data.b3_adapter.requests.get",
+        lambda *a, **k: FakeResp(400, err=err),
+    )
     with pytest.raises(Exception):
         _http_get_json("http://x", cfg=HttpConfig(max_retries=1), meta={})
 
@@ -142,13 +166,14 @@ def test_http_get_json_success_and_errors(monkeypatch):
     import requests as _req
 
     monkeypatch.setattr(
-        "app.connector.b3.requests.get", lambda *a, **k: (_ for _ in ()).throw(_req.Timeout("t"))
+        "swing_trade_b3.adapters.connectors.market_data.b3_adapter.requests.get",
+        lambda *a, **k: (_ for _ in ()).throw(_req.Timeout("t")),
     )
     with pytest.raises(_req.Timeout):
         _http_get_json("http://x", cfg=HttpConfig(max_retries=1), meta={})
 
     # No attempts (max_retries=0) → default NetworkError
-    from app.connector.b3 import NetworkError
+    from swing_trade_b3.adapters.connectors.market_data.b3_adapter import NetworkError
 
     with pytest.raises(NetworkError):
         _http_get_json("http://x", cfg=HttpConfig(max_retries=0))
@@ -180,17 +205,34 @@ def test_fetch_daily_filters_and_retries(monkeypatch):
             ]
         }
 
-    monkeypatch.setattr("app.connector.b3._http_get_json", fake_http_get)
+    monkeypatch.setattr(
+        "swing_trade_b3.adapters.connectors.market_data.b3_adapter._http_get_json",
+        fake_http_get,
+    )
     start = date(2023, 1, 1)
     end = date(2023, 1, 3)
-    meta = {}
+    meta: dict[str, Any] = {}
     df = fetch_daily("PETR4", start, end, meta=meta)
     assert not df.empty and meta["range_used"] == "max"
 
     # prefer_max skips retry logic and uses max directly
-    monkeypatch.setattr("app.connector.b3._http_get_json", fake_http_get)
+    monkeypatch.setattr(
+        "swing_trade_b3.adapters.connectors.market_data.b3_adapter._http_get_json",
+        fake_http_get,
+    )
     df2 = fetch_daily("PETR4", start, end, prefer_max=True, meta=meta)
     assert not df2.empty
+
+    # df empty path (no rows at all)
+    def fake_http_empty(url, cfg, throttle_wait=None, meta=None):  # noqa: ARG001
+        return {"results": [{"historicalDataPrice": []}]}
+
+    monkeypatch.setattr(
+        "swing_trade_b3.adapters.connectors.market_data.b3_adapter._http_get_json",
+        fake_http_empty,
+    )
+    out = fetch_daily("PETR4", start, end, meta=None)
+    assert out.empty
 
     # invalid args
     with pytest.raises(ValueError):

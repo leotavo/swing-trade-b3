@@ -4,7 +4,6 @@ Subissues atômicas com critérios de aceite
 
 > Contexto: M2 cobre 4 issues — **#4 Implementar conector API B3 (histórico)**, **#5 Rotina de limpeza e normalização dos dados**, **#6 Script de atualização diária automática**, **#7 Resiliência da coleta de dados da B3 (Mitigação de Risco)**.  
 > Formato padrão por subissue: **Objetivo**, **Escopo**, **Critérios de Aceite**, **Entregáveis**, **Notas**.
-
 > Roadmap: ver `docs/MILESTONES_ISSUES.md` (bloco M2).
 
 ---
@@ -74,7 +73,7 @@ Subissues atômicas com critérios de aceite
 ### M2-SI-4.5 — CLI de coleta (símbolo e período)
 
 **Objetivo.** Expor coleta via CLI para facilitar operação.  
-**Escopo.** Comando `python -m app fetch --symbol PETR4 --start 2022-01-01 --end 2023-01-01`.  
+**Escopo.** Comando `python -m swing_trade_b3 fetch --symbol PETR4 --start 2022-01-01 --end 2023-01-01`.  
 **Critérios de Aceite.**
 
 - [x] Exit code 0; imprime contagem de linhas, período e caminho salvo.

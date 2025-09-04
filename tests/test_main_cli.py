@@ -4,8 +4,10 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
-from app.__main__ import _parse_date, main
-from app import __main__ as main_mod
+from argparse import Namespace
+
+from swing_trade_b3.__main__ import _parse_date, main
+from swing_trade_b3 import __main__ as main_mod
 
 
 def test_parse_date_valid_and_invalid():
@@ -16,7 +18,9 @@ def test_parse_date_valid_and_invalid():
 
 def test_fetch_command_success_empty_and_errors(monkeypatch, tmp_path, capsys):
     # Stub fetch_daily: return df for OK, empty for EMPTY, raise for ERR; also call throttle when present
-    def fake_fetch(symbol, start, end, prefer_max=False, throttle_wait=None, meta=None, **kwargs):  # noqa: ARG001
+    def fake_fetch(
+        symbol, start, end, prefer_max=False, throttle_wait=None, meta=None, **kwargs
+    ):  # noqa: ARG001
         if throttle_wait is not None:
             throttle_wait()
         if symbol == "OK":
@@ -55,8 +59,8 @@ def test_fetch_command_success_empty_and_errors(monkeypatch, tmp_path, capsys):
     def fake_save_raw(symbol, df, base_dir, fmt="csv", **kwargs):  # noqa: ARG001
         return [Path(base_dir) / symbol / "2024.csv"]
 
-    monkeypatch.setattr("app.__main__.fetch_daily", fake_fetch)
-    monkeypatch.setattr("app.__main__.save_raw", fake_save_raw)
+    monkeypatch.setattr("swing_trade_b3.__main__.fetch_daily", fake_fetch)
+    monkeypatch.setattr("swing_trade_b3.__main__.save_raw", fake_save_raw)
 
     symbols_file = tmp_path / "symbols.txt"
     symbols_file.write_text("# comment\nFILE1\n\n")
@@ -268,8 +272,8 @@ def test_fetch_parquet_kwargs_and_process_exceptions(monkeypatch, tmp_path, caps
         assert fmt in ("csv", "parquet")
         return [Path(base_dir) / symbol / "2024.parquet"]
 
-    monkeypatch.setattr("app.__main__.fetch_daily", fake_fetch)
-    monkeypatch.setattr("app.__main__.save_raw", fake_save_raw)
+    monkeypatch.setattr("swing_trade_b3.__main__.fetch_daily", fake_fetch)
+    monkeypatch.setattr("swing_trade_b3.__main__.save_raw", fake_save_raw)
     rc = main(
         [
             "fetch",
@@ -290,23 +294,23 @@ def test_fetch_parquet_kwargs_and_process_exceptions(monkeypatch, tmp_path, caps
     assert rc == 0
 
     # Process: hit parquet kwargs and exception branch
-    class DummyArgs:
-        def __init__(self):
-            self.log_json = False
-            self.symbol = ["S"]
-            self.start = None
-            self.end = None
-            self.raw = str(tmp_path / "raw")
-            self.out = str(tmp_path / "processed")
-            self.format = "parquet"
-            self.compression = "snappy"
+    ns = Namespace(
+        log_json=False,
+        symbol=["S"],
+        start=None,
+        end=None,
+        raw=str(tmp_path / "raw"),
+        out=str(tmp_path / "processed"),
+        format="parquet",
+        compression="snappy",
+    )
 
     # monkeypatch save_processed to raise
     def boom(*a, **k):  # noqa: ANN001
         raise RuntimeError("write failed")
 
     monkeypatch.setattr(main_mod, "save_processed", boom)
-    rc = main_mod._cmd_process(DummyArgs())
+    rc = main_mod._cmd_process(ns)
     assert rc == 1
 
     # Prepare real raw data and run via main() with parquet format, stubbing save_processed to avoid pyarrow
@@ -354,24 +358,25 @@ def test_fetch_parquet_kwargs_and_process_exceptions(monkeypatch, tmp_path, caps
 
 
 def test_cmd_process_not_symbols_direct():
-    class Dummy:
-        log_json = False
-        symbol = []
-        start = None
-        end = None
-        raw = "raw"
-        out = "out"
-        format = "csv"
-        compression = "none"
+    ns2 = Namespace(
+        log_json=False,
+        symbol=[],
+        start=None,
+        end=None,
+        raw="raw",
+        out="out",
+        format="csv",
+        compression="none",
+    )
 
-    assert main_mod._cmd_process(Dummy()) == 2
+    assert main_mod._cmd_process(ns2) == 2
 
 
 def test_module_entrypoint_executes_and_exits():
     import runpy
 
     with pytest.raises(SystemExit) as ex:
-        runpy.run_module("app.__main__", run_name="__main__")
+        runpy.run_module("swing_trade_b3.__main__", run_name="__main__")
     assert ex.value.code == 0
 
 
@@ -421,19 +426,20 @@ def test_cmd_process_exception_branch(monkeypatch, tmp_path):
         ]
     ).to_csv(raw_dir / "2023.csv", index=False)
 
-    class Args:
-        log_json = False
-        symbol = [sym]
-        start = None
-        end = None
-        raw = str(tmp_path / "data" / "raw")
-        out = str(tmp_path / "data" / "processed")
-        format = "csv"
-        compression = "none"
+    ns3 = Namespace(
+        log_json=False,
+        symbol=[sym],
+        start=None,
+        end=None,
+        raw=str(tmp_path / "data" / "raw"),
+        out=str(tmp_path / "data" / "processed"),
+        format="csv",
+        compression="none",
+    )
 
     def boom(*a, **k):  # noqa: ANN001
         raise RuntimeError("fail")
 
     monkeypatch.setattr(main_mod, "save_processed", boom)
-    rc = main_mod._cmd_process(Args())
+    rc = main_mod._cmd_process(ns3)
     assert rc == 1
