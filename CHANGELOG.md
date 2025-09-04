@@ -2,7 +2,6 @@
 
 ## [0.5.2](https://github.com/leotavo/swing-trade-b3/compare/v0.5.1...v0.5.2) (2025-09-04)
 
-
 ### Documentation
 
 * add Documentação section with Tech Stack link ([dd5f546](https://github.com/leotavo/swing-trade-b3/commit/dd5f546a533d018da6d642475d54ebf25d15ca75))

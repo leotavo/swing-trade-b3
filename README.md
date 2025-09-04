@@ -2,9 +2,32 @@
 
 [![CI](https://github.com/leotavo/swing-trade-b3/actions/workflows/ci.yml/badge.svg)](https://github.com/leotavo/swing-trade-b3/actions/workflows/ci.yml) [![Quality Gate](https://img.shields.io/sonar/quality_gate/leotavo_swing-trade-b3?server=https%3A%2F%2Fsonarcloud.io)](https://sonarcloud.io/summary/new_code?id=leotavo_swing-trade-b3) [![Coverage](https://img.shields.io/sonar/coverage/leotavo_swing-trade-b3?server=https%3A%2F%2Fsonarcloud.io)](https://sonarcloud.io/summary/new_code?id=leotavo_swing-trade-b3) [![Release](https://img.shields.io/github/v/release/leotavo/swing-trade-b3?sort=semver)](https://github.com/leotavo/swing-trade-b3/releases) ![Python](https://img.shields.io/badge/python-3.11-blue.svg) [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
- Ferramentas e automações para swing trade na B3.
+Ferramentas e automações para swing trade na B3.
 
- Consulte o Tech Stack em [docs/TECH_STACK.md](docs/TECH_STACK.md).
+Consulte o Tech Stack em [docs/TECH_STACK.md](docs/TECH_STACK.md).
+
+## Visão Geral do MVP
+
+O objetivo do MVP é automatizar a coleta e preparação de dados diários (OHLCV) da B3, gerar sinais básicos de swing trade e validar a estratégia com um backtest inicial, mantendo observabilidade e qualidade de código elevadas.
+
+Milestones (resumo):
+
+- M1 Configuração Inicial: repositório, Python 3.11 + Poetry, CI com lint/tipos/testes (concluído).
+- M2 Coleta & Preparação: conector brapi.dev com fallback yfinance, persistência raw/processed (Parquet/CSV), limpeza/validação com schema padronizado (em andamento).
+- M3 Estratégia Base: sinais RSI + MACD e parâmetros iniciais (planejado).
+- M4 Backtesting Inicial: motor simples e relatório de métricas (planejado).
+
+Roteiro detalhado: veja `docs/MILESTONES_ISSUES.md` e as sub-issues em `docs/M1_subissues_atomic.md` e `docs/M2_subissues_atomic.md`.
+
+## Tech Stack (MVP)
+
+- Linguagem/Build: Python 3.11, Poetry.
+- Qualidade: ruff (lint), black (format), mypy (tipos), pytest + coverage 100% (enforced em CI).
+- API/CLI: FastAPI + Uvicorn (opcional, `/health`), CLI via `python -m swing_trade_b3` (`fetch` e `process`).
+- Dados: requests, pandas, pyarrow (Parquet), brapi.dev (B3), yfinance (fallback).
+- Arquitetura: Functional Core + OO Shell; Hexagonal (Ports & Adapters) + CQRS‑lite.
+- Segurança: bandit (SAST), pip-audit (vulnerabilidades); segredos via GitHub Secrets.
+- Observabilidade: logging estruturado (JSON), SonarCloud (Quality Gate/Coverage).
 
 ## Documentação
 
@@ -17,7 +40,7 @@
 - Guia do Markdownlint: `docs/markdownlint.md`
 - Guia de testes e cobertura: `docs/testing.md`
 
-- Modos de execução do Codex (Anti-OOM): `docs/codex-execuçãon-modes.md`
+- Modos de execução do Codex (Anti-OOM): `docs/codex-execution-modes.md`
 
 ## Ambiente de desenvolvimento
 
@@ -328,4 +351,4 @@ Observação: a API é opcional nesta fase; o pipeline via CLI segue como princi
 
 - Versionamento e tags gerenciados via Release Please (GitHub Actions).
 - Não faça bump manual de versão no PR; use Conventional Commits e o bot abrirá o PR de release.
-- Ao mergear o PR de release na main, a action cria a tag X.Y.Z e o GitHub Release.
+- Ao mergear o PR de release na main, a action cria a tag  X.Y.Z e o GitHub Release.
