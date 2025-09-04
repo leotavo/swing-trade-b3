@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Release Please
-        uses: google-github-actions/release-please-action@v4
+        uses: googleapis/release-please-action@v4
         with:
           release-type: python
           package-name: swing-trade-b3
@@ -24,3 +24,4 @@ jobs:
           extra-files: |
             pyproject.toml
             src/swing_trade_b3/__init__.py
+
