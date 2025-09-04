@@ -18,9 +18,7 @@ def test_parse_date_valid_and_invalid():
 
 def test_fetch_command_success_empty_and_errors(monkeypatch, tmp_path, capsys):
     # Stub fetch_daily: return df for OK, empty for EMPTY, raise for ERR; also call throttle when present
-    def fake_fetch(
-        symbol, start, end, prefer_max=False, throttle_wait=None, meta=None, **kwargs
-    ):  # noqa: ARG001
+    def fake_fetch(symbol, start, end, prefer_max=False, throttle_wait=None, meta=None, **kwargs):  # noqa: ARG001
         if throttle_wait is not None:
             throttle_wait()
         if symbol == "OK":
