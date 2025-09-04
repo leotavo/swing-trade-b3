@@ -1,6 +1,6 @@
 # swing-trade-b3
 
-[![CI](https://github.com/leotavo/swing-trade-b3/actions/workflows/ci.yml/badge.svg)](https://github.com/leotavo/swing-trade-b3/actions/workflows/ci.yml) [![Quality Gate](https://img.shields.io/sonar/quality_gate/leotavo_swing-trade-b3?server=https%3A%2F%2Fsonarcloud.io)](https://sonarcloud.io/summary/new_code?id=leotavo_swing-trade-b3) [![Coverage](https://img.shields.io/sonar/coverage/leotavo_swing-trade-b3?server=https%3A%2F%2Fsonarcloud.io)](https://sonarcloud.io/summary/new_code?id=leotavo_swing-trade-b3) ![Python](https://img.shields.io/badge/python-3.11-blue.svg) [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![CI](https://github.com/leotavo/swing-trade-b3/actions/workflows/ci.yml/badge.svg)](https://github.com/leotavo/swing-trade-b3/actions/workflows/ci.yml) [![Quality Gate](https://img.shields.io/sonar/quality_gate/leotavo_swing-trade-b3?server=https%3A%2F%2Fsonarcloud.io)](https://sonarcloud.io/summary/new_code?id=leotavo_swing-trade-b3) [![Coverage](https://img.shields.io/sonar/coverage/leotavo_swing-trade-b3?server=https%3A%2F%2Fsonarcloud.io)](https://sonarcloud.io/summary/new_code?id=leotavo_swing-trade-b3) [![Release](https://img.shields.io/github/v/release/leotavo/swing-trade-b3?sort=semver)](https://github.com/leotavo/swing-trade-b3/releases) ![Python](https://img.shields.io/badge/python-3.11-blue.svg) [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
  Ferramentas e automações para swing trade na B3.
 

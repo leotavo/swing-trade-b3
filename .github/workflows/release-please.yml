@@ -24,4 +24,3 @@ jobs:
           extra-files: |
             pyproject.toml
             src/swing_trade_b3/__init__.py
-
