@@ -17,7 +17,7 @@
 - Guia do Markdownlint: `docs/markdownlint.md`
 - Guia de testes e cobertura: `docs/testing.md`
 
- - Modos de execução do Codex (Anti-OOM): `docs/codex-execution-modes.md`
+ - Modos de execução do Codex (Anti-OOM): `docs/codex-execuçãon-modes.md`
 ## Ambiente de desenvolvimento
 
 - Pré-requisitos: Python 3.11+ e Poetry 2.x
@@ -306,3 +306,10 @@ poetry run uvicorn swing_trade_b3.api.app:create_app --factory --reload --host 0
   - GET `/health` -> `{ "status": "ok", "version": "<semver>" }`
 
 Observação: a API é opcional nesta fase; o pipeline via CLI segue como principal.
+
+
+## Versionamento e Releases
+
+- Versionamento e tags gerenciados via Release Please (GitHub Actions).
+- Não faça bump manual de versão no PR; use Conventional Commits e o bot abrirá o PR de release.
+- Ao mergear o PR de release na main, a action cria a tag X.Y.Z e o GitHub Release.
