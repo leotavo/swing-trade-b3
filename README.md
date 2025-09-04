@@ -351,5 +351,4 @@ Observação: a API é opcional nesta fase; o pipeline via CLI segue como princi
 
 - Versionamento e tags gerenciados via Release Please (GitHub Actions).
 - Não faça bump manual de versão no PR; use Conventional Commits e o bot abrirá o PR de release.
-- Ao mergear o PR de release na main, a action cria a tag X.Y.Z e o GitHub Release.
-
+- Ao mergear o PR de release na main, a action cria a tag  X.Y.Z e o GitHub Release.
