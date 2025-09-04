@@ -6,73 +6,102 @@ from typing import Optional
 
 import pandas as pd
 
+from swing_trade_b3.services.signals import STD_COLS, clean_and_validate
+
+
 LOG = logging.getLogger(__name__)
 
 
-STD_COLS = ["date", "symbol", "open", "high", "low", "close", "volume"]
+def ensure_dir(path: Path) -> None:
+    path.mkdir(parents=True, exist_ok=True)
 
 
-def clean_and_validate(df_raw: pd.DataFrame) -> pd.DataFrame:
-    """Normalize and validate raw OHLCV into the processed dataset schema.
+def save_raw(
+    symbol: str,
+    df: pd.DataFrame,
+    base_dir: str | Path = "data/raw",
+    *,
+    fmt: str = "csv",  # 'csv' or 'parquet'
+    compression: Optional[str] = None,  # for parquet only
+) -> list[Path]:
+    """Persist raw OHLCV data partitioned by year: data/raw/{symbol}/YYYY.(csv|parquet).
 
-    Guarantees columns: date (UTC), symbol (string), open/high/low/close (float64), volume (int64),
-    without nulls/negatives, deduped by (symbol,date), sorted by symbol,date (date strictly increasing per symbol).
+    - Merges with existing files if present and deduplicates by (symbol, date).
+    - Maintains ascending order by date.
+    Returns list of written file paths.
     """
-    if df_raw.empty:
-        return pd.DataFrame(columns=STD_COLS).astype(
-            {
-                "date": "datetime64[ns, UTC]",
-                "symbol": "string",
-                "open": "float64",
-                "high": "float64",
-                "low": "float64",
-                "close": "float64",
-                "volume": "int64",
-            }
+    if df.empty:
+        LOG.info("no data to persist", extra={"symbol": symbol})
+        return []
+
+    base = Path(base_dir) / symbol
+    ensure_dir(base)
+
+    # ensure correct columns order
+    cols = STD_COLS
+    for col in cols:
+        if col not in df.columns:
+            raise ValueError(f"missing column in df: {col}")
+    df = df[cols].copy()
+
+    df["date"] = pd.to_datetime(df["date"], utc=True)
+    df["year"] = df["date"].dt.year
+
+    written: list[Path] = []
+    for year, part in df.groupby("year"):
+        part = part.drop(columns=["year"]).copy()
+
+        if fmt == "parquet":
+            path = base / f"{int(year)}.parquet"
+            if path.exists():
+                try:
+                    existing = pd.read_parquet(path)
+                except Exception:  # pragma: no cover - defensive
+                    existing = pd.DataFrame(columns=cols)
+                merged = part if existing.empty else pd.concat([existing, part], ignore_index=True)
+            else:
+                merged = part
+            merged = (
+                merged.drop_duplicates(subset=["symbol", "date"], keep="last")
+                .sort_values("date")
+                .reset_index(drop=True)
+            )
+            to_kwargs: dict = {"index": False}
+            if compression and compression.lower() != "none":
+                to_kwargs["compression"] = compression
+            merged.to_parquet(path, **to_kwargs)
+            size_bytes = path.stat().st_size if path.exists() else None
+        else:
+            path = base / f"{int(year)}.csv"
+            if path.exists():
+                try:
+                    existing = pd.read_csv(path, parse_dates=["date"])
+                except Exception:  # pragma: no cover - defensive
+                    existing = pd.DataFrame(columns=cols)
+                merged = part if existing.empty else pd.concat([existing, part], ignore_index=True)
+            else:
+                merged = part
+            merged = (
+                merged.drop_duplicates(subset=["symbol", "date"], keep="last")
+                .sort_values("date")
+                .reset_index(drop=True)
+            )
+            merged.to_csv(path, index=False)
+            size_bytes = path.stat().st_size if path.exists() else None
+
+        written.append(path)
+        LOG.info(
+            "saved raw partition",
+            extra={
+                "symbol": symbol,
+                "year": int(year),
+                "rows": len(merged),
+                "path": str(path),
+                "bytes": int(size_bytes) if size_bytes is not None else None,
+            },
         )
 
-    df = df_raw.copy()
-
-    # Ensure all required columns exist
-    for col in STD_COLS:
-        if col not in df.columns:
-            raise ValueError(f"missing required column: {col}")
-
-    # Coerce types
-    df["date"] = pd.to_datetime(df["date"], utc=True)
-    df["symbol"] = df["symbol"].astype("string")
-    for col in ["open", "high", "low", "close"]:
-        df[col] = pd.to_numeric(df[col], errors="coerce").astype("float64")
-    df["volume"] = pd.to_numeric(df["volume"], errors="coerce").astype("Int64")
-
-    # Remove invalids
-    before = len(df)
-    df = df.dropna(subset=STD_COLS)  # type: ignore[arg-type]
-    df = df[(df[["open", "high", "low", "close"]] >= 0).all(axis=1)]
-    df = df[df["volume"] >= 0]
-    removed = before - len(df)
-    if removed:
-        LOG.info("processing: removed invalid rows", extra={"removed": int(removed)})
-
-    # Order and dedupe by (symbol, date)
-    df = (
-        df.sort_values(["symbol", "date"])
-        .drop_duplicates(subset=["symbol", "date"], keep="last")
-        .reset_index(drop=True)
-    )
-
-    # Ensure non-nullable volume as int64
-    if not df.empty:
-        df["volume"] = df["volume"].astype("int64")
-
-    # Validate strictly increasing date per symbol (after dedupe and sort)
-    # If not strictly increasing, sorting/dedupe already enforces monotonic increase;
-    # We can assert here to catch anomalies (optional):
-    # for _, grp in df.groupby("symbol"):
-    #     if not grp["date"].is_monotonic_increasing:
-    #         raise AssertionError("dates must be strictly increasing per symbol")
-
-    return df[STD_COLS]
+    return written
 
 
 def load_raw(
@@ -98,7 +127,7 @@ def load_raw(
     for path in files:
         try:
             if path.suffix == ".csv":
-                df = pd.read_csv(path, parse_dates=["date"])  # type: ignore[arg-type]
+                df = pd.read_csv(path, parse_dates=["date"])
             else:
                 df = pd.read_parquet(path)
         except Exception as exc:  # pragma: no cover - defensive
@@ -127,14 +156,14 @@ def load_raw(
     if start is not None:
         s = (
             pd.Timestamp(start).tz_convert("UTC")
-            if start.tz is not None
+            if getattr(start, "tz", None) is not None
             else pd.Timestamp(start, tz="UTC")
         )
         all_df = all_df[all_df["date"] >= s]
     if end is not None:
         e = (
             pd.Timestamp(end).tz_convert("UTC")
-            if end.tz is not None
+            if getattr(end, "tz", None) is not None
             else pd.Timestamp(end, tz="UTC")
         )
         all_df = all_df[all_df["date"] <= e]
@@ -179,7 +208,7 @@ def save_processed(
         )
 
         to_kwargs: dict = {"index": False}
-        if compression and compression.lower() != "none":
+        if compression and compression.lower() != "none":  # pragma: no branch
             to_kwargs["compression"] = compression
         merged.to_parquet(path, **to_kwargs)
     else:

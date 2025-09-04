@@ -1,6 +1,7 @@
-"""App package initialization."""
+"""Package init for swing_trade_b3."""
 
 from typing import List
 
 __version__: str = "0.5.1"
 __all__: List[str] = ["__version__"]
+

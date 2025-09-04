@@ -26,7 +26,7 @@ def make_raw() -> pd.DataFrame:
 
 
 def test_clean_and_validate_basic():
-    from app.processing import clean_and_validate
+    from swing_trade_b3.services.signals import clean_and_validate
 
     raw = make_raw()
     df = clean_and_validate(raw)
@@ -49,7 +49,8 @@ def test_clean_and_validate_basic():
 
 
 def test_save_processed_idempotent(tmp_path: Path):
-    from app.processing import clean_and_validate, save_processed
+    from swing_trade_b3.services.signals import clean_and_validate
+    from swing_trade_b3.adapters.persistence.repositories import save_processed
     import pandas as pd
 
     raw = make_raw()

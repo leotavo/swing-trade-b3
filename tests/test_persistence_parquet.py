@@ -6,7 +6,7 @@ import pandas as pd
 
 
 def test_save_raw_parquet(tmp_path):
-    from app.persistence import save_raw
+    from swing_trade_b3.adapters.persistence.repositories import save_raw
 
     df = pd.DataFrame(
         {
@@ -43,7 +43,7 @@ def test_save_raw_parquet(tmp_path):
 
 
 def test_save_raw_parquet_with_compression(tmp_path):
-    from app.persistence import save_raw
+    from swing_trade_b3.adapters.persistence.repositories import save_raw
 
     df = pd.DataFrame(
         {

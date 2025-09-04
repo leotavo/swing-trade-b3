@@ -26,7 +26,7 @@ Persistência
 - Compressão Parquet recomendada: `snappy`.
 
 CLI
-- Use `python -m app process` para converter `data/raw/` em `data/processed/`.
+- Use `python -m swing_trade_b3 process` para converter `data/raw/` em `data/processed/`.
 - Exemplos no README (seção "Processamento de dados (CLI)").
 
 Funções públicas (Python)

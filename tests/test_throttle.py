@@ -1,6 +1,6 @@
 import pytest
 
-from app.throttle import Throttler
+from swing_trade_b3.services.throttling import Throttler
 
 
 def test_throttler_waits_and_validates():

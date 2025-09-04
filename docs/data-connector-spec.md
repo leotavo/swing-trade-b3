@@ -53,10 +53,10 @@ Limites e notas
 
 Exemplo de uso (CLI)
 ```
-python -m app fetch --symbol PETR4 --start 2023-01-01 --end 2024-01-01 --format parquet --compression snappy --throttle 0.2
-python -m app fetch --symbol PETR4 VALE3 --start 2023-01-01 --end 2024-01-01 --symbols-file symbols.txt
-python -m app fetch --symbol PETR4 --start 2023-01-01 --end 2024-01-01 --json-summary out/summary.json
-python -m app fetch --symbol PETR4 --start 2023-01-01 --end 2024-01-01 --log-json  # logs estruturados (JSON)
+python -m swing_trade_b3 fetch --symbol PETR4 --start 2023-01-01 --end 2024-01-01 --format parquet --compression snappy --throttle 0.2
+python -m swing_trade_b3 fetch --symbol PETR4 VALE3 --start 2023-01-01 --end 2024-01-01 --symbols-file symbols.txt
+python -m swing_trade_b3 fetch --symbol PETR4 --start 2023-01-01 --end 2024-01-01 --json-summary out/summary.json
+python -m swing_trade_b3 fetch --symbol PETR4 --start 2023-01-01 --end 2024-01-01 --log-json  # logs estruturados (JSON)
 ```
 
 Resumo JSON (opcional)

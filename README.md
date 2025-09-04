@@ -1,10 +1,6 @@
 # swing-trade-b3
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/quality_gate?project=leotavo_swing-trade-b3)](https://sonarcloud.io/summary/new_code?id=leotavo_swing-trade-b3)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=leotavo_swing-trade-b3&metric=coverage)](https://sonarcloud.io/summary/new_code?id=leotavo_swing-trade-b3)
-[![CI](https://github.com/leotavo/swing-trade-b3/actions/workflows/ci.yml/badge.svg)](https://github.com/leotavo/swing-trade-b3/actions/workflows/ci.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-![Python](https://img.shields.io/badge/python-3.11-blue.svg)
+[![CI](https://github.com/leotavo/swing-trade-b3/actions/workflows/ci.yml/badge.svg)](https://github.com/leotavo/swing-trade-b3/actions/workflows/ci.yml) [![Quality Gate](https://img.shields.io/sonar/quality_gate/leotavo_swing-trade-b3?server=https%3A%2F%2Fsonarcloud.io)](https://sonarcloud.io/summary/new_code?id=leotavo_swing-trade-b3) [![Coverage](https://img.shields.io/sonar/coverage/leotavo_swing-trade-b3?server=https%3A%2F%2Fsonarcloud.io)](https://sonarcloud.io/summary/new_code?id=leotavo_swing-trade-b3) ![Python](https://img.shields.io/badge/python-3.11-blue.svg) [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
  Ferramentas e automações para swing trade na B3.
 
@@ -21,6 +17,7 @@
 - Guia do Markdownlint: `docs/markdownlint.md`
 - Guia de testes e cobertura: `docs/testing.md`
 
+ - Modos de execução do Codex (Anti-OOM): `docs/codex-execution-modes.md`
 ## Ambiente de desenvolvimento
 
 - Pré-requisitos: Python 3.11+ e Poetry 2.x
@@ -42,7 +39,7 @@ PowerShell (Windows):
 Invoke-Expression (poetry env activate)
 ```
 
-ou use sem ativar, prefixando com `poetry run` (ex.: `poetry run python -m app`).
+ou use sem ativar, prefixando com `poetry run` (ex.: `poetry run python -m swing_trade_b3`).
 
 1. Desativar (quando terminar)
 
@@ -83,26 +80,26 @@ Com a venv ativa, exemplos:
 
 ```bash
 # Um símbolo em CSV
-python -m app fetch --symbol PETR4 --start 2023-01-01 --end 2024-01-01
+python -m swing_trade_b3 fetch --symbol PETR4 --start 2023-01-01 --end 2024-01-01
 
 # Parquet comprimido (snappy) com throttle de 5 req/s
-python -m app fetch --symbol PETR4 --start 2023-01-01 --end 2024-01-01 \
+python -m swing_trade_b3 fetch --symbol PETR4 --start 2023-01-01 --end 2024-01-01 \
   --format parquet --compression snappy --throttle 0.2
 
 # Vários símbolos via linha e arquivo
-python -m app fetch -s PETR4 VALE3 --symbols-file symbols.txt \
+python -m swing_trade_b3 fetch -s PETR4 VALE3 --symbols-file symbols.txt \
   --start 2023-01-01 --end 2024-01-01 --format parquet
 
 # Forçar histórico completo do provedor e filtrar localmente
-python -m app fetch --symbol PETR4 --start 2008-01-01 --end 2025-01-01 --force-max
+python -m swing_trade_b3 fetch --symbol PETR4 --start 2008-01-01 --end 2025-01-01 --force-max
 
 # Resumo em JSON (para automações)
-python -m app fetch -s PETR4 VALE3 --start 2023-01-01 --end 2024-01-01 \
+python -m swing_trade_b3 fetch -s PETR4 VALE3 --start 2023-01-01 --end 2024-01-01 \
   --format parquet --compression snappy --throttle 0.2 \
   --json-summary out/summary.json
 
 # Logging estruturado (JSON)
-python -m app fetch --symbol PETR4 --start 2023-01-01 --end 2024-01-01 \
+python -m swing_trade_b3 fetch --symbol PETR4 --start 2023-01-01 --end 2024-01-01 \
   --log-json  # emite logs no stdout em JSON (útil p/ observabilidade/CI)
 ```
 
@@ -177,14 +174,14 @@ Pré‑requisito: ter dados brutos salvos via `fetch`.
 
 ```bash
 # Processar um símbolo (Parquet com snappy)
-python -m app process --symbol PETR4 --start 2023-01-01 --end 2024-01-01 \
+python -m swing_trade_b3 process --symbol PETR4 --start 2023-01-01 --end 2024-01-01 \
   --format parquet --compression snappy
 
 # Processar vários símbolos
-python -m app process -s PETR4 VALE3 --format parquet --compression snappy
+python -m swing_trade_b3 process -s PETR4 VALE3 --format parquet --compression snappy
 
 # Logging JSON durante o processamento
-python -m app process -s PETR4 --log-json
+python -m swing_trade_b3 process -s PETR4 --log-json
 ```
 
 Saída e comportamento:
@@ -199,13 +196,13 @@ Exemplo prático coletando dados brutos e gerando o dataset processado:
 
 ```bash
 # 1) Coletar dados brutos (Parquet + snappy) com throttle e summary
-python -m app fetch -s PETR4 VALE3 \
+python -m swing_trade_b3 fetch -s PETR4 VALE3 \
   --start 2023-01-01 --end 2024-01-01 \
   --format parquet --compression snappy --throttle 0.2 \
   --json-summary out/fetch-summary.json
 
 # 2) Processar para dataset final (idempotente)
-python -m app process -s PETR4 VALE3 \
+python -m swing_trade_b3 process -s PETR4 VALE3 \
   --start 2023-01-01 --end 2024-01-01 \
   --format parquet --compression snappy
 
@@ -217,9 +214,9 @@ python -m app process -s PETR4 VALE3 \
 ## Observabilidade
 
 - Logs estruturados: use `--log-json` para emitir logs em JSON (um por linha), ideal para pipelines/ELK.
-  - Exemplo: `python -m app fetch -s PETR4 --start 2023-01-01 --end 2024-01-01 --log-json > logs/fetch.jsonl`
+  - Exemplo: `python -m swing_trade_b3 fetch -s PETR4 --start 2023-01-01 --end 2024-01-01 --log-json > logs/fetch.jsonl`
 - Resumo de execução: use `--json-summary PATH` para gerar um relatório consolidado da execução.
-  - Exemplo: `python -m app fetch -s PETR4 --start 2023-01-01 --end 2024-01-01 --json-summary out/summary.json`
+  - Exemplo: `python -m swing_trade_b3 fetch -s PETR4 --start 2023-01-01 --end 2024-01-01 --json-summary out/summary.json`
 - Recomendações: use ambos — logs para timeline e troubleshooting; summary para integrações/CI.
   - Exemplo completo de summary: `docs/summary-example.json`.
 
@@ -260,3 +257,52 @@ Observação (PowerShell): use aspas duplas e escape `"` conforme necessário.
 Veja também um exemplo completo em:
 
 - docs/summary-example.json
+
+## Contribuir com o Codex
+
+- Idioma padrão: pt-br para prompts/respostas do Codex (termos de código em inglês).
+
+Checks rápidos antes do PR:
+
+```bash
+poetry install --with dev
+poetry run ruff check . && poetry run ruff format --check
+poetry run black --check .
+poetry run mypy src
+poetry run pytest
+```
+
+Consultas úteis:
+- docs/ci-status-checks.md
+- docs/ci-troubleshooting.md
+
+### Modo Leve (anti-OOM) — recomendado
+
+Durante o desenvolvimento, execute checagens por escopo tocado:
+
+```bash
+poetry run ruff check <paths_tocados>
+poetry run mypy <pastas_tocadas>
+poetry run pytest -q -k <padrao>
+```
+
+Validação final única (antes do PR):
+
+```bash
+poetry run ci
+```
+
+Mais detalhes: `docs/codex-execution-modes.md`
+
+## API (FastAPI)
+
+- Iniciar localmente:
+
+```bash
+poetry run uvicorn swing_trade_b3.api.app:create_app --factory --reload --host 0.0.0.0 --port 8000
+```
+
+- Healthcheck:
+  - GET `/health` -> `{ "status": "ok", "version": "<semver>" }`
+
+Observação: a API é opcional nesta fase; o pipeline via CLI segue como principal.

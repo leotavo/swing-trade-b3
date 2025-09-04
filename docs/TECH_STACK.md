@@ -1,60 +1,64 @@
-# TECH_STACK — Swing Trade B3
+# TECH_STACK - Swing Trade B3
+
+Legenda de status: [x] Entregue | [ ] Planejado
 
 ## Núcleo
 
-- Python 3.11 + Poetry
-- FastAPI (API) + Uvicorn
-- Pydantic v2 (validação)
-- GitHub Actions (CI/CD)
-- ruff (lint), pytest (testes), coverage (cobertura)
-- python-dotenv (.env)
+- [x] Python 3.11 + Poetry
+- [x] FastAPI (API) + Uvicorn
+- [x] Pydantic v2 (validação)
+- [x] GitHub Actions (CI/CD)
+- [x] ruff (lint), black (format), mypy (tipagem), pytest (testes), coverage (cobertura)
+- [ ] python-dotenv (.env)
 
 ## Dados
 
-- requests (HTTP)
-- BRAPI (ou REST simples)
-- yfinance (fallback) ou Alpha Vantage (chave)
-- pandas + pyarrow (Parquet) — considerar Polars
-- holidays (feriados BR), tzdata
-- joblib / cron (GitHub Actions)
+- [x] requests (HTTP)
+- [x] brapi.dev (B3, OHLCV diário)
+- [x] yfinance (fallback) ou Alpha Vantage (chave)
+- [x] pandas + pyarrow (Parquet) — considerar Polars
+- [ ] holidays (feriados BR), tzdata
+- [ ] joblib / cron (GitHub Actions)
 
 ## EDA
 
-- pandas/polars
-- Jupyter/Quarto
-- matplotlib + plotly
+- [ ] pandas/polars
+- [ ] Jupyter/Quarto
+- [ ] matplotlib + plotly
 
 ## Estratégia & Backtest
 
-- pandas_ta (RSI, MACD, EMAs)
-- vectorbt (ou backtrader)
-- numpy
+- [ ] pandas_ta (RSI, MACD, EMAs)
+- [ ] vectorbt (ou backtrader)
+- [ ] numpy
 
 ## Otimização
 
-- Optuna (ou GridSearchCV do scikit-learn)
+- [ ] Optuna (ou GridSearchCV do scikit-learn)
 
 ## IA (posterior)
 
-- scikit-learn / xgboost
-- MLflow (experimentos)
-- DVC (dados)
+- [ ] scikit-learn / xgboost
+- [ ] MLflow (experimentos)
+- [ ] DVC (dados)
 
 ## Paper Trading
 
-- API de corretora com modo simulado (ex: MetaTrader5)
+- [ ] API de corretora com modo simulado (ex: MetaTrader5)
 
 ## Observabilidade
 
-- logging estruturado
-- Streamlit (dashboard local)
-- Prometheus + Grafana (ou Grafana Cloud)
-- healthchecks.io / Telegram Bot API
+- [x] Logging estruturado (JSON via CLI)
+- [ ] Streamlit (dashboard local)
+- [ ] Prometheus + Grafana (ou Grafana Cloud)
+- [ ] healthchecks.io / Telegram Bot API
 
 ## Segurança
 
-- bandit (SAST), pip-audit (vulns), trufflehog (secrets)
-- GitHub Environments/Secrets ou AWS Secrets Manager
+- [x] bandit (SAST), pip-audit (vulns)
+- [ ] trufflehog (secrets)
+- [x] GitHub Secrets/Environments (CI)
+- [ ] AWS Secrets Manager (opcional)
 
 ## Notas de Licença
 

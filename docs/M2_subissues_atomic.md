@@ -74,7 +74,7 @@ Subissues atômicas com critérios de aceite
 ### M2-SI-4.5 — CLI de coleta (símbolo e período)
 
 **Objetivo.** Expor coleta via CLI para facilitar operação.  
-**Escopo.** Comando `python -m app fetch --symbol PETR4 --start 2022-01-01 --end 2023-01-01`.  
+**Escopo.** Comando `python -m swing_trade_b3 fetch --symbol PETR4 --start 2022-01-01 --end 2023-01-01`.  
 **Critérios de Aceite.**
 
 - [x] Exit code 0; imprime contagem de linhas, período e caminho salvo.

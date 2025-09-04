@@ -42,7 +42,7 @@ def sample_payload() -> dict:
 
 
 def test_to_ohlcv_shape_and_types():
-    from app.connector.b3 import to_ohlcv
+    from swing_trade_b3.adapters.connectors.market_data.b3_adapter import to_ohlcv
 
     sym = "TEST3"
     df = to_ohlcv(sym, sample_payload())
