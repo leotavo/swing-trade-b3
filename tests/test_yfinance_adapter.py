@@ -48,7 +48,9 @@ def test_fetch_daily_missing_columns_returns_empty(monkeypatch):
         def download(*a, **k):  # noqa: ANN001
             idx = pd.to_datetime(["2024-01-01"], utc=True)
             # Missing Volume column
-            return pd.DataFrame({"Open": [1.0], "High": [1.1], "Low": [0.9], "Close": [1.05]}, index=idx)
+            return pd.DataFrame(
+                {"Open": [1.0], "High": [1.1], "Low": [0.9], "Close": [1.05]}, index=idx
+            )
 
     import sys
 

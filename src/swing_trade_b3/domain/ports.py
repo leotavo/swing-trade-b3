@@ -15,7 +15,9 @@ class DataProviderPort(Protocol):
 @runtime_checkable
 class RepositoryPort(Protocol):
     def save_raw(self, symbol: str, df: pd.DataFrame) -> None: ...
-    def load_raw(self, symbol: str, start: date | None = None, end: date | None = None) -> pd.DataFrame: ...
+    def load_raw(
+        self, symbol: str, start: date | None = None, end: date | None = None
+    ) -> pd.DataFrame: ...
     def save_processed(self, symbol: str, df: pd.DataFrame) -> None: ...
 
 
@@ -34,4 +36,3 @@ class Signal:
     date: pd.Timestamp
     symbol: str
     action: str  # "buy" | "sell"
-

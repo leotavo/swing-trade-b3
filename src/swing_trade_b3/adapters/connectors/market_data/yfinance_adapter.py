@@ -90,4 +90,3 @@ def fetch_daily(
         out["volume"] = out["volume"].astype("int64")
 
     return out[["date", "symbol", "open", "high", "low", "close", "volume"]]
-

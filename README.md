@@ -17,7 +17,8 @@
 - Guia do Markdownlint: `docs/markdownlint.md`
 - Guia de testes e cobertura: `docs/testing.md`
 
- - Modos de execução do Codex (Anti-OOM): `docs/codex-execuçãon-modes.md`
+- Modos de execução do Codex (Anti-OOM): `docs/codex-execuçãon-modes.md`
+
 ## Ambiente de desenvolvimento
 
 - Pré-requisitos: Python 3.11+ e Poetry 2.x
@@ -80,25 +81,31 @@ Com a venv ativa, exemplos:
 
 ```bash
 # Um símbolo em CSV
+
 python -m swing_trade_b3 fetch --symbol PETR4 --start 2023-01-01 --end 2024-01-01
 
 # Parquet comprimido (snappy) com throttle de 5 req/s
+
 python -m swing_trade_b3 fetch --symbol PETR4 --start 2023-01-01 --end 2024-01-01 \
   --format parquet --compression snappy --throttle 0.2
 
 # Vários símbolos via linha e arquivo
+
 python -m swing_trade_b3 fetch -s PETR4 VALE3 --symbols-file symbols.txt \
   --start 2023-01-01 --end 2024-01-01 --format parquet
 
 # Forçar histórico completo do provedor e filtrar localmente
+
 python -m swing_trade_b3 fetch --symbol PETR4 --start 2008-01-01 --end 2025-01-01 --force-max
 
 # Resumo em JSON (para automações)
+
 python -m swing_trade_b3 fetch -s PETR4 VALE3 --start 2023-01-01 --end 2024-01-01 \
   --format parquet --compression snappy --throttle 0.2 \
   --json-summary out/summary.json
 
 # Logging estruturado (JSON)
+
 python -m swing_trade_b3 fetch --symbol PETR4 --start 2023-01-01 --end 2024-01-01 \
   --log-json  # emite logs no stdout em JSON (útil p/ observabilidade/CI)
 ```
@@ -107,6 +114,7 @@ Arquivo `symbols.txt` (exemplo):
 
 ```text
 # carteira base
+
 PETR4
 VALE3
 ITUB4
@@ -174,13 +182,16 @@ Pré‑requisito: ter dados brutos salvos via `fetch`.
 
 ```bash
 # Processar um símbolo (Parquet com snappy)
+
 python -m swing_trade_b3 process --symbol PETR4 --start 2023-01-01 --end 2024-01-01 \
   --format parquet --compression snappy
 
 # Processar vários símbolos
+
 python -m swing_trade_b3 process -s PETR4 VALE3 --format parquet --compression snappy
 
 # Logging JSON durante o processamento
+
 python -m swing_trade_b3 process -s PETR4 --log-json
 ```
 
@@ -196,19 +207,24 @@ Exemplo prático coletando dados brutos e gerando o dataset processado:
 
 ```bash
 # 1) Coletar dados brutos (Parquet + snappy) com throttle e summary
+
 python -m swing_trade_b3 fetch -s PETR4 VALE3 \
   --start 2023-01-01 --end 2024-01-01 \
   --format parquet --compression snappy --throttle 0.2 \
   --json-summary out/fetch-summary.json
 
 # 2) Processar para dataset final (idempotente)
+
 python -m swing_trade_b3 process -s PETR4 VALE3 \
   --start 2023-01-01 --end 2024-01-01 \
   --format parquet --compression snappy
 
 # Arquivos gerados (exemplos):
+
 # - data/raw/PETR4/2023.parquet, data/raw/VALE3/2023.parquet
+
 # - data/processed/PETR4.parquet, data/processed/VALE3.parquet
+
 ```
 
 ## Observabilidade
@@ -268,11 +284,12 @@ Checks rápidos antes do PR:
 poetry install --with dev
 poetry run ruff check . && poetry run ruff format --check
 poetry run black --check .
-poetry run mypy src
+poetry run mypy .
 poetry run pytest
 ```
 
 Consultas úteis:
+
 - docs/ci-status-checks.md
 - docs/ci-troubleshooting.md
 
@@ -306,7 +323,6 @@ poetry run uvicorn swing_trade_b3.api.app:create_app --factory --reload --host 0
   - GET `/health` -> `{ "status": "ok", "version": "<semver>" }`
 
 Observação: a API é opcional nesta fase; o pipeline via CLI segue como principal.
-
 
 ## Versionamento e Releases
 

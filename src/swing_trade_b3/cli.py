@@ -87,4 +87,3 @@ def ci() -> None:
         if rc != 0 and rc != 5:  # allow "no tests collected" to pass
             raise SystemExit(rc)
     raise SystemExit(0)
-

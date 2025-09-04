@@ -3,10 +3,10 @@
 Nota específica deste repositório: cobertura de testes exigida é definida no `pyproject.toml`/CI (atual: 100%). Não reduzir sem issue aprovada.
 
 > **Missão**: manter este repositório **sanitizado** (padrões consistentes, CI verde, segurança básica, documentação mínima) e acelerar entregas **sem quebrar contrato público do projeto**.
-
 > Importante (Anti-OOM no VS Code): adotar o "Modo Leve" por padrão para evitar uso excessivo de memória durante as tarefas do Codex. Evite rodar verificações completas a cada mudança e foque em escopos pequenos. Detalhes em `docs/codex-execution-modes.md`.
 
 ## Idioma e Estilo
+
 - Idioma padrão: português (pt-br) para prompts, respostas e preâmbulos do Codex.
 - Termos de código, nomes de comandos e identificadores: manter em inglês (sem tradução).
 - Tom: conciso, direto e colaborativo; foque em próximos passos e ações objetivas.
@@ -14,6 +14,7 @@ Nota específica deste repositório: cobertura de testes exigida é definida no 
 - Encoding/EOL: UTF-8 (sem BOM) e `lf` em todos os arquivos de texto. Já configurado via `.editorconfig` e `.gitattributes`; pre-commit aplica `mixed-line-ending` e `fix-byte-order-marker`.
 
 ## 0) Contexto do Projeto (o que você precisa saber)
+
 - Linguagem: **Python 3.11** (Poetry).
 - Estrutura: `src/swing_trade_b3` (código) · `tests/` (testes) · `docs/` (documentação) · `.github/` (ci/config).
 - API opcional com **FastAPI** (`src/swing_trade_b3/api/app.py`) — app factory `create_app()`; endpoint `/health`.
@@ -26,6 +27,7 @@ Nota específica deste repositório: cobertura de testes exigida é definida no 
 ---
 
 ## 1) Padrões de Qualidade e Gates (alvos que o PR deve atingir)
+
 - **Lint/format**: `ruff` + `black` (line-length 100).
 - **Tipos**: `mypy` (sem `Any` e sem `# type: ignore` desnecessários).
 - **Testes**: `pytest` com cobertura conforme `pyproject.toml` (fonte de verdade). Não reduza thresholds sem issue aprovada.
@@ -33,6 +35,7 @@ Nota específica deste repositório: cobertura de testes exigida é definida no 
 - **Pre-commit**: correções automáticas para whitespace, EOF, ruff/black.
 
 Execução local (Modo Leve – evitar OOM):
+
 - Instalação: `poetry install --with dev`.
 - Durante a implementação: rode ferramentas de forma alvo/escopo (ex.: `poetry run ruff check src/swing_trade_b3/arquivo.py`, `poetry run mypy src/swing_trade_b3/módulo/`, `poetry run pytest -q -k <escopo>`).
 - Validação final (uma vez, antes do PR): `poetry run ci` (ruff + black --check + mypy + pytest). Demais verificações completas ficam a cargo do CI no PR.
@@ -40,15 +43,17 @@ Execução local (Modo Leve – evitar OOM):
 ---
 
 ## 2) Branching, Commits e PR
+
 - **Branch naming**: `feat/...`, `fix/...`, `chore/...`, `docs/...`, `test/...` (ex: `chore/codex-ready-sanitization`).
 - **Commits**: estilo *Conventional Commits* (ex: `fix(connector-b3): handle empty series`).
 - **PR**: use `.github/PULL_REQUEST_TEMPLATE.md` e preencha: **Resumo / Mudanças / Por quê / Como testar / Riscos / Próximos passos**.
 - **Proteções**: PR **só** pode ser aprovado com CI verde (lint/type/test) + 1 review humano.
- - **Evitar redundâncias**: não executar localmente, em cada iteração, o mesmo conjunto completo de checks que já roda no CI. Foque no escopo tocado e deixe a validação integral para o PR.
+- **Evitar redundâncias**: não executar localmente, em cada iteração, o mesmo conjunto completo de checks que já roda no CI. Foque no escopo tocado e deixe a validação integral para o PR.
 
 ---
 
 ## 3) Tarefas de “Sanitização” (alto nível – focar escopos pequenos)
+
 Siga estes itens como backlog de higiene, sempre quebrando em tarefas pequenas (evitar travar em tarefas grandes). Detalhes operacionais ficam nos docs citados.
 
 1. **Criar branch** `chore/codex-ready`.
@@ -67,6 +72,7 @@ Siga estes itens como backlog de higiene, sempre quebrando em tarefas pequenas (
 14. **Ajustes finais**: `pre-commit run --all-files`; validação final única: `poetry run ci`.
 
 Entrega da sanitização (no PR):
+
 - Lista de arquivos criados/alterados.
 - Evidência de validação final (ex.: saída de `poetry run ci` ou link do job CI).
 - Observações de follow-up (abrir issues `Codex-ready: follow-ups` quando necessário).
@@ -74,21 +80,25 @@ Entrega da sanitização (no PR):
 ---
 
 ## 4) Do / Don’t (limites do patch)
+
 **Faça:**
+
 - Mudanças **pequenas e focadas** no hygiene (lint, tipos, testes, templates, CI).
 - Cobrir com testes alterações em funções **públicas**.
 - Padronizar mensagens de erro e logs sem mudar semântica.
- - Adotar o Modo Leve (anti-OOM): evitar rodar checks completos repetidamente; preferir escopos pequenos; deixar execução integral para o PR.
+- Adotar o Modo Leve (anti-OOM): evitar rodar checks completos repetidamente; preferir escopos pequenos; deixar execução integral para o PR.
 
 **Não faça:**
+
 - **Não** atualizar dependências de runtime sem justificativa e sem issue aprovada.
 - **Não** alterar a API pública (FastAPI/CLI), nomes de arquivos de dados ou contratos de saída.
 - **Não** adicionar serviços externos, telemetry ou workflows que exijam novos segredos.
- - **Não** solicitar checagens do usuário a todo momento; consolide validações e peça revisão apenas no fechamento da issue/PR.
+- **Não** solicitar checagens do usuário a todo momento; consolide validações e peça revisão apenas no fechamento da issue/PR.
 
 ---
 
 ## 5) Como validar (checklist rápido – ao concluir a issue)
+
 - [ ] `pre-commit run --all-files` sem alterações pendentes.
 - [ ] Validação local única: `poetry run ci` (sequência idêntica ao CI).
 - [ ] CI (`ci.yml`) verde no PR (cobertura conforme `pyproject.toml`).
@@ -97,6 +107,7 @@ Entrega da sanitização (no PR):
 ---
 
 ## 6) Mapa de diretórios (referência)
+
 - **src/swing_trade_b3/**: código-fonte (CLI, conectores, processamento, API).
 - **tests/**: testes unit/smoke/integração leve.
 - **docs/**: guias de CI, troubleshooting, tech stack, data schema, releases.

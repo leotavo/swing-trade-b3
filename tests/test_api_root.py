@@ -10,4 +10,3 @@ def test_root_redirects_to_docs() -> None:
     resp = client.get("/", allow_redirects=False)
     assert resp.status_code in (301, 302, 307, 308)
     assert resp.headers.get("location", "").endswith("/docs")
-

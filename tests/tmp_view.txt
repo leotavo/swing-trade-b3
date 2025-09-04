@@ -57,4 +57,3 @@ def test_cli_test_treats_no_tests_collected_as_success(monkeypatch):
     with pytest.raises(SystemExit) as ex:
         cli.test()
     assert ex.value.code == 0
-

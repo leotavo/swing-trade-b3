@@ -28,4 +28,3 @@ class Throttler:
             now = self._next_ready
         # Schedule next availability
         self._next_ready = now + self.min_interval_s
-

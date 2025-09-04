@@ -56,4 +56,3 @@ def clean_and_validate(df_raw: pd.DataFrame) -> pd.DataFrame:
         df["volume"] = df["volume"].astype("int64")
 
     return df[STD_COLS]
-
