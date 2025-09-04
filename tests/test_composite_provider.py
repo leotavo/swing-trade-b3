@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from datetime import date
+from typing import Any
 
 import pandas as pd
 
@@ -24,7 +25,7 @@ def test_composite_provider_primary_ok(monkeypatch):
         )
 
     monkeypatch.setattr(cp.b3, "fetch_daily", primary_ok)
-    meta = {}
+    meta: dict[str, Any] = {}
     out = cp.fetch_daily("SYM", date(2024, 1, 1), date(2024, 1, 2), meta=meta)
     assert len(out) == 1
     assert meta.get("provider") == "brapi"
